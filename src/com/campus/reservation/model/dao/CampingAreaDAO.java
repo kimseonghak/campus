@@ -32,7 +32,7 @@ public class CampingAreaDAO {
 			pstmt.setInt(1, bsnNo);
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
-			System.out.println("query::"+query);
+			//System.out.println("query::"+query);
 			rset = pstmt.executeQuery();
 			
 		while(rset.next())
@@ -96,7 +96,7 @@ public class CampingAreaDAO {
 	public String getPageNavi(Connection conn, int bsnNo, int naviCountPerPage, int recordCountPerPage, int currentPage) {
 
 		int recordTotalCount = totalCount(conn, bsnNo); //전체 글 개수
-		System.out.println("recordTotalCount::"+recordTotalCount);
+		//System.out.println("recordTotalCount::"+recordTotalCount);
 		int pageTotalCount = 0; //전체 페이지 개수
 		
 		
@@ -182,7 +182,7 @@ public class CampingAreaDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
-			System.out.println("query::"+query);
+			//System.out.println("query::"+query);
 			rset = pstmt.executeQuery();
 			
 		while(rset.next())
@@ -209,7 +209,7 @@ public class CampingAreaDAO {
 
 	public String getMainPageNavi(Connection conn, int naviCountPerPage, int recordCountPerPage, int currentPage, String location) {
 		int recordTotalCount = mainTotalCount(conn, location); //전체 글 개수
-		System.out.println("recordTotalCount::"+recordTotalCount);
+		//System.out.println("recordTotalCount::"+recordTotalCount);
 		int pageTotalCount = 0; //전체 페이지 개수
 		
 		
@@ -318,7 +318,7 @@ public class CampingAreaDAO {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, rsvSeq);
-			System.out.println("query::"+query);
+			//System.out.println("query::"+query);
 			rset = pstmt.executeQuery();
 			
 		while(rset.next())

@@ -10,6 +10,7 @@ import com.campus.common.JDBCTemplate;
 import com.campus.member.model.vo.Member;
 import com.campus.userPage.model.vo.UserReservation;
 import com.campus.userPage.model.vo.UserWish;
+import com.campus.userPage.model.vo.WishT;
 
 public class UserDAO {
 
@@ -338,6 +339,67 @@ public class UserDAO {
 		
 		
 		
+		return list;
+	}
+
+	public int addWish(WishT wish, Connection conn) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO wish VALUES(WISH_SEQ.NEXTVAL, ?, ?, ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, wish.getBusinessNo());
+			pstmt.setString(2, wish.getCampNo());
+			pstmt.setString(3, wish.getUserId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public ArrayList<WishT> selectUserWishList(String userId, Connection conn) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<WishT> list = new ArrayList<WishT>();
+
+		String query="SELECT * FROM WISH WHERE USER_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next())
+			{
+				WishT wish = new WishT();
+				wish.setWishNo(rset.getInt("wish_no"));
+				wish.setBusinessNo(rset.getInt("business_no"));
+				wish.setCampNo(rset.getString("camp_no"));
+				wish.setUserId(rset.getString("user_id"));
+				list.add(wish);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		System.out.println("list : " +list);
 		return list;
 	}
 
