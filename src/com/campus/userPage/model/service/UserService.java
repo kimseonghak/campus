@@ -101,4 +101,14 @@ public interface UserService {
 	 */
 	ArrayList<WishT> selectUserWishList(String userId);
 
+	/**
+	 * 작성자 : yeonhee
+	 * @param userId
+	 * @return UserWish
+	 * 작성일 : 2021. 12. 28.
+	 * 
+	 * Descriptrion : userId의 관심상품 삭제
+	 */
+	int deleteWish(WishT wish);
+
 }

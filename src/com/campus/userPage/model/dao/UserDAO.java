@@ -399,8 +399,34 @@ public class UserDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		System.out.println("list : " +list);
+		//System.out.println("list : " +list);
 		return list;
+	}
+
+	public int deleteWish(WishT wish, Connection conn) {
+
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM WISH WHERE BUSINESS_NO=? AND CAMP_NO=? AND USER_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, wish.getBusinessNo());
+			pstmt.setString(2, wish.getCampNo());
+			pstmt.setString(3, wish.getUserId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
 	}
 
 }

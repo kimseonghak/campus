@@ -1,3 +1,5 @@
+<%@page import="com.campus.userPage.model.vo.WishT"%>
+<%@page import="org.apache.catalina.ant.ListTask"%>
 <%@page import="com.campus.reservation.model.vo.CampingArea" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
@@ -378,6 +380,9 @@ if(request.getParameter("to")==null)
 	to = request.getParameter("to");
 }
 
+	//관심상품 리스트 받아오기
+	ArrayList<WishT> wishList = (ArrayList<WishT>)request.getAttribute("wishList");
+	//System.out.println(wishList);
 
 	//페이징 처리되어 넘어온 데이터를 가져와야 함
 	HashMap<String, Object> pageDataMap = (HashMap<String, Object>)request.getAttribute("pageDataMap");
@@ -406,8 +411,9 @@ if(request.getParameter("to")==null)
 		        	<br>
 		        		<table class="table table-striped">
 <%					
-						if(!list.isEmpty()) {
+						if(!list.isEmpty()) { int j=0;
 							for(CampingArea campingArea:list){
+								
 %>
 							
 						
@@ -420,18 +426,25 @@ if(request.getParameter("to")==null)
 									
 									<c:if test="${member!=null }">
 									
-										
-											
-											<i class="xi-heart-o xi-2x" id="heartBtn"></i>
-											</a>
-											
+										<%
+										int count = 0;
+										for(int i=0; i<wishList.size();i++) { %>
 											
 											
+												<% if(wishList.get(i).getCampNo().equals(campingArea.getCampNo()) && wishList.get(i).getBusinessNo()==campingArea.getBusinessNo()){%>
+													<%count++; %>
+												<%}else{ %>	
+												<%} %>
+										<%} %>	
+												<%if(count==1) {%>
+													<i class="xi-heart xi-2x deleteWish" id=<%=j %> ></i>
+													
+												<%}else{ %>
+													<i class="xi-heart-o xi-2x addWish" id=<%=j %> ></i>
+												<%} %>
+												<input type="hidden" value="<%=campingArea.getCampNo()%>" class="campNo">
+												<input type="hidden" value="<%=campingArea.getBusinessNo()%>" class="businessNo">
 											
-											
-											
-										
-										
 									</c:if>
 									
 									
@@ -452,7 +465,9 @@ if(request.getParameter("to")==null)
 							<tr style="border:1px solid gray;">
 								<td style="border:1px solid gray;">가격(1박) : <%=campingArea.getCampPrice() %></td>
 							</tr>
-<%							}
+<%							
+							j++;
+							}
 						}
 %>
 						</table>
@@ -524,6 +539,68 @@ $(function(){
   });
 
 });
+
+
+$('.deleteWish').click(function(){
+	
+	var value = $(this).attr('id');
+	//console.log(value);
+	var campNo = $('.campNo').eq(value).val();
+	//console.log(campNo);
+	var businessNo  = $('.businessNo').eq(value).val();
+	//console.log(businessNo);
+	var el = $(this);
+	$.ajax({
+		url : "/userPage/deleteWish.do",
+		data : {"campNo" : campNo, "businessNo" : businessNo},
+		dataType: "json",
+		type : "post",
+		success : function(result){
+			
+			if(result)
+			{
+				el.attr('class','xi-heart-o xi-2x addWish');
+				//console.log(el.attr('class'));
+				location.reload();
+			}
+		},
+		error : function(){
+			console.log('ajax 통신 문제 발생');
+		}
+	});
+});
+
+
+$('.addWish').click(function(){
+	
+	var value = $(this).attr('id');
+	//console.log(value);
+	var campNo = $('.campNo').eq(value).val();
+	//console.log(campNo);
+	var businessNo  = $('.businessNo').eq(value).val();
+	//console.log(businessNo);
+	var el = $(this);
+	$.ajax({
+		url : "/userPage/addWish.do",
+		data : {"campNo" : campNo, "businessNo" : businessNo},
+		dataType: "json",
+		type : "post",
+		success : function(result){
+			
+			if(result)
+			{
+				el.attr('class','xi-heart xi-2x deleteWish');
+				//console.log(el.attr('class'));
+				location.reload();
+			}
+			
+		},
+		error : function(){
+			console.log('ajax 통신 문제 발생');
+		}
+	});
+});
+
 
 </script>
 </div>
