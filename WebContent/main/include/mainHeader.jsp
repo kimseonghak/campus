@@ -285,7 +285,7 @@
 			<c:when test="${member!=null }">
 				<div id="loginWrap2">
 					<a href="/userPage/userPage.do" class="userIcon"><i class="xi-user-o xi-2x"></i>
-						${member.userName }</a>님<br> <a href="" class="notes"><i
+						${member.userName }</a>님<br> <a onclick=notes() class="notes" style="cursor:pointer"><i
 						class="xi-note-o xi-2x"></i></a> <a href="/main/logout.do" class="logout">logout</a>
 				</div>
 			</c:when>
