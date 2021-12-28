@@ -1,8 +1,6 @@
-package com.campus.reservation.controller;
+package com.campus.userPage.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,23 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.campus.member.model.vo.Member;
-import com.campus.reservation.model.service.CampingAreaService;
-import com.campus.reservation.model.service.CampingAreaServiceImpl;
 import com.campus.userPage.model.service.UserService;
 import com.campus.userPage.model.service.UserServiceImpl;
 import com.campus.userPage.model.vo.WishT;
 
 /**
- * Servlet implementation class selectCampingAreaList
+ * Servlet implementation class AddWishServlet
  */
-@WebServlet("/reservation/SelectCampingAreaList.do")
-public class selectCampingAreaList extends HttpServlet {
+@WebServlet("/userPage/addWish.do")
+public class AddWishServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public selectCampingAreaList() {
+    public AddWishServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,35 +33,35 @@ public class selectCampingAreaList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//System.out.println(1);
 		
-		int currentPage;
-		int bsnNo= Integer.parseInt(request.getParameter("bsnNo"));;
-		//System.out.println("bsnNo::"+bsnNo);
-		
-		if(request.getParameter("currentPage")==null)
-		{
-			currentPage=1;
-		}else {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-		//System.out.println("currentPage::"+currentPage);
-		
-		CampingAreaService campingAreaService = new CampingAreaServiceImpl();
-		HashMap<String, Object> pageDataMap = campingAreaService.selectAllList(bsnNo, currentPage);
-		
-		//찜 리스트 가져오기
+		request.setCharacterEncoding("UTF-8");
+		int businessNo = Integer.parseInt(request.getParameter("businessNo"));
+		String campNo = request.getParameter("campNo");
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
+		/*
+		System.out.println(businessNo);
+		System.out.println(campNo);
 		System.out.println(userId);
+		*/
+		WishT wish = new WishT(businessNo,campNo,userId );
+		
 		UserService uService = new UserServiceImpl();
-		ArrayList<WishT> wlist = uService.selectUserWishList(userId);
-		System.out.println("wlist : "+wlist);
+		int result = uService.addWish(wish);
 		
-		RequestDispatcher view = request.getRequestDispatcher("/reservation/views/campingArea.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/reservation/SelectCampingAreaList.do?bsnNo=4&from=&to=");
 		
-		request.setAttribute("pageDataMap", pageDataMap);
-		request.setAttribute("currentPage", currentPage);
+		if(result>0) 
+		{
+			request.setAttribute("wish", true);
+		}
+		else
+		{
+			request.setAttribute("wish", false);
+		}
+		
 		view.forward(request, response);
+		
+	
 	}
 
 	/**
@@ -75,4 +71,5 @@ public class selectCampingAreaList extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

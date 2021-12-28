@@ -10,7 +10,7 @@
 
 	<script>
 		alert('올릴 수 있는 사진의 최대 크기는 50MB입니다.');
-		location.replace('/diary/d_main.jsp');
+		location.replace('/diary/allView.do');
 			
 	</script>
 
