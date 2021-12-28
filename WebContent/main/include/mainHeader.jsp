@@ -193,6 +193,7 @@
 	height: 563px;
 }
 
+/* 메인 예약 검색 영역 */
 #mainReservation {
 	position:relative;
 	width: 100%;
@@ -205,26 +206,39 @@
 }
 
 #mainReservationSearch {
-	width: 100%;
-	height: 60px;
-	text-align: center;
-}
-
-#areaSearch {
 	width: 60%;
-	height: 50px;
-	font-size: 20px;
-	border-radius: 10px;
-	border-color: skyblue;
+	height: 60px;
+	float:left;
 	text-align: center;
 }
 
-#searchLeaf {
-	width: 40px;
-	height: 40px;
-	position: absolute;
-	margin: 5px -50px;
+/* 셀렉트 css */
+#mainSelectInfo{
+	width: 40%;
+	height:60px;
+	text-align: right;
+	bolder:1px solid blue;
+	float:left;
+	font-size: 30px;
+	font-weight:bolder;
+	line-height:60px;
+	color:white;
 }
+#selectSearch{
+	margin-top:7px;
+	width:300px;
+	height:40px;
+	font-size:30px;
+	text-align: center;
+}
+/* btn이미지 css */
+#imageBtn{
+	position:relative;
+	left:200px;
+	top:-50px;
+	cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -271,7 +285,7 @@
 			<c:when test="${member!=null }">
 				<div id="loginWrap2">
 					<a href="/userPage/userPage.do" class="userIcon"><i class="xi-user-o xi-2x"></i>
-						${member.userName }</a>님<br> <a href="" class="notes"><i
+						${member.userName }</a>님<br> <a onclick=notes() class="notes" style="cursor:pointer"><i
 						class="xi-note-o xi-2x"></i></a> <a href="/main/logout.do" class="logout">logout</a>
 				</div>
 			</c:when>
@@ -288,18 +302,33 @@
 				id="mainLogoImg"></a>
 		</div>
 		<div id="mainReservation">
+			<div id="mainSelectInfo">
+				가고 싶은 지역을 선택하세요.
+			</div>
 			<div id="mainReservationSearch">
-				<form action="">
-					<input type="text" size="30" placeholder="여행하고 싶으신 지역을 입력하세요."
-						id="areaSearch" name="areaSearch"> <input type="image"
-						src="/main/image/search/searchLeaf.png" id="searchLeaf">
+				<form action="/reservation/SelectCampingList.do" method="get" id="mainSearchForm">
+					<select id="selectSearch" name="location">
+						<option value="">전체</option>
+						<option value="가평">가평</option>
+						<option value="경기">경기</option>
+						<option value="인천">인천</option>
+						<option value="강원">강원</option>
+						<option value="충청">충청</option>
+						<option value="경상">경상</option>
+						<option value="전라">전라</option>
+						<option value="제주">제주</option>
+					</select>
 				</form>
+				<img alt="" src="/main/image/search/searchLeaf.png" id="imageBtn">
 			</div>
 		</div>
 	</div>
 	<script>
 		$('#GNB>ul>li').hover(function() {
 			$(this).children().children().slideToggle(300);
+		});
+		$('#imageBtn').click(function(){
+			$('#mainSearchForm').submit();
 		});
 	</script>
 </body>

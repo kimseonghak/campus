@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 import com.campus.board.common.BoardCommon;
 import com.campus.board.free.model.vo.FreeBoard;
+import com.campus.board.free.model.vo.FreeComment;
 import com.campus.common.JDBCTemplate;
+import com.campus.service.model.vo.Service;
 
 public class FreeBoardDAO {
 
@@ -199,18 +201,19 @@ public class FreeBoardDAO {
 	}
 
 	//자유게시판 게시글 작성
-	public int insert(FreeBoard freeBoard, Connection conn) {
+	public int insert(FreeBoard freeBoard, Connection conn, String userName) {
 		PreparedStatement pstmt = null;
 		
 		int result = 0;
 		
 		try {
-			String query = "insert into freeboard values(free_bbs.nextval,?,default,?,?,0,0,0,default)";
+			String query = "insert into freeboard values(free_bbs.nextval,?,default,?,?,?,0,0,0,default)";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, freeBoard.getFreeTitle());
 			pstmt.setString(2, freeBoard.getUserId());
-			pstmt.setString(3, freeBoard.getFreeContent());
+			pstmt.setString(3, userName);
+			pstmt.setString(4, freeBoard.getFreeContent());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -368,5 +371,134 @@ public class FreeBoardDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return totalPost;
+	}
+
+	public ArrayList<FreeComment> commentList(int freeNo, Connection conn, int commentPage, int recordCountPerPage) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<FreeComment> list = new ArrayList<FreeComment>();
+		
+		int start = commentPage * recordCountPerPage - (recordCountPerPage-1);
+		int end = commentPage * recordCountPerPage;
+		
+		String query="SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY CFREE_NO DESC) AS NUM, FREECOMMENT.* "
+				+ "FROM FREECOMMENT WHERE CFREE_WITHDRAWAL='N' AND FREE_NO=?) WHERE NUM BETWEEN ? AND ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				FreeComment cf = new FreeComment();
+				cf.setFreeNo(rset.getInt("free_no"));
+				cf.setcFreeNo(rset.getInt("cfree_no"));
+				cf.setUserId(rset.getString("user_id"));
+				cf.setcFreeConents(rset.getString("cfree_contents"));
+				cf.setcFreeDate(rset.getDate("cfree_date"));
+				
+				list.add(cf);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public String getCommentPageNavi(Connection conn, int naviCountPerPage, int currentPage, int recordCountPerPage,
+			int commentPage, int freeNo) {
+		int recordTotalCount = totalCount(conn,freeNo);
+		
+		int pageTotalCount = (int)Math.ceil(recordTotalCount/(double)recordCountPerPage);
+		
+		int startNavi = (((currentPage-1) / naviCountPerPage) * naviCountPerPage) + 1;
+		int endNavi = startNavi + (naviCountPerPage-1);
+		
+		if(endNavi>pageTotalCount) {
+			endNavi = pageTotalCount;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		if(startNavi!=1) {
+			sb.append("<a href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+(startNavi-1)+"'>< prev</a> ");
+		}
+		for(int i = startNavi; i<=endNavi; i++) {
+			if(i==currentPage) {
+				sb.append("<a class='navi' id='focusNavi' href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+i+"'><B style='font-siez:1.4em; color:#ff5000;'>"+i+"</B></a> ");
+			}else {
+				sb.append("<a class='navi' href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+i+"'>"+i+"</a> ");
+			}
+		}
+		if(endNavi!=pageTotalCount) {
+			sb.append(" <a href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+(endNavi+1)+"'>next ></a>");
+		}
+		
+		return sb.toString();
+	}
+
+	private int totalCount(Connection conn, int freeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		String query = "SELECT COUNT(*) AS count FROM FREECOMMENT WHERE FREE_NO=? AND CFREE_WITHDRAWAL='N'";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo );
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				count = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return count;
+	}
+
+	public int commentWrite(int freeNo, String userId, String commentContent, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "INSERT INTO FREECOMMENT VALUES (?,FREE_CMT.NEXTVAL,?,?,SYSDATE,'N')";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo);
+			pstmt.setString(2, userId);
+			pstmt.setString(3, commentContent);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int commentDelete(int cFreeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE FREECOMMENT SET CFREE_WITHDRAWAL='Y' WHERE CFREE_NO=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, cFreeNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 }

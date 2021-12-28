@@ -351,16 +351,16 @@ h3>a{
 		</div>
 <%-- fixedBar 영역 --%>
 			<div id="fixedBar">
-				<div class="fixedbarContentWrap">
+				<div class="fixedbarContentWrap"> <%-- 유저 --%>
 					<a href=""><i class="xi-user-o xi-2x fixedIcon"></i></a>
 				</div>
-				<div class="fixedbarContentWrap">
+				<div class="fixedbarContentWrap"> <%-- 예약 --%>
 					<a href=""><i class="xi-calendar-check xi-2x fixedIcon"></i></a>
 				</div>
-				<div class="fixedbarContentWrap">
-					<a href=""><i class="xi-note-o xi-2x fixedIcon"></i></a>
+				<div class="fixedbarContentWrap"> <%-- 쪽지 --%>
+					<a onclick=notes()><i class="xi-note-o xi-2x fixedIcon"></i></a>
 				</div>
-				<div class="fixedbarContentWrap">
+				<div class="fixedbarContentWrap"> <%-- 탑버튼 --%>
 					<a href="" id="fixedTopIcon"><i class="xi-angle-up fixedIcon"></i></a>
 				</div>
 			</div>
@@ -374,7 +374,7 @@ h3>a{
 				success : function(freeList) {
 					$.each(freeList, function(index, f) {
 						$('.free').eq(index).html(
-								"<a href='/community/free/freeboard.jsp?currentPage=1&freeNo="
+								"<a href='/board/free/selectOne.do?currentPage=1&freeNo="
 										+ f.FreeNo + "'>" + f.FreeTitle
 										+ "<span style='color:#f94b4b;'> ["
 										+ f.commentCount + "]</span></a>");
@@ -393,8 +393,8 @@ h3>a{
 				success : function(noticeList) {
 					$.each(noticeList, function(index, n) {
 						$('.notice').eq(index).html(
-								"<a href='/community/notice/noticeboard.html?currentPage=1&noticeNo='"
-										+ n.noticeNo + ">" + n.noticeTitle
+								"<a href='/board/notice/selectOne.do?currentPage=1&noticeNo="
+										+ n.noticeNo + "'>" + n.noticeTitle
 										+ "</a>");
 					})
 				},
@@ -462,6 +462,18 @@ h3>a{
 			$(this).css('color','gray');
 		});
 	</script>
+<%-- 쪽지함 스크립트 --%>
+	<script type="text/javascript">
+		function notes(){
+			var userId = "<c:out value='${member.userId}'/>"
+				if(userId!=""){
+					window.open("/board/msg/listAll.do?userId="+userId,"_blank","width=700px, height=400px");
+				}else{
+					alert('로그인이 필요한 서비스입니다.\n로그인 후에 이용해주세요.')
+				}
+		};
+	</script>
+
 <%-- slide 스크립트 --%>
 	<script>
 	var slideIndex=0;
