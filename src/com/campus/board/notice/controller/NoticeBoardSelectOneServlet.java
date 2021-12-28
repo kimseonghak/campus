@@ -32,6 +32,7 @@ public class NoticeBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		System.out.println(noticeNo);
 		
@@ -41,6 +42,7 @@ public class NoticeBoardSelectOneServlet extends HttpServlet {
 		if (noticeBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/notice/noticepost.jsp");
 			request.setAttribute("noticeBoard", noticeBoard);
+			request.setAttribute("currentPage", currentPage);
 			view.forward(request, response);
 
 		} else {

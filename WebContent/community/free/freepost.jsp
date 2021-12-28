@@ -43,23 +43,23 @@
                     	<%= freeBoard.getFreeTitle() %>
                     </div>
                     <div id="postinfo">
-                        작성자: <%= freeBoard.getUserId() %> &nbsp 댓글수: &nbsp 추천수: <%= freeBoard.getFreeLike() %> 비추천수: <%= freeBoard.getFreeHate() %> 작성일: <%= freeBoard.getFreeDate() %>
+                        작성자: <%= freeBoard.getUserId() %> &nbsp 댓글수: &nbsp&nbsp 추천수: <%= freeBoard.getFreeLike() %> &nbsp&nbsp&nbsp비추천수: <%= freeBoard.getFreeHate() %> <span>작성일: <%= freeBoard.getFreeDate() %></span></span>
                     </div>
                     <div id="postcontent-wrap">
                         <div id="postaction">
-                            <button><i class="xi-thumbs-up xi-x"></i></button>
-                            <button><i class="xi-thumbs-down xi-x"></i></button>
-                            <button><i class="xi-bookmark-o xi-x"></i></button>
+                            <div><i class="xi-thumbs-up xi-x"></i></div>
+                            <div><i class="xi-thumbs-down xi-x"></i></div>
+                            <div><i class="xi-bookmark-o xi-x"></i></div>
                             <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
                             <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
 							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
 							<a id="btnMail" class="link-icon email" href=""><i class="xi-mail-o xi-x"></i></a>
-                            <button><i class="xi-share-alt-o xi-x"></i></button>
+                            <div><i class="xi-share-alt-o xi-x"></i></div>
                         </div>
                         <div id="postcontent">
 	                        <%if(m!=null && m.getUserId().equals(freeBoard.getUserId())){ %>
 							<form action="/board/free/postUpdate.do" id="updateForm" method="post">
-								<textarea cols="50" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
+								<textarea id="postUpdate" cols="84" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
 								<input type="hidden" name="boardNo" value="<%=freeBoard.getFreeNo()%>"/>
 							</form>
 	
@@ -68,7 +68,7 @@
 							<button id="cancleBtn" style="display: none;">취소</button>
 							
 							<%}else{ %>
-								<textarea cols="50" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
+								<textarea cols="84" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
 							<%} %>
                         </div>
                     </div>
@@ -76,20 +76,17 @@
 <table>
 <!--<tr><th>작성자</th><th>댓글</th><th>날짜</th></tr>-->
 	<tr class="tr1">
-        <td class="writer">이롸롸: </td>
+        <td class="writer">이롸롸:</td>
+        <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
         <td class="button">
             <button class="coModifyBtn">수정</button> <button class="coDeleteBtn">삭제</button>
         </td>
     </tr>
-    <tr>
-        <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
-        <td></td>
-	</tr>
 </table>
                     </div>
                     <div id="back">
-                        <a href=""><img src="../image/common/back.png"/>이전 글</a>&nbsp&nbsp&nbsp<a src="">다음 글<img  src="../image/common/front.png"/></a><br>
-                        <a href="">목록으로</a>
+                        <div><a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="">다음 글<i class="xi-angle-right-min"></i></a></div>
+                        <div><a href="/board/free/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i class="xi-paper-o xi-x"></i>목록으로</a></div>
                     </div>
                 </div>
             </div>
@@ -107,7 +104,7 @@
 	$('#updateBtn').click(function(){
 		if(updateBtnFlag==false)
 			{
-				$('#content').prop('disabled',false);
+				$('#postUpdate').prop('disabled',false);
 				$('#updateBtn').text('완료');
 				$('#cancleBtn').css('display','inline');	
 				updateBtnFlag=true;
@@ -119,7 +116,9 @@
 	});
 	
 	$('#cancleBtn').click(function(){
-		location.replace('/board/free/selectOne.do?freeNo=<%=freeBoard.getFreeNo()%>');
+		$('#postUpdate').prop('disabled',true);
+		$('#updateBtn').text('삭제');
+		$('#cancleBtn').css('display','none');	
 	});
 	
 	$('#deleteBtn').click(function(){

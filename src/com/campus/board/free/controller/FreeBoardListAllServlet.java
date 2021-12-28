@@ -35,6 +35,7 @@ public class FreeBoardListAllServlet extends HttpServlet {
 		int currentPage;
 		if (request.getParameter("currentPage") == null) {
 			currentPage = 1;
+			
 		} else {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
@@ -44,6 +45,7 @@ public class FreeBoardListAllServlet extends HttpServlet {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/free/freeboard.jsp");
 		request.setAttribute("freepage", page);
+		request.setAttribute("currentPage", currentPage);
 		view.forward(request,response);
 	}
 

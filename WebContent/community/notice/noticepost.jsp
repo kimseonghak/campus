@@ -59,7 +59,7 @@
                 </div>
                     <div id="back">
                         <a href=""><img src="../image/common/back.png"/>이전 글</a>&nbsp&nbsp&nbsp<a src="">다음 글<img  src="../image/common/front.png"/></a><br>
-                        <a href="">목록으로</a><br><br>
+                        <a href="/board/notice/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">목록으로</a><br><br>
                     </div>
             </div>
         </div>

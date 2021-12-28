@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.campus.board.free.model.service.FreeBoardService;
 import com.campus.board.free.model.service.FreeBoardServiceImpl;
 import com.campus.board.free.model.vo.FreeBoard;
+import com.campus.board.free.model.vo.FreePage;
 
 /**
  * Servlet implementation class FreeBoardSelectOneServlt
@@ -32,6 +33,7 @@ public class FreeBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
 		System.out.println(freeNo);
 		
@@ -41,6 +43,7 @@ public class FreeBoardSelectOneServlet extends HttpServlet {
 		if (freeBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/free/freepost.jsp");
 			request.setAttribute("freeBoard", freeBoard);
+			request.setAttribute("currentPage", currentPage);
 			view.forward(request, response);
 
 		} else {

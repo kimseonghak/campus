@@ -32,6 +32,7 @@ public class MarketBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int marketNo = Integer.parseInt(request.getParameter("marketNo"));
 		System.out.println(marketNo);
 		
@@ -41,6 +42,7 @@ public class MarketBoardSelectOneServlet extends HttpServlet {
 		if (marketBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/market/marketpost.jsp");
 			request.setAttribute("marketBoard", marketBoard);
+			request.setAttribute("currentPage", currentPage);
 			view.forward(request, response);
 
 		} else {

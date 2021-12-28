@@ -31,6 +31,9 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
+            <style>
+	            .subBar>li>a {color: white;}
+			</style>
         </div>
         
         <div id="contents-wrap">
@@ -50,18 +53,18 @@
             
 <table id="table1" style="text-align: center;">
 	<tr>
-		<th>번호</th>
-        <th>작성자</th>
-		<th>제목</th>
-        <th>댓글</th>
-		<th>추천</th>
-		<th>작성일</th>
+		<th style="width:7%;">번호</th>
+        <th style="width:10%;">작성자</th>
+		<th style="width:60%;">제목</th>
+        <th style="width:5%;">댓글</th>
+		<th style="width:5%;">추천</th>
+		<th style="width:13%;">작성일</th>
 	</tr>
     <%for(InfoBoard infoboard : list){%>
     <tr>	
         <td class="no"><%=infoboard.getInfoNo()%></td>
         <td class="writer"><%=infoboard.getUserId()%></td>
-		<td class="title"><a href="/board/info/selectOne.do?infoNo=<%=infoboard.getInfoNo()%>"><%=infoboard.getInfoTitle()%>[댓글]</a></td>
+		<td class="title"><a href="/board/info/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&infoNo=<%=infoboard.getInfoNo()%>"><%=infoboard.getInfoTitle()%>[댓글]</a></td>
         <td class="hit"><%=infoboard.getInfoHit()%></td>
         <td class="like"><%=infoboard.getInfoLike()%></td>
 		<td class="date"><%=infoboard.getInfoDate()%></td>
@@ -72,9 +75,9 @@
 <ul id="table2" style="text-align: center;">
 	<%for(InfoBoard infoboard : list){%>
     <li>
-        <a href="/board/info/selectOne.do?infoNo=<%=infoboard.getInfoNo()%>"><img src="../image/merch/sleepingbag.png"/></a>
+        <a href="/board/info/selectOne.do?infoNo=<%=infoboard.getInfoNo()%>"><img src="/community/image/merch/sleepingbag.png"/></a>
         <dl>
-            <dt><a href="/board/info/selectOne.do?infoNo=<%=infoboard.getInfoNo()%>"><%=infoboard.getInfoTitle()%></a>[댓글]</dt>
+            <dt><a href="/board/info/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&infoNo=<%=infoboard.getInfoNo()%>"><%=infoboard.getInfoTitle()%></a>[댓글]</dt>
             <dd><div><%=infoboard.getUserId()%></div></dd>
             <dd><span><%=infoboard.getInfoDate()%></span>&nbsp&nbsp&nbsp<span><%=infoboard.getInfoHit()%></span>&nbsp&nbsp&nbsp<span><%=infoboard.getInfoLike()%></span></dd>
         </dl>
@@ -98,7 +101,7 @@
 			        <%} %>
 			        </form>
     </div>
-		<form action="/community/info/writeForm.jsp" method="post">
+		<form action="/community/info/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
 			<%if (m != null) {%>
 				<input type="submit" value="글쓰기">
 			<%}%>

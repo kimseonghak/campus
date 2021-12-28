@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div id="back">
-                        <a href="">목록으로</a>
+                        <a href="/board/msg/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">목록으로</a>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
 <script>
 	$('#cancleBtn').click(function(){
-		location.replace('/board/msg/selectOne.do?msgNo=<%=msgBoard.getMsgNo()%>');
+		location.replace('/board/msg/selectOne.do?currentPage=<%=request.getAttribute("currentPage")%>&msgNo=<%=msgBoard.getMsgNo()%>');
 	});
 	
 	$('#deleteBtn').click(function(){

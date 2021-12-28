@@ -31,6 +31,9 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
+            <style>
+	            .subBar>li>a {color: white;}
+			</style>
         </div>
         
         <div id="contents-wrap">
@@ -42,27 +45,30 @@
 	            <div id="where">&nbsp&nbsp&nbsp&nbsp 자유게시판</div>
 	            
 	            <form id="arrange">
-	                <button type="button" id="list1" class="btn1"><i id="titlelist" class="xi-list-dot xi-x"></i></button><button type="button" id="list2" class="btn1"><i id="piclist" class="xi-apps xi-x"></i></button>
+	                <button type="button" id="list1" class="btn1"><i id="titlelist" class="xi-list-dot xi-x"></i></button>
+	                <button type="button" id="list2" class="btn1"><i id="piclist" class="xi-apps xi-x"></i></button>
 	                <button type="button" id="mypost" class="btn2">내 글</button><button type="button" id="mycmt" class="btn2">내 댓글</button><button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
 	            </form>
 	            
 	            <div id="board">
 	            
 <table id="table1" style="text-align: center;">
-<tbody>
+<thead >
 	<tr>
-		<th>번호</th>
-        <th>작성자</th>
-		<th>제목</th>
-        <th>댓글</th>
-		<th>추천</th>
-		<th>작성일</th>
+		<th style="width:7%;">번호</th>
+        <th style="width:10%;">작성자</th>
+		<th style="width:60%;">제목</th>
+        <th style="width:5%;">댓글</th>
+		<th style="width:5%;">추천</th>
+		<th style="width:13%;">작성일</th>
 	</tr>
+</thead>
+<tbody >
     <%for(FreeBoard freeboard : list){%>
     <tr>	
         <td class="no"><%=freeboard.getFreeNo()%></td>
         <td class="writer"><%=freeboard.getUserId()%></td>
-		<td class="title"><a href="/board/free/selectOne.do?freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%>[댓글]</a></td>
+		<td class="title"><a href="/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%>[댓글]</a></td>
         <td class="hit"><%=freeboard.getFreeHit()%></td>
         <td class="like"><%=freeboard.getFreeLike()%></td>
 		<td class="date"><%=freeboard.getFreeDate()%></td>
@@ -74,9 +80,9 @@
 <ul id="table2" style="text-align: center;">
 	<%for(FreeBoard freeboard : list){%>
     <li>
-        <a href="/board/free/selectOne.do?freeNo=<%=freeboard.getFreeNo()%>"><img src="../image/merch/griddle.png"/></a>
+        <a href="/board/free/selectOne.do?freeNo=<%=freeboard.getFreeNo()%>"><img src="/community/image/merch/griddle.png"/></a>
         <dl>
-            <dt><a href="/board/free/selectOne.do?freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%></a>[댓글]</dt>
+            <dt><a href="/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%></a>[댓글]</dt>
             <dd><div><%=freeboard.getUserId()%></div></dd>
             <dd><span><%=freeboard.getFreeDate()%></span><br>
             <span>조회수 <%=freeboard.getFreeHit()%></span>&nbsp&nbsp&nbsp<span>추천수 <%=freeboard.getFreeLike()%></span></dd>
@@ -101,9 +107,9 @@
 			        <%} %>
 			        </form>
 			    </div>
-			    <form action="/community/free/writeForm.jsp" method="post">
+			    <form action="/community/free/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
 					<%if (m != null) {%>
-						<input type="submit" value="글쓰기">
+						<button id="postWrite" style="font-size:13px;"><i class="xi-pen-o"></i>글 작성</button>
 					<%}%>
 				</form>
 			</div>

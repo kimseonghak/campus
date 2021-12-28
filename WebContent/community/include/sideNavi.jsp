@@ -1,6 +1,6 @@
+<%@page import="com.campus.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -49,6 +49,9 @@
         #msg{
         	color:white;
         }
+        .xi-note-o {
+    		color: white;
+		}
 	</style>
 </head>
 <body>
@@ -61,17 +64,18 @@
        	        <li><a href="/board/info/listAll.do">정보공유게시판</a></li>
            	    <li><a href="/board/market/listAll.do">중고장터</a></li>
            	    <li><a href="\">통합채팅</a></li>
-           	    <% %>
-           	    <!-- 로그인일 때만 작동 -->
+           	    <%if((Member)session.getAttribute("member")!=null){ %>
                	<li id="msg">쪽지함<i class="xi-note-o xi-x"></i></li>
+               	<%} %>
            	</ul>
     	</div>
 	</div>
-	
+	<%if((Member)session.getAttribute("member")!=null){ %>
 	<script>
 		document.getElementById('msg').onclick=function popup(){
-			var newWin = window.open("/board/msg/listAll.do","_blank","width=700px, height=400px");
+			var newWin = window.open("/board/msg/listAll.do?userId=<%=((Member)session.getAttribute("member")).getUserId()%>","_blank","width=700px, height=400px");
 		}
 	</script>
+	<%} %>
 </body>
 </html>

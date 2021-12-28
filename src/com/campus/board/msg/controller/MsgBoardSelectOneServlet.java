@@ -32,6 +32,7 @@ public class MsgBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int msgNo = Integer.parseInt(request.getParameter("msgNo"));
 		System.out.println(msgNo);
 		
@@ -41,6 +42,7 @@ public class MsgBoardSelectOneServlet extends HttpServlet {
 		if (msgBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/msg/msgpost.jsp");
 			request.setAttribute("msgBoard", msgBoard);
+			request.setAttribute("currentPage", currentPage);
 			view.forward(request, response);
 
 		} else {

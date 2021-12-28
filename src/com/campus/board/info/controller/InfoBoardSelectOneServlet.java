@@ -35,6 +35,7 @@ public class InfoBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int infoNo = Integer.parseInt(request.getParameter("infoNo"));
 		System.out.println(infoNo);
 		
@@ -44,6 +45,7 @@ public class InfoBoardSelectOneServlet extends HttpServlet {
 		if (infoBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/info/infopost.jsp");
 			request.setAttribute("infoBoard", infoBoard);
+			request.setAttribute("currentPage", currentPage);
 			view.forward(request, response);
 
 		} else {

@@ -38,23 +38,18 @@ public class NoticeBoardWriteServlet extends HttpServlet {
 		String noticeTitle = request.getParameter("noticeTitle");
 		String noticeContent = request.getParameter("noticeContent");
 		
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
-		
 		NoticeBoard noticeBoard = new NoticeBoard();
 		noticeBoard.setNoticeTitle(noticeTitle);
 		noticeBoard.setNoticeContent(noticeContent);
-		noticeBoard.setUserId(userId);
-		
 		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
 		int result=noticebService.insert(noticeBoard);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/notice/write.jsp");
-		
-		if(result>0)
-		{
+			
+		if(result>0){
 			request.setAttribute("writeResult", true);
-		}else
-		{
+		}
+		else{
 			request.setAttribute("writeResult", false);
 		}
 		view.forward(request, response);

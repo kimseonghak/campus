@@ -334,20 +334,17 @@ public class InfoBoardDAO {
 		try {
 			String query="";
 			switch(type) {
-			case "freeTitle":
-				query="select * from (select row_number() over(order by info_no desc) as num, infoboard.* from infoboard"
-						+ " where info_withdrawal='N' and info_title like ?)"
-						+ " where num between ? and ?";
+			case "infoTitle":
+				query="select count(*) as totalcount from infoboard"
+						+ " where info_withdrawal='N' and info_title like ?;";
 				break;
 			case "userId":
-				query="select * from (select row_number() over(order by info_no desc) as num, infoboard.* from infoboard"
-						+ " where info_withdrawal='N' and user_id like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from infoboard"
+						+ " where info_withdrawal='N' and user_id like ?;";
 				break;
 			default:
-				query="select * from (select row_number() over(order by info_no desc) as num, infoboard.* from infoboard"
-						+ " where info_withdrawal='N' and (info_title like ? or user_id like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from infoboard"
+						+ " where info_withdrawal='N' and (info_title like ? or user_id like ?);";
 				break;
 			}
 			

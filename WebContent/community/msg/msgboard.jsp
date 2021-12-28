@@ -91,8 +91,8 @@
             <form action="/board/msg/search.do" method="get">
 				<select id="select" name="type">
 			    	<option value="msgTitle">제목</option>
-			        <option value="userId">작성자</option>
-			        <option value="all">제목+작성자</option>
+			        <option value="userId">ID</option>
+			        <option value="all">제목+ID</option>
 			    </select>
 			        <%String keyword = request.getParameter("keyword");%>
 			        <%if(keyword!=null){ %>
@@ -116,7 +116,7 @@
         <td class="no"><%=msgboard.getMsgNo()%></td>
         <td class="writer"><%=msgboard.getSendId()%></td>
         <td class="writer"><%=msgboard.getReceiveId()%></td>
-        <td class="title"><a href="/board/msg/selectOne.do?msgNo=<%=msgboard.getMsgNo()%>"><%=msgboard.getMsgTitle()%></a></td>
+        <td class="title"><a href="/board/msg/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&msgNo=<%=msgboard.getMsgNo()%>"><%=msgboard.getMsgTitle()%></a></td>
         <td class="date"><%=msgboard.getMsgDate()%></td>
 	</tr>
 	<%}%>

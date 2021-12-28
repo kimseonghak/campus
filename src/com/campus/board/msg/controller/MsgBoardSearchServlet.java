@@ -44,7 +44,6 @@ public class MsgBoardSearchServlet extends HttpServlet {
 		
 		String type = request.getParameter("type");
 		String keyword = request.getParameter("keyword");
-		//로그인 된 아이디 가져오기
 		String userId = request.getParameter("userId");
 		
 		MsgBoardService msgbService = new MsgBoardServiceImpl();

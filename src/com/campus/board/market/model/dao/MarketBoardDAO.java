@@ -357,19 +357,16 @@ public class MarketBoardDAO {
 			String query="";
 			switch(type) {
 			case "marketTitle":
-				query="select * from (select row_number() over(order by market_no desc) as num, marketboard.* from marketboard"
-						+ " where market_withdrawal='N' and market_title like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from marketboard"
+						+ " where market_withdrawal='N' and market_title like ?;";
 				break;
 			case "userId":
-				query="select * from (select row_number() over(order by market_no desc) as num, marketboard.* from marketboard"
-						+ " where market_withdrawal='N' and user_id like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from marketboard"
+						+ " where market_withdrawal='N' and user_id like ?;";
 				break;
 			default:
-				query="select * from (select row_number() over(order by market_no desc) as num, marketboard.* from marketboard"
-						+ " where market_withdrawal='N' and (market_title like ? or user_id like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from marketboard"
+						+ " where market_withdrawal='N' and (market_title like ? or user_id like ?);";
 				break;
 			}
 			

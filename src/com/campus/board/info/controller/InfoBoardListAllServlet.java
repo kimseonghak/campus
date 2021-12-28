@@ -44,6 +44,7 @@ public class InfoBoardListAllServlet extends HttpServlet {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/info/infoboard.jsp");
 		request.setAttribute("infopage", page);
+		request.setAttribute("currentPage", currentPage);
 		view.forward(request,response);
 	}
 

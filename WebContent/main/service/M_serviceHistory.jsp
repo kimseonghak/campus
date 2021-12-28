@@ -131,7 +131,7 @@
 						<tr id="theadTr">
 							<th id="serviceNo" class="headTh">문의 번호</th>
 							<th id="serviceSubject" class="headTh">문의 제목</th>
-							<th id="serviceDate" class="headTh">문의 날자</th>
+							<th id="serviceDate" class="headTh">문의 날짜</th>
 							<th id="serviceCondtion" class="headTh">문의 상황</th>
 						</tr>
 					</thead>

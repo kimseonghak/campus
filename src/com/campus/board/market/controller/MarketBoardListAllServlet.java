@@ -44,6 +44,7 @@ public class MarketBoardListAllServlet extends HttpServlet {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/market/marketboard.jsp");
 		request.setAttribute("marketpage", page);
+		request.setAttribute("currentPage", currentPage);
 		view.forward(request,response);
 	}
 

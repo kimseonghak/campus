@@ -41,10 +41,11 @@ public class NoticeBoardListAllServlet extends HttpServlet {
 
 		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
 		NoticePage page = noticebService.noticeboardListAll(currentPage);
-		
 		RequestDispatcher view = request.getRequestDispatcher("/community/notice/noticeboard.jsp");
 		request.setAttribute("noticepage", page);
-		view.forward(request,response);
+		request.setAttribute("currentPage", currentPage);
+
+		view.forward(request,response);;
 	}
 
 	/**

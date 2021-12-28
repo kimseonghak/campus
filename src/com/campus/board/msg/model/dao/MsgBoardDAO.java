@@ -213,38 +213,44 @@ public class MsgBoardDAO {
 			switch(type) {
 			case "msgTitle":
 				query="select * from (select row_number() over(order by msg_no desc) as num, msg.* from msg"
-						+ " where msg_withdrawal='N' and msg_title like ? and (send_id=? or receive_id=?))"
-						+ " where num between ? and ?";
+						+ " where msg_withdrawal='N' and (send_id=? or receive_id=?))"
+						+ " where msg_title like ? and (num between ? and ?)";
 				break;
-			case "sendId":
+			case "userId":
 				query="select * from (select row_number() over(order by msg_no desc) as num, msg.* from msg"
-						+ " where msg_withdrawal='N' and send_id like ?)"
-						+ " where num between ? and ?";
+						+ " where msg_withdrawal='N' and (send_id=? or receive_id=?))"
+						+ " where (send_id like ? or receive_id like ?) and num between ? and ?";
 				break;
 			default:
 				query="select * from (select row_number() over(order by msg_no desc) as num, msg.* from msg"
-						+ " where msg_withdrawal='N' and (msg_title like ? or send_id like ?)"
-						+ " where num between ? and ?";
+						+ " where msg_withdrawal='N' and (send_id=? or receive_id=?))"
+						+ " where (msg_title like ? or send_id like ? or receive_id like ?) and num between ? and ?";
 				break;
 			}
 			pstmt = conn.prepareStatement(query);
-			if(!type.equals("all")){
-				pstmt.setString(1, "%"+keyword+"%");
-				pstmt.setInt(2, start);
-				pstmt.setInt(3, end);
-			}
-			else if(type.equals("msgTitle")){
-				pstmt.setString(1, "%"+keyword+"%");
+			if(type.equals("msgTitle")){
+				pstmt.setString(1, userId);
 				pstmt.setString(2, userId);
-				pstmt.setString(3, userId);
+				pstmt.setString(3, "%"+keyword+"%");
 				pstmt.setInt(4, start);
 				pstmt.setInt(5, end);
 			}
+			else if(type.equals("userId")){
+				pstmt.setString(1, userId);
+				pstmt.setString(2, userId);
+				pstmt.setString(3, "%"+keyword+"%");
+				pstmt.setString(4, "%"+keyword+"%");
+				pstmt.setInt(5, start);
+				pstmt.setInt(6, end);
+			}
 			else{
-				pstmt.setString(1, "%"+keyword+"%");
-				pstmt.setString(2, "%"+keyword+"%");
-				pstmt.setInt(3, start);
-				pstmt.setInt(4, end);
+				pstmt.setString(1, userId);
+				pstmt.setString(2, userId);
+				pstmt.setString(3, "%"+keyword+"%");
+				pstmt.setString(4, "%"+keyword+"%");
+				pstmt.setString(5, "%"+keyword+"%");
+				pstmt.setInt(6, start);
+				pstmt.setInt(7, end);
 			}
 			
 			rset = pstmt.executeQuery();
@@ -269,8 +275,8 @@ public class MsgBoardDAO {
 	}
 
 	//쪽지게시판 검색 페이징 처리
-	public String searchNavi(Connection conn, int currentPage, int perPage, int naviPage, String keyword, String type) {
-		int totalPost=totalPost(conn,type,keyword);
+	public String searchNavi(Connection conn, int currentPage, String userId, int perPage, int naviPage, String keyword, String type) {
+		int totalPost=totalPost(conn,userId,type,keyword);
 		int totalPage=BoardCommon.totalPage(perPage, totalPost);
 		int startNavi=BoardCommon.startNavi(currentPage, perPage, naviPage, totalPost);
 		int endNavi=startNavi+naviPage-1;
@@ -306,7 +312,7 @@ public class MsgBoardDAO {
 	}
 
 	//쪽지게시판 검색 전체 게시글 수
-	private int totalPost(Connection conn, String type, String keyword) {
+	private int totalPost(Connection conn, String userId, String type, String keyword) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -316,30 +322,30 @@ public class MsgBoardDAO {
 			String query="";
 			switch(type) {
 			case "msgTitle":
-				query="select * from (select row_number() over(order by msg_no desc) as num, msg.* from msg"
-						+ " where msg_withdrawal='N' and msg_title like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from (select msg.* from msg where send_id=? or receive_id=?)"
+						+ " where msg_withdrawal='N' and msg_title like ?;";
 				break;
-			case "sendId":
-				query="select * from (select row_number() over(order by msg_no desc) as num, msg.* from msg"
-						+ " where msg_withdrawal='N' and send_id like ?)"
-						+ " where num between ? and ?";
+			case "userId":
+				query="select count(*) as totalcount from (select msg.* from msg where send_id=? or receive_id=?)"
+						+ " where msg_withdrawal='N' and user_id like ?;";
 				break;
 			default:
-				query="select * from (select row_number() over(order by msg_no desc) as num, msg.* from msg"
-						+ " where msg_withdrawal='N' and (msg_title like ? or send_id like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from (select msg.* from msg where send_id=? or receive_id=?)"
+						+ " where msg_withdrawal='N' and (msg_title like ? or user_id like ?);";
 				break;
 			}
 			
 			pstmt = conn.prepareStatement(query);
-			if(!type.equals("all"))
-			{
-				pstmt.setString(1, "%"+keyword+"%");
-			}else
-			{
-				pstmt.setString(1, "%"+keyword+"%");
-				pstmt.setString(2, "%"+keyword+"%");
+			if(!type.equals("all")) {
+				pstmt.setString(1, userId);
+				pstmt.setString(2, userId);
+				pstmt.setString(3, "%"+keyword+"%");
+			}
+			else {
+				pstmt.setString(1, userId);
+				pstmt.setString(2, userId);
+				pstmt.setString(3, "%"+keyword+"%");
+				pstmt.setString(4, "%"+keyword+"%");
 			}
 			
 			rset = pstmt.executeQuery();

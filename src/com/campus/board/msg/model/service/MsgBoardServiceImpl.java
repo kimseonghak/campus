@@ -74,7 +74,7 @@ public class MsgBoardServiceImpl implements MsgBoardService{
 		page.setPageList(mbDAO.search(conn,currentPage, userId, perPage, type, keyword));
 		
 		int naviPage = 5;
-		page.setPageNavi(mbDAO.searchNavi(conn,currentPage,perPage,naviPage, keyword, type));
+		page.setPageNavi(mbDAO.searchNavi(conn,currentPage,userId,perPage,naviPage, keyword, type));
 		
 		JDBCTemplate.close(conn);
 		return page;

@@ -41,7 +41,6 @@ public class NoticeBoardUpdateServlet extends HttpServlet {
 		NoticeBoard noticeBoard=new NoticeBoard();
 		noticeBoard.setNoticeContent(noticeContent);
 		noticeBoard.setNoticeNo(noticeNo);
-		noticeBoard.setUserId(userId);
 		
 		NoticeBoardService noticebService=new NoticeBoardServiceImpl();
 		int result=noticebService.update(noticeBoard);

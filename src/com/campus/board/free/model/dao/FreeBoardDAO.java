@@ -335,19 +335,16 @@ public class FreeBoardDAO {
 			String query="";
 			switch(type) {
 			case "freeTitle":
-				query="select * from (select row_number() over(order by free_no desc) as num, freeboard.* from freeboard"
-						+ "where free_withdrawal='N' and free_title like ?)"
-						+ "where num between ? and ?";
+				query="select count(*) as totalcount from freeboard"
+						+ " where free_withdrawal='N' and free_title like ?;";
 				break;
 			case "userId":
-				query="select * from (select row_number() over(order by free_no desc) as num, freeboard.* from freeboard"
-						+ "where free_withdrawal='N' and user_id like ?)"
-						+ "where num between ? and ?";
+				query="select count(*) as totalcount from freeboard"
+						+ " where free_withdrawal='N' and user_id like ?;";
 				break;
 			default:
-				query="select * from (select row_number() over(order by free_no desc) as num, freeboard.* from freeboard"
-						+ "where free_withdrawal='N' and (free_title like ? or user_id like ?)"
-						+ "where num between ? and ?";
+				query="select count(*) as totalcount from freeboard"
+						+ " where free_withdrawal='N' and (free_title like ? or user_id like ?);";
 				break;
 			}
 			

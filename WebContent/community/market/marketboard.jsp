@@ -24,8 +24,6 @@
         #arrange {
             padding-left:60%;
         }
-        #table1 .del_yn{border-left:1px solid black;}
-        #table1 .title{border-left:none;}
     </style>
 </head>
 <body>
@@ -33,6 +31,9 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
+            <style>
+	            .subBar>li>a {color: white;}
+			</style>
         </div>
         
         <div id="contents-wrap">
@@ -52,21 +53,20 @@
 
 <table id="table1" style="text-align: center;">
 	<tr>
-		<th>번호</th>
-        <th>작성자</th>
-        <th>마감</th>
-		<th>제목</th>
-        <th>댓글</th>
-		<th>가격</th>
-		<th>작성일</th>
+		<th style="width:7%;">번호</th>
+        <th style="width:10%;">작성자</th>
+        <th style="width:9%;">마감</th>
+		<th style="width:46%;">제목</th>
+		<th style="width:8%;">가격</th>
+		<th style="width:8%;">조회수</th>
+		<th style="width:12%;">작성일</th>
 	</tr>
     <%for(MarketBoard marketboard : list){%>
     <tr>	
         <td class="no"><%=marketboard.getMarketNo()%></td>
         <td class="writer"><%=marketboard.getUserId()%></td>
         <td class="del_yn"><%=marketboard.getMarketWithdrawal()%></td>
-		<td class="title"><a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%></a></td>
-        <td class="comment"></td>
+		<td class="title"><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%>[댓글]</a></td>
         <td class="price"><%=marketboard.getMarketPrice()%></td>
         <td class="hit"><%=marketboard.getMarketHit()%></td>
 		<td class="date"><%=marketboard.getMarketDate()%></td>
@@ -79,7 +79,7 @@
     <li>
         <a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><img src="../image/merch/griddle.png"/></a>
         <dl>
-            <dt><a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%></a>[댓글]</dt>
+            <dt><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%></a>[댓글]</dt>
             <dd><div><%=marketboard.getUserId()%><%=marketboard.getMarketPrice()%></div></dd>
             <dd><span><%=marketboard.getMarketDate()%></span>&nbsp&nbsp&nbsp<span><%=marketboard.getMarketHit()%></span></dd>
         </dl>
@@ -103,7 +103,7 @@
 		<%} %>
     </form>
     </div>
-    	<form action="/community/market/writeForm.jsp" method="post">
+    	<form action="/community/market/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
 			<%if (m != null) {%>
 				<input type="submit" value="글쓰기">
 			<%}%>

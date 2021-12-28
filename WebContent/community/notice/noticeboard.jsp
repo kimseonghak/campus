@@ -6,7 +6,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-	NoticePage noticepage=(NoticePage)request.getAttribute("noticepage");
+	NoticePage noticepage = (NoticePage)request.getAttribute("noticepage");
 	ArrayList<NoticeBoard> list = noticepage.getPageList();
 	Member m = (Member) session.getAttribute("member");
 %>
@@ -34,8 +34,6 @@
 		}
 		.title{
     		width:60%;
-    		border-left:1px solid black;
-    		border-right:1px solid black;
 		}
 		table a{
     	text-decoration:none;
@@ -53,23 +51,24 @@
     <div id="wrap">
         
         <div id="header-wrap">
-            <%@ include file="/common/include/gnb.jsp" %>
+            <%@ include file="/common/include/gnb.jsp" %> 
+            <style>
+	            .subBar>li>a {color: white;}
+			</style>
         </div>
         
         <div id="contents-wrap">
         <%@ include file="/community/include/sideNavi.jsp" %>
         
         <div id="contents">
-            <%@ include file="/community/include/upimg.jsp" %>
-            
+        
+            <%@ include file="/community/include/upimg.jsp" %> 
             <div id="where">&nbsp&nbsp&nbsp&nbsp 공지사항</div>
-            
             <form id="arrange" action="/board/boardSearch.do" method="get">
                <button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
             </form>
-            
             <div id="board">
-<table style="text-align: center;">
+<table id="table1" style="text-align: center;">
 	<tr>
 		<th>번호</th>
         <th>작성자</th>
@@ -77,11 +76,12 @@
 		<th>추천</th>
 		<th>작성일</th>
 	</tr>
+
 	<%for(NoticeBoard noticeboard : list){%>
     <tr>	
         <td class="no"><%=noticeboard.getNoticeNo()%></td>
-        <td class="writer"><%=noticeboard.getUserName()%></td>
-		<td class="title"><a href="/board/notice/selectOne.do?noticeNo=<%=noticeboard.getNoticeNo()%>"><%=noticeboard.getNoticeTitle()%></a></td>
+        <td class="writer"><%=noticeboard.getBusinessName()%></td>
+		<td class="title"><a href="/board/notice/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&noticeNo=<%=noticeboard.getNoticeNo()%>" > <%=noticeboard.getNoticeTitle()%> </a></td>
         <td class="like"><%=noticeboard.getNoticeLike()%></td>
 		<td class="date"><%=noticeboard.getNoticeDate()%></td>
 	</tr>
@@ -94,6 +94,7 @@
         <select id="select" name="noticeTitle">
             <option value="userId">작성자</option>
         </select>
+
         <%String keyword = request.getParameter("noticeTitle");%>
 		<%if(keyword!=null){ %>
 			<input type="text" name="keyword" value="<%=keyword%>"> <input type="submit" value="검색">
@@ -101,10 +102,13 @@
 			<input type="text" name="keyword"> <input type="submit" value="검색">
 		<%} %>
     </div>
-    <form action="/community/notice/writeForm.jsp" method="post">
-		<%if (m != null) {%>
+    <form action="/community/notice/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
+		
+		
+		<%if (m!=null && m.getUserId().toUpperCase().equals(list.get(0).getBusinessId())) {%>
 			<input type="submit" value="글쓰기">
 		<%}%>
+		
 	</form>
         </div>
         </div>   

@@ -6,8 +6,8 @@ public class NoticeBoard {
 	private int noticeNo;
 	private String noticeTitle;
 	private Date noticeDate;
-	private String userId;
-	private String userName;
+	private String businessId;
+	private String businessName;
 	private String noticeContent;
 	private int noticeHit;
 	private int noticeLike;
@@ -17,14 +17,14 @@ public class NoticeBoard {
 	public NoticeBoard() {
 		super();
 	}
-	public NoticeBoard(int noticeNo, String noticeTitle, Date noticeDate, String userId, String userName,
+	public NoticeBoard(int noticeNo, String noticeTitle, Date noticeDate, String businessId, String businessName,
 			String noticeContent, int noticeHit, int noticeLike, int noticeHate, char noticeWithdrawal) {
 		super();
 		this.noticeNo = noticeNo;
 		this.noticeTitle = noticeTitle;
 		this.noticeDate = noticeDate;
-		this.userId = userId;
-		this.userName = userName;
+		this.businessId = businessId;
+		this.businessName = businessName;
 		this.noticeContent = noticeContent;
 		this.noticeHit = noticeHit;
 		this.noticeLike = noticeLike;
@@ -50,17 +50,17 @@ public class NoticeBoard {
 	public void setNoticeDate(Date noticeDate) {
 		this.noticeDate = noticeDate;
 	}
-	public String getUserId() {
-		return userId;
+	public String getBusinessId() {
+		return businessId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setBusinessId(String businessId) {
+		this.businessId = businessId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getBusinessName() {
+		return businessName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
 	}
 	public String getNoticeContent() {
 		return noticeContent;

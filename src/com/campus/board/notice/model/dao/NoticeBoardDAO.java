@@ -36,7 +36,8 @@ public class NoticeBoardDAO {
 			while(rset.next()) {
 				NoticeBoard noticeBoard=new NoticeBoard();
 				noticeBoard.setNoticeNo(rset.getInt("notice_no"));
-				noticeBoard.setUserId(rset.getString("user_id"));
+				noticeBoard.setBusinessId(rset.getString("business_id"));
+				noticeBoard.setBusinessName(rset.getString("business_name"));
 				noticeBoard.setNoticeTitle(rset.getString("notice_title"));
 				noticeBoard.setNoticeHit(rset.getInt("notice_hit"));
 				noticeBoard.setNoticeLike(rset.getInt("notice_like"));
@@ -61,11 +62,9 @@ public class NoticeBoardDAO {
 		int totalPage=BoardCommon.totalPage(perPage, totalPost);
 		int startNavi=BoardCommon.startNavi(currentPage, perPage, naviPage, totalPost);
 		int endNavi=startNavi+naviPage-1;
-		
 		if (endNavi > totalPage) {
 			endNavi = totalPage;
 		}
-		
 		boolean prev = true;
 		boolean next = true;
 		if (startNavi == 1) {
@@ -135,7 +134,7 @@ public class NoticeBoardDAO {
 			if(rset.next()) {
 				noticeBoard=new NoticeBoard();
 				noticeBoard.setNoticeNo(rset.getInt("notice_no"));
-				noticeBoard.setUserId(rset.getString("user_id"));
+				noticeBoard.setBusinessId(rset.getString("business_id"));
 				noticeBoard.setNoticeTitle(rset.getString("notice_title"));
 				noticeBoard.setNoticeHit(rset.getInt("notice_hit"));
 				noticeBoard.setNoticeLike(rset.getInt("notice_like"));
@@ -164,7 +163,7 @@ public class NoticeBoardDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, noticeBoard.getNoticeContent());
 			pstmt.setInt(2, noticeBoard.getNoticeNo());
-			pstmt.setString(3, noticeBoard.getUserId());
+			pstmt.setString(3, noticeBoard.getBusinessId());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -182,7 +181,7 @@ public class NoticeBoardDAO {
 		int result = 0;
 		
 		try {
-			String query="update board set notice_withdrawal='Y' where notice_no=? and user_id=?";
+			String query="update board set notice_withdrawal='Y' where notice_no=? and buiness_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			
@@ -209,8 +208,8 @@ public class NoticeBoardDAO {
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, noticeBoard.getNoticeTitle());
-			pstmt.setString(2, noticeBoard.getUserId());
-			pstmt.setString(3, noticeBoard.getUserName());
+			pstmt.setString(2, noticeBoard.getBusinessId());
+			pstmt.setString(3, noticeBoard.getBusinessName());
 			pstmt.setString(4, noticeBoard.getNoticeContent());
 			
 			result = pstmt.executeUpdate();
@@ -259,8 +258,8 @@ public class NoticeBoardDAO {
 				noticeBoard.setNoticeNo(rset.getInt("notice_no"));
 				noticeBoard.setNoticeTitle(rset.getString("notice_title"));
 				noticeBoard.setNoticeDate(rset.getDate("notice_date"));
-				noticeBoard.setUserId(rset.getString("user_id"));
-				noticeBoard.setUserName(rset.getString("user_name"));
+				noticeBoard.setBusinessId(rset.getString("business_id"));
+				noticeBoard.setBusinessName(rset.getString("business_name"));
 				noticeBoard.setNoticeContent(rset.getString("notice_content"));
 				noticeBoard.setNoticeHit(rset.getInt("notice_hit"));
 				noticeBoard.setNoticeLike(rset.getInt("notice_like"));
@@ -325,30 +324,14 @@ public class NoticeBoardDAO {
 			String query="";
 			switch(type) {
 			case "noticeTitle":
-				query="select * from (select row_number() over(order by notice_no desc) as num, noticeboard.* from noticeboard"
-						+ " where notice_withdrawal='N' and notice_title like ?)"
-						+ " where num between ? and ?";
-				break;
-			case "userId":
-				query="select * from (select row_number() over(order by notice_no desc) as num, noticeboard.* from noticeboard"
-						+ " where notice_withdrawal='N' and user_id like ?)"
-						+ " where num between ? and ?";
-				break;
-			default:
-				query="select * from (select row_number() over(order by notice_no desc) as num, noticeboard.* from noticeboard"
-						+ " where notice_withdrawal='N' and (notice_title like ? or user_id like ?)"
-						+ " where num between ? and ?";
+				query="select count(*) as totalcount from noticeboard"
+						+ " where notice_withdrawal='N' and notice_title like ?;";
 				break;
 			}
 			
 			pstmt = conn.prepareStatement(query);
-			if(!type.equals("all"))
-			{
+			if(type.equals("noticeTitle")) {
 				pstmt.setString(1, "%"+keyword+"%");
-			}else
-			{
-				pstmt.setString(1, "%"+keyword+"%");
-				pstmt.setString(2, "%"+keyword+"%");
 			}
 			
 			rset = pstmt.executeQuery();
