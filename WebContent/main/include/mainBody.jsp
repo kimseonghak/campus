@@ -245,7 +245,7 @@ h3>a{
 <body>
 	<div id="bodyWrap">
 		<div id="bodyLogoWrap"></div>
-		<%-- 컨텐츠 영역1 (공지, 자유) --%>
+<%-- 컨텐츠 영역1 (공지, 자유) --%>
 		<div id="ContentsAreaWrap">
 			<div id="noticeWrap">
 				<h3><a href="/board/notice/listAll.do" id="noticeLink">소식 게시판</a></h3>
@@ -301,9 +301,9 @@ h3>a{
 			</div>
 			<div id="slideWrap">
 				<div id="slide">
-					<div class="slideImgWrap"><a href=""><img alt="강동 그린웨이" src="/main/image/mainlogo/2강동 그린웨이.jpg"></a></div>
-					<div class="slideImgWrap"><a href=""><img alt="도봉산 무수골 캠핑장" src="/main/image/mainlogo/2도봉산 무수골 캠핑장.jpg"></a></div>
-					<div class="slideImgWrap"><a href=""><img alt="북한산 캠핑장" src="/main/image/mainlogo/2북한산 캠핑장.jpg"></a></div>
+					<div class="slideImgWrap"><a href="http://127.0.0.1/reservation/SelectCampingAreaList.do?bsnNo=4&from=&to="><img alt="강동 그린웨이" src="/main/image/mainlogo/2강동 그린웨이.jpg"></a></div>
+					<div class="slideImgWrap"><a href="http://127.0.0.1/reservation/SelectCampingAreaList.do?bsnNo=6&from=&to="><img alt="도봉산 무수골 캠핑장" src="/main/image/mainlogo/2도봉산 무수골 캠핑장.jpg"></a></div>
+					<div class="slideImgWrap"><a href="http://127.0.0.1/reservation/SelectCampingAreaList.do?bsnNo=11&from=&to="><img alt="북한산 캠핑장" src="/main/image/mainlogo/2북한산 캠핑장.jpg"></a></div>
 				</div>
 			</div>
 		</div>
