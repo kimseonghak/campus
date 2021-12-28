@@ -54,13 +54,6 @@ public class selectCampingAreaList extends HttpServlet {
 		CampingAreaService campingAreaService = new CampingAreaServiceImpl();
 		HashMap<String, Object> pageDataMap = campingAreaService.selectAllList(bsnNo, currentPage);
 		
-		//찜 리스트 가져오기
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
-		System.out.println(userId);
-		UserService uService = new UserServiceImpl();
-		ArrayList<WishT> wlist = uService.selectUserWishList(userId);
-		System.out.println("wlist : "+wlist);
-		
 		RequestDispatcher view = request.getRequestDispatcher("/reservation/views/campingArea.jsp");
 		
 		request.setAttribute("pageDataMap", pageDataMap);

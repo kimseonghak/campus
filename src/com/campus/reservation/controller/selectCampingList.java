@@ -1,6 +1,7 @@
 package com.campus.reservation.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -10,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.campus.member.model.vo.Member;
 import com.campus.reservation.model.service.CampingAreaService;
 import com.campus.reservation.model.service.CampingAreaServiceImpl;
+import com.campus.userPage.model.service.UserService;
+import com.campus.userPage.model.service.UserServiceImpl;
+import com.campus.userPage.model.vo.WishT;
 
 /**
  * Servlet implementation class selectCampingList
@@ -32,7 +37,7 @@ public class selectCampingList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(1);
+		//System.out.println(1);
 		
 		int currentPage;
 		String location;
@@ -53,11 +58,17 @@ public class selectCampingList extends HttpServlet {
 		}
 		
 		
-		System.out.println("location:" +location);
-		System.out.println("currentPage::"+currentPage);
+		//System.out.println("location:" +location);
+		//System.out.println("currentPage::"+currentPage);
 		
 		CampingAreaService campingAreaService = new CampingAreaServiceImpl();
 		HashMap<String, Object> pageDataMap = campingAreaService.selectMainList(currentPage, location);
+		
+		//찜 리스트 가져오기
+		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
+		UserService uService = new UserServiceImpl();
+		ArrayList<WishT> wlist = uService.selectUserWishList(userId);
+		System.out.println("wlist : "+wlist);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/reservation/views/reservationMain.jsp");
 		
