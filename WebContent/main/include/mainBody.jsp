@@ -245,7 +245,7 @@ h3>a{
 <body>
 	<div id="bodyWrap">
 		<div id="bodyLogoWrap"></div>
-		<%-- 컨텐츠 영역1 (공지, 자유) --%>
+<%-- 컨텐츠 영역1 (공지, 자유) --%>
 		<div id="ContentsAreaWrap">
 			<div id="noticeWrap">
 				<h3><a href="/board/notice/listAll.do" id="noticeLink">소식 게시판</a></h3>
