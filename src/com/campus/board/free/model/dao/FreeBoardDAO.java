@@ -201,18 +201,19 @@ public class FreeBoardDAO {
 	}
 
 	//자유게시판 게시글 작성
-	public int insert(FreeBoard freeBoard, Connection conn) {
+	public int insert(FreeBoard freeBoard, Connection conn, String userName) {
 		PreparedStatement pstmt = null;
 		
 		int result = 0;
 		
 		try {
-			String query = "insert into freeboard values(free_bbs.nextval,?,default,?,?,0,0,0,default)";
+			String query = "insert into freeboard values(free_bbs.nextval,?,default,?,?,?,0,0,0,default)";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, freeBoard.getFreeTitle());
 			pstmt.setString(2, freeBoard.getUserId());
-			pstmt.setString(3, freeBoard.getFreeContent());
+			pstmt.setString(3, userName);
+			pstmt.setString(4, freeBoard.getFreeContent());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

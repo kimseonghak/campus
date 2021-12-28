@@ -68,9 +68,9 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	}
 
 	@Override
-	public int insert(FreeBoard freeBoard) {
+	public int insert(FreeBoard freeBoard, String userName) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = fbDAO.insert(freeBoard, conn);
+		int result = fbDAO.insert(freeBoard, conn, userName);
 		if(result>0) {
 			JDBCTemplate.commit(conn);
 		}

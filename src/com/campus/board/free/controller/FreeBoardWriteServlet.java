@@ -39,6 +39,7 @@ public class FreeBoardWriteServlet extends HttpServlet {
 		String freeContent = request.getParameter("freeContent");
 		
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
+		String userName = ((Member)request.getSession().getAttribute("member")).getUserName();
 		
 		FreeBoard freeBoard = new FreeBoard();
 		freeBoard.setFreeTitle(freeTitle);
@@ -46,7 +47,7 @@ public class FreeBoardWriteServlet extends HttpServlet {
 		freeBoard.setUserId(userId);
 		
 		FreeBoardService freebService = new FreeBoardServiceImpl();
-		int result=freebService.insert(freeBoard);
+		int result=freebService.insert(freeBoard,userName);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/free/write.jsp");
 		

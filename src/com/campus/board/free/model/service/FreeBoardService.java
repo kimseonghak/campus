@@ -14,7 +14,7 @@ public interface FreeBoardService {
 
 	public int delete(int freeNo, String userId);
 
-	public int insert(FreeBoard freeBoard);
+	public int insert(FreeBoard freeBoard, String userName);
 
 	public FreePage search(String type, String keyword, int currentPage);
 
