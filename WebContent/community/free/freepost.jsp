@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="/community/include/post.css">
 	<style>
         #postaction{
-            padding-left:63%;
         }
     </style>
 </head>
@@ -47,14 +46,14 @@
                     </div>
                     <div id="postcontent-wrap">
                         <div id="postaction">
-                            <div><i class="xi-thumbs-up xi-x"></i></div>
-                            <div><i class="xi-thumbs-down xi-x"></i></div>
-                            <div><i class="xi-bookmark-o xi-x"></i></div>
-                            <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
-                            <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
-							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
+                            <span><i class="xi-thumbs-up xi-x"></i></span>
+                            <span><i class="xi-thumbs-down xi-x"></i></span>
+                            <span><i class="xi-bookmark-o xi-x"></i></span>
+                            <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"><i class="xi-twitter xi-x"></i></a>
+                            <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"><i class="xi-facebook-official xi-x"></i></a>
+							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"><i class="xi-kakaotalk xi-x"></i></a>
 							<a id="btnMail" class="link-icon email" href=""><i class="xi-mail-o xi-x"></i></a>
-                            <div><i class="xi-share-alt-o xi-x"></i></div>
+                            <span><i class="xi-share-alt-o xi-x"></i></span>
                         </div>
                         <div id="postcontent">
 	                        <%if(m!=null && m.getUserId().equals(freeBoard.getUserId())){ %>
