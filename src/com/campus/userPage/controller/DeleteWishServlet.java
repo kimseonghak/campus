@@ -15,16 +15,16 @@ import com.campus.userPage.model.service.UserServiceImpl;
 import com.campus.userPage.model.vo.WishT;
 
 /**
- * Servlet implementation class AddWishServlet
+ * Servlet implementation class DeleteWishServlet
  */
-@WebServlet("/userPage/addWish.do")
-public class AddWishServlet extends HttpServlet {
+@WebServlet("/userPage/deleteWish.do")
+public class DeleteWishServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddWishServlet() {
+    public DeleteWishServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,14 +39,14 @@ public class AddWishServlet extends HttpServlet {
 		String campNo = request.getParameter("campNo");
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
 		
-		//System.out.println(businessNo);
+		///System.out.println(businessNo);
 		//System.out.println(campNo);
 		//System.out.println(userId);
 		
 		WishT wish = new WishT(businessNo,campNo,userId );
 		
 		UserService uService = new UserServiceImpl();
-		int result = uService.addWish(wish);
+		int result = uService.deleteWish(wish);
 		
 		boolean wishResult  = false;
 		if(result>0) 
@@ -61,7 +61,6 @@ public class AddWishServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(result);
 		
-	
 	}
 
 	/**

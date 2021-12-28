@@ -119,4 +119,18 @@ public class UserServiceImpl implements UserService{
 		return list;
 	}
 
+	@Override
+	public int deleteWish(WishT wish) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		int result = uDAO.deleteWish(wish, conn);
+
+		if(result>0) JDBCTemplate.commit(conn);
+		else JDBCTemplate.rollback(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
 }
