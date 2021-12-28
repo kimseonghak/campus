@@ -124,7 +124,7 @@
 
         #footer {
             width: 1250px;
-            height: 400px;
+            margin-top: 500px;
             /*background-color: #F6F6F6;
             margin: 20px auto 0;*/
         }
@@ -334,7 +334,8 @@
 
         </div>
         <div id="footer">
-
+			<%@include file="/common/include/footer.jsp" %>
+		</div>
         <div id="fixed-bar">
             <a href="/userPage/userPage.do"><i class="xi-bars xi-2x"></i></a>
             <a href="/userPage/ReservationList.do"><i class="xi-calendar-check xi-2x"></i></a>
@@ -350,7 +351,7 @@
 
 
 
-    </div>
+    
     
     
 

@@ -417,7 +417,24 @@ if(request.getParameter("to")==null)
 								</td>
 								<td style="border:1px solid gray;">
 									<input type="button" class="reservBtn" value="예약하기" onclick="javascript:rsvInfo('<%=campingArea.getCampSeq()%>'); return false"/>
-									<button class='likebtn' style='border:0; outline: 0; color:black;'><i class="xi-heart xi-2x"></i></button>
+									
+									<c:if test="${member!=null }">
+									
+										
+											
+											<i class="xi-heart-o xi-2x" id="heartBtn"></i>
+											</a>
+											
+											
+											
+											
+											
+											
+										
+										
+									</c:if>
+									
+									
 								</td>
 							</tr>
 							<tr style="border:1px solid gray; height: 37px;">
@@ -511,19 +528,6 @@ $(function(){
 </script>
 </div>
 
-
-<!-- 좋아요 함수 -->
-<script>
-	$(".likebtn").click(function(){
-		
-	var $likebtn = $(".likebtn");
-	$likebtn.on("click", function(){
-		$likebtn.css("color","red");
-	});
-	
-	});
-
-</script>
 
 
 </html>
