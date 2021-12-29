@@ -41,7 +41,7 @@ public class MarketBoardDAO {
 				marketBoard.setImgNo(rset.getInt("img_no"));
 				marketBoard.setMarketProduct(rset.getString("market_product"));
 				marketBoard.setMarketPrice(rset.getInt("market_price"));
-				marketBoard.setMarketCondition(rset.getString("market_condition").charAt(0));
+				marketBoard.setMarketCondition(rset.getString("market_condition"));
 				marketBoard.setMarketLocation(rset.getString("market_location"));
 				marketBoard.setMarketTrade(rset.getString("market_trade"));
 				marketBoard.setMarketContent(rset.getString("market_content"));
@@ -137,6 +137,7 @@ public class MarketBoardDAO {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
+				marketBoard=new MarketBoard();
 				marketBoard.setMarketNo(rset.getInt("market_no"));
 				marketBoard.setMarketTitle(rset.getString("market_title"));
 				marketBoard.setMarketDate(rset.getDate("market_date"));
@@ -144,7 +145,7 @@ public class MarketBoardDAO {
 				marketBoard.setImgNo(rset.getInt("img_no"));
 				marketBoard.setMarketProduct(rset.getString("market_product"));
 				marketBoard.setMarketPrice(rset.getInt("market_price"));
-				marketBoard.setMarketCondition(rset.getString("market_condition").charAt(0));
+				marketBoard.setMarketCondition(rset.getString("market_condition"));
 				marketBoard.setMarketLocation(rset.getString("market_location"));
 				marketBoard.setMarketTrade(rset.getString("market_trade"));
 				marketBoard.setMarketContent(rset.getString("market_content"));
@@ -171,7 +172,7 @@ public class MarketBoardDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, marketBoard.getMarketProduct());
 			pstmt.setInt(2, marketBoard.getMarketPrice());
-			pstmt.setString(3, Character.toString(marketBoard.getMarketCondition()));
+			pstmt.setString(3, marketBoard.getMarketCondition());
 			pstmt.setString(4, marketBoard.getMarketLocation());
 			pstmt.setString(5, marketBoard.getMarketTrade());
 			pstmt.setString(6, marketBoard.getMarketContent());
@@ -209,7 +210,7 @@ public class MarketBoardDAO {
 		}
 		return result;
 	}
-
+	
 	//중고장터 게시글 작성
 	public int insert(MarketBoard marketBoard, Connection conn) {
 		PreparedStatement pstmt = null;
@@ -225,7 +226,7 @@ public class MarketBoardDAO {
 			pstmt.setInt(3, marketBoard.getImgNo());
 			pstmt.setString(4, marketBoard.getMarketProduct());
 			pstmt.setInt(5, marketBoard.getMarketPrice());
-			pstmt.setString(6, Character.toString(marketBoard.getMarketCondition()));
+			pstmt.setString(6, marketBoard.getMarketCondition());
 			pstmt.setString(7, marketBoard.getMarketLocation());
 			pstmt.setString(8, marketBoard.getMarketTrade());
 			pstmt.setString(9, marketBoard.getMarketContent());
@@ -237,6 +238,111 @@ public class MarketBoardDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+	
+	//게시글 번호 불러오기
+	public int postNo(String userId, Connection conn){
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		
+		String postNo=null;
+		
+		String query = "select market_no from (select row_number() over(order by market_no desc) as num, marketboard.* from marketboard"
+				+ " where market_withdrawal='N' and user_id = ?)"
+				+ " where num=1";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset=pstmt.executeQuery();
+			if(rset.next()) {
+				postNo=rset.getString("market_no");
+				Integer.parseInt(postNo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return Integer.parseInt(postNo);
+	}
+	
+	//이미지 테이블에 게시글 번호 수정
+	public int uploadPostNo(MarketBoard marketBoard, Connection conn) {
+		PreparedStatement pstmt = null;
+		String userId=marketBoard.getUserId();
+		int postNo=postNo(userId, conn);
+		int imgNo=imgNo(userId, conn);
+		
+		int upload=0;
+		
+		String query = "update imgupload set img_post=? where img_no=? and img_board=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, postNo);
+			pstmt.setInt(2, imgNo);
+			pstmt.setString(3, "MARKET");
+			
+			upload=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return upload;
+	}
+	
+	//이미지 번호 불러오기
+	public int imgNo(String userId, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		
+		String imgNo=null;
+		
+		String query="select img_no from (select row_number() over(order by img_no desc) as num, imgupload.* from imgupload"
+				+ " where img_withdrawal='N' and user_id = ?)"
+				+ " where num=1";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				imgNo=rset.getString("img_no");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return Integer.parseInt(imgNo);
+	}
+	
+	//중고장터 게시판 테이블에 이미지 번호 수정
+	public int uploadImgNo(MarketBoard marketBoard, Connection conn) {
+		PreparedStatement pstmt = null;
+		String userId=marketBoard.getUserId();
+		int imgNo=imgNo(userId, conn);
+		int postNo=postNo(userId, conn);
+		
+		int upload=0;
+		
+		String query = "update marketboard set img_no=? where market_no=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, imgNo);
+			pstmt.setInt(2, postNo);
+			
+			upload=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return upload;
 	}
 
 	//중고장터 게시글 검색
@@ -292,7 +398,7 @@ public class MarketBoardDAO {
 				marketBoard.setImgNo(rset.getInt("img_no"));
 				marketBoard.setMarketProduct(rset.getString("market_product"));
 				marketBoard.setMarketPrice(rset.getInt("market_price"));
-				marketBoard.setMarketCondition(rset.getString("market_condition").charAt(0));
+				marketBoard.setMarketCondition(rset.getString("market_condition"));
 				marketBoard.setMarketLocation(rset.getString("market_location"));
 				marketBoard.setMarketTrade(rset.getString("market_trade"));
 				marketBoard.setMarketContent(rset.getString("market_content"));

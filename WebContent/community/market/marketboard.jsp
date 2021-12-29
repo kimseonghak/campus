@@ -77,7 +77,7 @@
 <ul id="table2" style="text-align: center;">
     <%for(MarketBoard marketboard : list){%>
     <li>
-        <a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><img src="../image/merch/griddle.png"/></a>
+        <a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><img src=/community/image/merch/griddle.png"/></a>
         <dl>
             <dt><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%></a>[댓글]</dt>
             <dd><div><%=marketboard.getUserId()%><%=marketboard.getMarketPrice()%></div></dd>
@@ -103,7 +103,7 @@
 		<%} %>
     </form>
     </div>
-    	<form action="/community/market/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
+    	<form action="/community/market/writeForm.jsp?userId=${sessionScope.member.userId}" method="post">
 			<%if (m != null) {%>
 				<input type="submit" value="글쓰기">
 			<%}%>

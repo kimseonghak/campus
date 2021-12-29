@@ -70,7 +70,9 @@ a{
     padding:10px;
 }
 #postaction{
-    margin-top:5px;
+    margin-bottom:10px;
+}
+#postaction>span{
 }
 #postaction img{
     width:15px;
@@ -78,42 +80,18 @@ a{
     margin-bottom:-2px;
     padding-top:0px;
 }
-.link-icon {
-    position: relative;
-    display: inline-block;
-    width: auto;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-right: 10px;
-    padding-top: 50px;
-}
-.link-icon.twitter {
-	background-image: url(../image/post/twitter.png);
-    background-repeat: no-repeat;
-}
-.link-icon.facebook {
-    background-image: url(../image/post/facebook.png);
-    background-repeat: no-repeat;
-} 
-.link-icon.kakao {
-    background-image: url(../image/post/kakaotalk.png);
-    background-repeat: no-repeat;
-}
-.link-icon.mail {
-    background-image: url(../image/post/mail.png);
-    background-repeat: no-repeat;
-}
 #postcontent{
     width:100%;
     margin:auto;
     text-align:center;
 }
 textarea{
+	padding:20px;
 	font-size:15px;
 	color: black;
 	width:90%;
 	margin: auto;
+	resize:none;
 }
 #comment{
     width:100%;

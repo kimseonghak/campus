@@ -1,3 +1,4 @@
+<%@page import="com.campus.board.market.model.vo.MarketBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -12,51 +13,74 @@
 <link rel="stylesheet" href="/community/include/post.css">
 	<style>
     	#post{
-            float:left;
+            margin:auto;
         }
         #postcontent-wrap{
-            float:left;
         }
         #postcontent{
             width:100%;
-            float:left;
+        }
+        #postcontent>div:first-of-type{
+        	position: relative;
+        	left:-23%;
+        }
+        #postcontent>div:last-of-type{
+        	position: absolute;
+        	right:240px;
+        	top:455px;
+        	border-radius:10px;
+        	border:solid 2px rgba(0, 25, 51, 0.9);
+        	padding: 10px;
+        	text-align:left;
+        }
+        .xi-angle-left{
+        	position: absolute;
+        	left:190px;
+        	top:120px;
+        }
+        .xi-angle-right{
+        	position: absolute;
+        	right:190px;
+        	top:120px;
         }
         #photo{
-            margin-left:14px;
             width:270px;
-            border:solid rgb(0, 0, 40) 2px;
-            float:left;
+            border:solid rgba(0, 25, 51, 0.9) 2px;
         }
         form{
             width:300px;
             height:;
-            float:left;
             margin-left:20px;
-            border: solid rgb(0, 0, 40) 1px;
-            border-radius: 40px;
+            border: solid rgba(0, 25, 51, 0.9) 1px;
+            border-radius: 10px;
             padding:25px;
             font-size:14px;
         }
         #ex{
             margin-top:15px;
-            float:left;
         }
+        textarea{
+			margin-left:33px;
+			color:rgba(0, 25, 51, 0.9);
+		}
         #postaction{
-            padding-left:72%;
+        	padding-left:60%;
         }
-        .phototurn{
-            margin-top:18%;
-            margin-left:10px;
-            width:20px;
-            height:20px;
-            float:left;
+        table{
+        	width:80%;
+        	margin:auto;
         }
-        #product{
-            float:left;
+        #back{
+        	width:80%;
+        	margin:auto;
         }
     </style>
 </head>
 <body>
+<% 
+	MarketBoard marketBoard = (MarketBoard)request.getAttribute("marketBoard");
+	Member m = (Member)session.getAttribute("member");
+%>
 	<div id="wrap">
         
         <div id="header-wrap">
@@ -74,79 +98,86 @@
             <div id="post-wrap">
                 <div id="post">
                     <div id="title" style="text-align:center">
-                        디스 이즈 제목
+                        <%= marketBoard.getMarketTitle() %>
                     </div>
                     <div id="postinfo">
-                        작성자: 김뫄뫄 &nbsp 댓글수: &nbsp 추천수:
-                    </div>
+                        작성자: <%= marketBoard.getUserId() %> &nbsp 댓글수: &nbsp&nbsp <span>작성일: <%= marketBoard.getMarketDate() %></span></span>
+                     </div>
                     <div id="postcontent-wrap">
                         <div id="postaction">
-                            <button><i class="xi-thumbs-up xi-x"></i></button>
-                            <button><i class="xi-thumbs-down xi-x"></i></button>
-                            <button><i class="xi-bookmark-o xi-x"></i></button>
-                            <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
-                            <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
-							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
-							<a id="btnMail" class="link-icon email" href=""><i class="xi-mail-o xi-x"></i></a>
-                            <button><i class="xi-share-alt-o xi-x"></i></button>
+                            <span><i class="xi-thumbs-up xi-x"></i></span>
+                            <span><i class="xi-thumbs-down xi-x"></i></span>
+                            <span><i class="xi-bookmark-o xi-x"></i></span>
+                            <a id="btnTwitter" href="javascript:shareTwitter();"><i class="xi-twitter xi-x"></i></a>
+                            <a id="btnFacebook" href="javascript:shareFacebook();"><i class="xi-facebook-official xi-x"></i></a>
+							<a id="btnKakao" href="javascript:shareKakao();"><i class="xi-kakaotalk xi-x"></i></a>
+							<a id="btnMail" href=""><i class="xi-mail-o xi-x"></i></a>
+                            <span><i class="xi-share-alt-o xi-x"></i></span>
                         </div>
+                        <%if(m!=null && m.getUserId().equals(marketBoard.getUserId())){ %>
+                        <form action="/board/free/postUpdate.do" id="updateForm" method="post">
                         <div id="postcontent">
-                            <div id="product">
-                                <img class="phototurn" id="left" src="../image/common/left.png">
-                                <img id="photo" src="../image/merch/latan.png"/>
-                                <img class="phototurn" id="right" src="../image/common/next.png">
-                                <form>
-                                    제품명 : <input type="text" name="userId" placeholder="제품명을 입력하세요"/><br>
-		가격 : <input type="text" name="userPwd" placeholder="가격을 입력하세요"/><br>
-		상태 : <input type="radio" name="userPwd_re" value="양호"/>양호<input type="radio" name="userPwd_re" value="중고"/>중고<input type="radio" name="userPwd_re" value="나쁨"/>나쁨<br>
-		지역 : <input type="text" name="userName" placeholder="이름를 입력하세요"/><br>
-		거래방식 : <br>
-			  <input type="checkbox" name="hobby" value="운동"/>직거래
-			  <input type="checkbox" name="hobby" value="등산"/>우체국택배
-			  <input type="checkbox" name="hobby" value="독서"/>편의점택배<br>
-			  <input type="checkbox" name="hobby" value="노래"/>퀵 이용
-			  <br><br>
-		<input type="submit" value="저장"/><input type="reset" value="다시 입력하기"/><br><br>
-                                </form>
+                        	<div>
+                            	<i class="xi-angle-left xi-2x"></i>
+                                <img id="photo" src="/community/image/merch/latan.png"/>
+                                <i class="xi-angle-right xi-2x"></i>
+                       		</div>
+                       		<div>
+                       			<span><%= marketBoard.getMarketProduct() %></span><br><br>
+                       			<span><%= marketBoard.getMarketPrice() %></span><br><br>
+                       			<span><%= marketBoard.getMarketCondition() %></span><br><br>
+                       			<span><%= marketBoard.getMarketLocation() %></span><br><br>
+                       			<span><%= marketBoard.getMarketTrade() %></span>
+                       		</div>
                             </div>
+                            
                             <div id="ex">
-                                헤이 모두들 안녕 내가 누군지 아늬?<br>
-                                이하!늬다! 이하!늬다!<br>
-                                어쩌고 저쩌고<br>
-                                힛띵 마 드럼스 라잌<br>
-                                덤디디데이~<br>
-                                아 랔 더 덜띠 릐듬 유 플레이~<br>
+                                <textarea rows="20" cols="50" cols="84" disabled="true"><%= marketBoard.getMarketContent() %></textarea>
                             </div>
+                           </form>
+                          <%}else{ %>
+                          	<div id="postcontent">
+                        	<div>
+                            	<i class="xi-angle-left xi-2x"></i>
+                                <img id="photo" src="/community/image/merch/latan.png"/>
+                                <i class="xi-angle-right xi-2x"></i>
+                       		</div>
+                       		<div>
+                       			<span>제품명 : <%= marketBoard.getMarketProduct() %></span><br><br>
+                       			<span>가격 : <%= marketBoard.getMarketPrice() %></span><br><br>
+                       			<span>상태 : <%= marketBoard.getMarketCondition() %></span><br><br>
+                       			<span>지역 : <%= marketBoard.getMarketLocation() %></span><br><br>
+                       			<span>거래방법 : <%= marketBoard.getMarketTrade() %></span>
+                       		</div>
+                            </div>
+                            
+                            <div id="ex">
+                                <textarea rows="20" cols="50" cols="84" disabled="true"><%= marketBoard.getMarketContent() %></textarea>
+                            </div>
+                          <%} %>
                         </div>
                     </div>
                     <div id="comment">
 <table>
-<!--<tr><th>작성자</th><th>댓글</th><th>날짜</th></tr>-->
 	<tr class="tr1">
         <td class="writer">이롸롸: </td>
+        <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
         <td class="button">
             <button class="coModifyBtn">수정</button> <button class="coDeleteBtn">삭제</button>
         </td>
     </tr>
-    <tr>
-        <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
-        <td></td>
-	</tr>
     <tr class="tr1">
         <td class="writer">이롸롸: </td>
+        <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
         <td class="button">
             <button class="coModifyBtn">수정</button> <button class="coDeleteBtn">삭제</button>
         </td>
-    </tr>
-    <tr>
-        <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
-        <td></td>
 	</tr>
 </table>
                     </div>
                     <div id="back">
-                        <a href=""><img src="../image/common/back.png"/>이전 글</a>&nbsp&nbsp&nbsp<a src="">다음 글<img  src="../image/common/front.png"/></a><br>
-                        <a href="/board/market/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">목록으로</a>
+                        <div><a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="/">다음 글<i class="xi-angle-right-min"></i></a></div>
+                        <div><a href="/board/market/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i class="xi-paper-o xi-x"></i>목록으로</a></div>
                     </div>
                 </div>
             </div>
@@ -157,5 +188,6 @@
             
         </div>
     </div>
+    <script src="/community/include/clickpost.js"></script>
 </body>
 </html>

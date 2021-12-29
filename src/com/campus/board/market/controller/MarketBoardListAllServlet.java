@@ -33,7 +33,7 @@ public class MarketBoardListAllServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int currentPage;
-		if (request.getParameter("currentPage") == null) {
+		if (request.getParameter("currentPage") == null || request.getParameter("currentPage").equals("null")) {
 			currentPage = 1;
 		} else {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
