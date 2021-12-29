@@ -44,7 +44,7 @@ public class UserWishListServlset extends HttpServlet {
 		ArrayList<UserWish> ulist = uService.selectWishList(userId);
 		
 		
-		
+		//System.out.println(ulist.size());
 		
 		RequestDispatcher view = request.getRequestDispatcher("/userPage/u_like.jsp");
 		

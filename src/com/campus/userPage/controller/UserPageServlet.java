@@ -57,9 +57,6 @@ public class UserPageServlet extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("/userPage/u_main.jsp");
 			request.setAttribute("UserReservation", uReser);
 			request.setAttribute("UserWishList", ulist);
-			//System.out.println(ulist.size());
-			//System.out.println(ulist.get(0).getPath()+ulist.get(0).getFileName());
-			//System.out.println(uReser);
 			view.forward(request, response);
 			
 		}

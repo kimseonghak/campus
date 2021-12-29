@@ -296,14 +296,14 @@ public class UserDAO {
 		ResultSet rset = null;
 		ArrayList<UserWish> list = new ArrayList<UserWish>();
 		
-		String query = "SELECT business_name, substr(business_address, 0, instr(business_address, ' ', 1, 2)) as business_addr, " + 
-						"	camp.camp_no, file_name, path, business_address, camp_price " + 
-						"FROM WISH " + 
-						"	LEFT JOIN CAMP ON (WISH.CAMP_NO = CAMP.CAMP_NO) " + 
-						"	LEFT JOIN BUSINESS ON (BUSINESS.BUSINESS_NO = CAMP.BUSINESS_NO)  " + 
-						"	LEFT JOIN CAMPIMG ON (CAMPIMG.CAMP_SEQ = CAMP.CAMP_SEQ) " + 
-						"WHERE USER_ID = ? " + 
-						"        AND business_no IN (SELECT BUSINESS_NO FROM WISH WHERE USER_ID= ?)";
+		String query = "SELECT DISTINCT business_name, substr(business_address, 0, instr(business_address, ' ', 1, 2)) as business_addr,  " + 
+					"				camp.camp_no, file_name, path, business_address, camp_price " + 
+					"FROM WISH " + 
+					"	LEFT JOIN CAMP ON (WISH.CAMP_NO = CAMP.CAMP_NO) " + 
+					"	LEFT JOIN BUSINESS ON (BUSINESS.BUSINESS_NO = CAMP.BUSINESS_NO)  " + 
+					"	LEFT JOIN CAMPIMG ON (CAMPIMG.CAMP_SEQ = CAMP.CAMP_SEQ)  " + 
+					"WHERE USER_ID = ?   " + 
+					"	AND (business_no, wish.camp_no) IN (SELECT business_no, camp_no FROM WISH WHERE USER_ID=?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
