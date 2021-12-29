@@ -1,4 +1,3 @@
-<%@page import="com.campus.board.notice.model.vo.NoticeBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -18,10 +17,6 @@
     </style>
 </head>
 <body>
-<% 
-	NoticeBoard noticeBoard = (NoticeBoard)request.getAttribute("noticeBoard");
-	Member m = (Member)session.getAttribute("member");
-%>
 	<div id="wrap">
         
         <div id="header-wrap">
@@ -40,52 +35,26 @@
                 <div id="post">
                     <br>
                     <div id="title" style="text-align:center">디스 이즈 제목</div>
-<<<<<<< HEAD
-                    <div id="postnotice">작성자: <%= noticeBoard.getBusinessName() %> &nbsp 추천수: <%= noticeBoard.getNoticeLike() %> &nbsp&nbsp&nbsp비추천수: <%= noticeBoard.getNoticeHate() %> <span>작성일: <%= noticeBoard.getNoticeDate() %></span>
-                    </div>
-=======
                     <div id="postinfo">작성자: ${noticeBoard.businessId } &nbsp 추천수:</div>
->>>>>>> b66ff1efed68650d098dd370d78e5e73684d5957
                     <div id="postcontent-wrap">
                         <div id="postaction">
-                            <span><i class="xi-thumbs-up xi-x"></i></span>
-                            <span><i class="xi-thumbs-down xi-x"></i></span>
-                            <span><i class="xi-bookmark-o xi-x"></i></span>
-                            <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"><i class="xi-twitter xi-x"></i></a>
-                            <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"><i class="xi-facebook-official xi-x"></i></a>
-							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"><i class="xi-kakaotalk xi-x"></i></a>
-							<a id="btnMail" class="link-icon email" href=""><i class="xi-mail-o xi-x"></i></a>
-                            <span><i class="xi-share-alt-o xi-x"></i></span>
+                            <button><i class="xi-thumbs-up xi-x"></i></button>
+                            <button><i class="xi-thumbs-down xi-x"></i></button>
+                            <button><i class="xi-bookmark-o xi-x"></i></button>
+                            <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
+                            <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
+							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
+							<a id="btnMail" class="link-icon email" href="javascript:shareKakao();"><i class="xi-mail-o xi-x"></i></a>
+                            <button><i class="xi-share-alt-o xi-x"></i></button>
                         </div>
                         <div id="postcontent">
-<<<<<<< HEAD
-                            <%if(m!=null && m.getUserId().equals(noticeBoard.getBusinessId())){ %>
-							<form action="/board/notice/postUpdate.do" id="updateForm" method="post">
-								<textarea rows="20" cols="50" id="postUpdate" cols="84" disabled="true"><%= noticeBoard.getNoticeContent() %></textarea><br>
-								<input type="hidden" name="boardNo" value="<%=noticeBoard.getNoticeNo()%>"/>
-							</form>
-	
-							<button id="deleteBtn">삭제</button>
-							<button id="updateBtn">수정</button>
-							<button id="cancleBtn" style="display: none;">취소</button>
-							
-							<%}else{ %>
-								<textarea rows="20" cols="50" cols="84" disabled="true"><%= noticeBoard.getNoticeContent() %></textarea><br>
-							<%} %>
-=======
                             ${noticeBoard.noticeContent }
->>>>>>> b66ff1efed68650d098dd370d78e5e73684d5957
                         </div>
                     </div>
                 </div>
                     <div id="back">
-<<<<<<< HEAD
-                        <div><a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="">다음 글<i class="xi-angle-right-min"></i></a></div>
-                        <div><a href="/board/notice/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i class="xi-paper-o xi-x"></i>목록으로</a></div>
-=======
                         <a href="">이전 글</a>&nbsp&nbsp&nbsp<a src="">다음 글</a><br>
                         <a href="/board/notice/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">목록으로</a><br><br>
->>>>>>> b66ff1efed68650d098dd370d78e5e73684d5957
                     </div>
             </div>
         </div>
@@ -96,6 +65,19 @@
         </div>
     </div>
 
-<script src="/community/include/clickpost.js"></script>
+<script>
+    $('#msg').click(function(){
+        $(this).children('ul').children('li').slideToggle(300);
+    });
+    function shareTwitter() {
+    var sendText = "개발새발"; // 전달할 텍스트
+    var sendUrl = "/"; // 전달할 URL
+    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+}
+    function shareFacebook() {
+    var sendUrl = "/"; // 전달할 URL
+    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
+}
+</script>
 </body>
 </html>
