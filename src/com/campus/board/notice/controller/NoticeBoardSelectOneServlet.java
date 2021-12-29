@@ -34,7 +34,6 @@ public class NoticeBoardSelectOneServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		System.out.println(noticeNo);
 		
 		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
 		NoticeBoard noticeBoard = noticebService.noticeboardSelectOne(noticeNo);

@@ -79,11 +79,13 @@ public class ServiceServiceImpl implements ServiceService{
 	@Override
 	public int qnaAnswer(String answerContent, int serviceNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = sDAO.qnaAnswer(answerContent,serviceNo,conn);
-		if(result>0) JDBCTemplate.commit(conn);
+		int result1 = sDAO.qnaAnswer(answerContent,serviceNo,conn);
+		int result2 = sDAO.serviceAnserYN(serviceNo,conn);
+		if(result1>0 &&result2>0) JDBCTemplate.commit(conn);
 		else JDBCTemplate.rollback(conn);
 		JDBCTemplate.close(conn);
 		
+		int result = result1+result2;
 		return result;
 	}
 
@@ -91,9 +93,6 @@ public class ServiceServiceImpl implements ServiceService{
 	public Answer qnaAnswerContent(int serviceNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		Answer a = sDAO.qnaAnswerContent(serviceNo,conn);
-		int result = sDAO.serviceAnserYN(serviceNo,conn);
-		if(result>0) JDBCTemplate.commit(conn);
-		else JDBCTemplate.close(conn);
 		JDBCTemplate.close(conn);
 		
 		return a;
