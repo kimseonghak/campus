@@ -55,24 +55,8 @@ public class reservationJoin extends HttpServlet {
 		
 		int result = cpaService.reservation(list.get(0),userId,reservSta,reservEnd);
 		
-		if(result>0)
-		{
-			PrintWriter out = response.getWriter();
-			response.setContentType("text/html; charser=utf-8");
-			out.println("<script>");
-			out.println("alert('예약이 성공하였습니다.');");
-			out.println("</script>");
-			out.flush();
-			
-		}else {
-			PrintWriter out = response.getWriter();
-			response.setContentType("text/html; charser=UTF-8");
-			out.println("<script>");
-			out.println("alert('예약이 실패하였습니다.');");
-			out.println("</script>");
-			out.flush();			
-			
-		}
+		
+	
 		
 	}
 
