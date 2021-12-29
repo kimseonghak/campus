@@ -329,6 +329,7 @@
 								+'		체크아웃 : '+ data[item].checkout +'<br><br>'
 								+'		결제금액 : '+ data[item].campPrice +'<br><br>'
 								+'		예약안내 : '+ data[item].reservInfo +'<br><br><br>'
+								+'		<input type="hidden" id="campSeq" name="campSeq" value="'+data[item].campSeq+'"/>'
 								+'		<input type="checkbox" style="zoom:1.5;"/> 숙소이용규칙 및 취소/환불규정 동의 (필수)<br>'
 								+'		<input type="checkbox" style="zoom:1.5;"/> 개인정보 수집 및 이용 동의 (필수)<br>'
 								+'		<input type="checkbox" style="zoom:1.5;"/> 개인정보 제 3자 제공 동의 (필수)<br>'

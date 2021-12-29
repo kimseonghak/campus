@@ -12,7 +12,7 @@ public class CampingArea {
 	private String campType;
 	private int campPo;
 	private int campMaxpo;
-	private long campPrice;
+	private int campPrice;
 	private String checkin;
 	private String checkout;
 	private String reservNotice;
@@ -25,7 +25,7 @@ public class CampingArea {
 	}
 	
 	public CampingArea(int campSeq, String businessName, int businessNo, String businessAddress, String campNo, String campName, String campType, 
-			int campPo, int campMaxpo, long campPrice, String checkin, String checkout, 
+			int campPo, int campMaxpo, int campPrice, String checkin, String checkout, 
 			String reservNotice, String reservInfo, Date regDate, String filename) {
 		
 		super();
@@ -48,6 +48,11 @@ public class CampingArea {
 	}
 
 
+
+	public CampingArea(int campSeq, int businessNo, String campNo, String userId, String phone, String reservSta,
+			String reservEnd, int price) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getFilename() {
 		return filename;
@@ -127,11 +132,11 @@ public class CampingArea {
 		this.campMaxpo = campMaxpo;
 	}
 
-	public long getCampPrice() {
+	public int getCampPrice() {
 		return campPrice;
 	}
 
-	public void setCampPrice(long campPrice) {
+	public void setCampPrice(int campPrice) {
 		this.campPrice = campPrice;
 	}
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.campus.common.JDBCTemplate;
+import com.campus.member.model.vo.Member;
 import com.campus.reservation.model.vo.CampingArea;
 
 public class CampingAreaDAO {
@@ -47,7 +48,7 @@ public class CampingAreaDAO {
 			campingArea.setCampType(rset.getString("CAMP_TYPE"));
 			campingArea.setCampPo(rset.getInt("CAMP_PO"));
 			campingArea.setCampMaxpo(rset.getInt("CAMP_MAXPO"));
-			campingArea.setCampPrice(rset.getLong("CAMP_PRICE"));
+			campingArea.setCampPrice(rset.getInt("CAMP_PRICE"));
 			campingArea.setReservInfo(rset.getString("RESERV_INFO"));
 			campingArea.setFilename(rset.getString("FILENAME"));
 			
@@ -351,4 +352,7 @@ public class CampingAreaDAO {
 		}
 		return list;
 	}
+	
+
+
 }
