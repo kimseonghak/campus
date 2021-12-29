@@ -44,6 +44,7 @@ public class DiaryDAO {
 	}
 
 	public ArrayList<Frame> selectFrameList(Connection conn, String userId) {
+		int imgpost=0;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -72,7 +73,6 @@ public class DiaryDAO {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(rset);

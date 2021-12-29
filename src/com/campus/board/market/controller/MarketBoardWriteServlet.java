@@ -35,30 +35,52 @@ public class MarketBoardWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
+//		String currentPage=request.getParameter("currentPage");
+		String currentPage = "1";
 		String marketTitle = request.getParameter("marketTitle");
 		String marketContent = request.getParameter("marketContent");
-		
+		// TODO: DEBUG CHECK
+		System.out.println(request.getSession().getAttribute("member"));
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
 		
 		MarketBoard marketBoard = new MarketBoard();
 		marketBoard.setMarketTitle(marketTitle);
 		marketBoard.setMarketContent(marketContent);
 		marketBoard.setUserId(userId);
+		marketBoard.setImgNo(21);
+		marketBoard.setMarketProduct(request.getParameter("marketProduct"));
+		marketBoard.setMarketPrice(Integer.parseInt(request.getParameter("marketPrice")));
+		marketBoard.setMarketCondition(request.getParameter("marketCondition"));
+		marketBoard.setMarketLocation(request.getParameter("marketLocation"));
+		String[] tradeValues=request.getParameterValues("marketTrade");
+		String trade = "";
+		if(tradeValues==null) {
+			trade="";
+		}
+		else {
+			for (int i = 1; i < tradeValues.length; i++) {
+				trade = trade + ", " + tradeValues[i];
+			}
+		}
+		marketBoard.setMarketTrade(trade);
 		
 		MarketBoardService marketbService = new MarketBoardServiceImpl();
 		int result=marketbService.insert(marketBoard);
 		
-		RequestDispatcher view = request.getRequestDispatcher("/community/market/write.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/board/market/listAll.do");
 		
 		if(result>0)
 		{
 			request.setAttribute("writeResult", true);
+			request.setAttribute("currentPage", currentPage);
 		}else
 		{
 			request.setAttribute("writeResult", false);
+			request.setAttribute("currentPage", currentPage);
 		}
 		view.forward(request, response);
 	}
+		
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -67,11 +67,20 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	@Override
 	public int insert(MarketBoard marketBoard) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = mbDAO.insert(marketBoard, conn);
-		if(result>0) {
+		int newPost = mbDAO.insert(marketBoard, conn);
+		int postNo=mbDAO.uploadPostNo(marketBoard, conn);
+		int imgNo=mbDAO.uploadImgNo(marketBoard, conn);
+		
+		int result=0;
+		System.out.println("8번"+postNo);
+		System.out.println("9번"+imgNo);
+		System.out.println("0번"+newPost);
+		
+		if(newPost>0&&postNo>0&&imgNo>0) {
+			result=1;
 			JDBCTemplate.commit(conn);
 		}
-		else {
+		else{
 			JDBCTemplate.rollback(conn);
 		}
 		JDBCTemplate.close(conn);

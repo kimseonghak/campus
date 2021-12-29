@@ -58,7 +58,7 @@
                         <div id="postcontent">
 	                        <%if(m!=null && m.getUserId().equals(freeBoard.getUserId())){ %>
 							<form action="/board/free/postUpdate.do" id="updateForm" method="post">
-								<textarea id="postUpdate" cols="84" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
+								<textarea rows="20" cols="50" id="postUpdate" cols="84" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
 								<input type="hidden" name="boardNo" value="<%=freeBoard.getFreeNo()%>"/>
 							</form>
 	
@@ -67,7 +67,7 @@
 							<button id="cancleBtn" style="display: none;">취소</button>
 							
 							<%}else{ %>
-								<textarea cols="84" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
+								<textarea rows="20" cols="50" cols="84" disabled="true"><%= freeBoard.getFreeContent() %></textarea><br>
 							<%} %>
                         </div>
                     </div>
@@ -97,36 +97,6 @@
         </div>
     </div>
 
-<script>
-	var updateBtnFlag = false;
-	var boardData;
-	$('#updateBtn').click(function(){
-		if(updateBtnFlag==false)
-			{
-				$('#postUpdate').prop('disabled',false);
-				$('#updateBtn').text('완료');
-				$('#cancleBtn').css('display','inline');	
-				updateBtnFlag=true;
-				boardData = $('#content').html();
-			}
-		else if(updateBtnFlag==true){
-			$('#updateForm').submit();
-		}
-	});
-	
-	$('#cancleBtn').click(function(){
-		$('#postUpdate').prop('disabled',true);
-		$('#updateBtn').text('삭제');
-		$('#cancleBtn').css('display','none');	
-	});
-	
-	$('#deleteBtn').click(function(){
-		var result = window.confirm("삭제하시겠습니까?");
-		if(result==true)
-		{
-			location.replace("/board/free/delete.do?freeNo=<%=freeBoard.getFreeNo()%>");	
-		}
-	});
-</script>
+<script src="/community/include/clickpost.js"></script>
 </body>
 </html>

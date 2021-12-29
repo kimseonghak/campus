@@ -10,7 +10,7 @@ public class MarketBoard {
 	private int imgNo;
 	private String marketProduct;
 	private int marketPrice;
-	private char marketCondition;
+	private String marketCondition;
 	private String marketLocation;
 	private String marketTrade;
 	private String marketContent;
@@ -21,7 +21,7 @@ public class MarketBoard {
 		super();
 	}
 	public MarketBoard(int marketNo, String marketTitle, Date marketDate, String userId, int imgNo,
-			String marketProduct, int marketPrice, char marketCondition, String marketLocation, String marketTrade,
+			String marketProduct, int marketPrice, String marketCondition, String marketLocation, String marketTrade,
 			String marketContent, int marketHit) {
 		super();
 		this.marketNo = marketNo;
@@ -38,7 +38,7 @@ public class MarketBoard {
 		this.marketHit = marketHit;
 	}
 	public MarketBoard(int marketNo, String marketTitle, Date marketDate, String userId, int imgNo,
-			String marketProduct, int marketPrice, char marketCondition, String marketLocation, String marketTrade,
+			String marketProduct, int marketPrice, String marketCondition, String marketLocation, String marketTrade,
 			String marketContent, int marketHit, char marketWithdrawal) {
 		super();
 		this.marketNo = marketNo;
@@ -98,10 +98,10 @@ public class MarketBoard {
 	public void setMarketPrice(int marketPrice) {
 		this.marketPrice = marketPrice;
 	}
-	public char getMarketCondition() {
+	public String getMarketCondition() {
 		return marketCondition;
 	}
-	public void setMarketCondition(char marketCondition) {
+	public void setMarketCondition(String marketCondition) {
 		this.marketCondition = marketCondition;
 	}
 	public String getMarketLocation() {
