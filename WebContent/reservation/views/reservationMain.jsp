@@ -39,7 +39,6 @@
 
 
 </head>
-<%-- 캠핑 영역 --%>
 <!--캠핑장 검색  달력 start-->
 <script type="text/javascript">
 	$(function() {

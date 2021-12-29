@@ -24,4 +24,6 @@ public interface CampingAreaService {
 	HashMap<String, Object> selectMainList(int currentPage, String location);
 
 	ArrayList<CampingArea> selectArea(int rsvSeq);
+
+	int reservation(CampingArea list,String userId,String reservSta, String reservEnd);
 }
