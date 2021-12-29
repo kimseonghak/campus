@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.campus.member.model.vo.Member;
 import com.campus.userPage.model.vo.UserReservation;
 import com.campus.userPage.model.vo.UserWish;
+import com.campus.userPage.model.vo.WishT;
 
 public interface UserService {
 
@@ -78,5 +79,36 @@ public interface UserService {
 	 * Descriptrion : userId의 관심상품 정보 리스트 가져오기
 	 */
 	ArrayList<UserWish> selectWishList(String userId);
+
+	
+	/**
+	 * 작성자 : yeonhee
+	 * @param userId
+	 * @return UserWish
+	 * 작성일 : 2021. 12. 28.
+	 * 
+	 * Descriptrion : userId의 관심상품 추가하기
+	 */
+	int addWish(WishT wish);
+
+	/**
+	 * 작성자 : yeonhee
+	 * @param userId
+	 * @return UserWish
+	 * 작성일 : 2021. 12. 28.
+	 * 
+	 * Descriptrion : userId의 wisht list 가져오기
+	 */
+	ArrayList<WishT> selectUserWishList(String userId);
+
+	/**
+	 * 작성자 : yeonhee
+	 * @param userId
+	 * @return UserWish
+	 * 작성일 : 2021. 12. 28.
+	 * 
+	 * Descriptrion : userId의 관심상품 삭제
+	 */
+	int deleteWish(WishT wish);
 
 }

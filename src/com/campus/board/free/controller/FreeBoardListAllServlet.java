@@ -43,6 +43,7 @@ public class FreeBoardListAllServlet extends HttpServlet {
 		FreeBoardService freebService = new FreeBoardServiceImpl();
 		FreePage page = freebService.freeboardListAll(currentPage);
 		
+		
 		RequestDispatcher view = request.getRequestDispatcher("/community/free/freeboard.jsp");
 		request.setAttribute("freepage", page);
 		request.setAttribute("currentPage", currentPage);

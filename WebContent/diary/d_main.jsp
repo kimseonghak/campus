@@ -414,7 +414,7 @@
             height: 300px;
             margin: 50px auto 20px;
             border-radius: 20px;
-            padding: 20px 10px 10px 0;
+            padding: 20px 10px 10px 10px;
             background-color: white;
             opacity: 0.9;
         }

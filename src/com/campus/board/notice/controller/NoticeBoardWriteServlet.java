@@ -8,10 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.campus.board.notice.model.service.NoticeBoardService;
 import com.campus.board.notice.model.service.NoticeBoardServiceImpl;
 import com.campus.board.notice.model.vo.NoticeBoard;
+import com.campus.member.model.vo.Business;
 import com.campus.member.model.vo.Member;
 
 /**
@@ -38,9 +40,18 @@ public class NoticeBoardWriteServlet extends HttpServlet {
 		String noticeTitle = request.getParameter("noticeTitle");
 		String noticeContent = request.getParameter("noticeContent");
 		
+		Business b = (Business)request.getSession().getAttribute("business");
+		
+		if(!b.getBusinessId().equals("ADMIN")){
+			response.sendRedirect("/main/error/error.jsp");
+		}
+		
 		NoticeBoard noticeBoard = new NoticeBoard();
 		noticeBoard.setNoticeTitle(noticeTitle);
 		noticeBoard.setNoticeContent(noticeContent);
+		noticeBoard.setBusinessId(b.getBusinessId());
+		noticeBoard.setBusinessName(b.getBusinessName());
+		
 		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
 		int result=noticebService.insert(noticeBoard);
 		

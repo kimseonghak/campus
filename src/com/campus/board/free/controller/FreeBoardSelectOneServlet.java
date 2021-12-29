@@ -1,6 +1,7 @@
 package com.campus.board.free.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,15 +36,26 @@ public class FreeBoardSelectOneServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
-		System.out.println(freeNo);
+		int commentPage;
+		
+		if(request.getParameter("commentPage")==null) {
+			commentPage=1;
+		}else {
+			commentPage = Integer.parseInt(request.getParameter("commentPage"));
+		}
+		
 		
 		FreeBoardService freebService = new FreeBoardServiceImpl();
 		FreeBoard freeBoard = freebService.freeboardSelectOne(freeNo);
+		
+		HashMap<String,Object> map = freebService.freeboardComment(freeNo,commentPage,currentPage);
 		
 		if (freeBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/free/freepost.jsp");
 			request.setAttribute("freeBoard", freeBoard);
 			request.setAttribute("currentPage", currentPage);
+			request.setAttribute("map", map);
+			request.setAttribute("commentPage", commentPage);
 			view.forward(request, response);
 
 		} else {

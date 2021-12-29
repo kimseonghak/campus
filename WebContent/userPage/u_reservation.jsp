@@ -124,7 +124,7 @@
 
         #footer {
             width: 1250px;
-            height: 400px;
+            margin-top: 500px;
             /*background-color: #F6F6F6;
             margin: 20px auto 0;*/
         }
@@ -334,12 +334,13 @@
 
         </div>
         <div id="footer">
-
+			<%@include file="/common/include/footer.jsp" %>
+		</div>
         <div id="fixed-bar">
             <a href="/userPage/userPage.do"><i class="xi-bars xi-2x"></i></a>
             <a href="/userPage/ReservationList.do"><i class="xi-calendar-check xi-2x"></i></a>
             <a href="/userPage/userWishList.do"><i class="xi-heart-o xi-2x"></i></a>
-            <a href=""><i class="xi-note-o xi-2x"></i></a>
+            <a href="" onclick=notes()><i class="xi-note-o xi-2x"></i></a>
             <a href="u_pwdCheck.jsp"><i class="xi-user-o xi-2x"></i></a>
         </div>
         <div id="fixed-bar-move">
@@ -350,7 +351,7 @@
 
 
 
-    </div>
+    
     
     
 
@@ -359,7 +360,16 @@
 			
 			
 	</c:choose>
-		
+		<script type="text/javascript">
+        function notes(){
+            var userId = "<c:out value='${member.userId}'/>"
+                if(userId!=""){
+                    window.open("/board/msg/listAll.do?userId="+userId,"_blank","width=700px, height=400px");
+                }else{
+                    alert('로그인이 필요한 서비스입니다.\n로그인 후에 이용해주세요.')
+                }
+        };
+    </script>
 </body>
 
 </html>

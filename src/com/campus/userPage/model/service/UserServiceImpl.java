@@ -8,6 +8,7 @@ import com.campus.member.model.vo.Member;
 import com.campus.userPage.model.dao.UserDAO;
 import com.campus.userPage.model.vo.UserReservation;
 import com.campus.userPage.model.vo.UserWish;
+import com.campus.userPage.model.vo.WishT;
 
 public class UserServiceImpl implements UserService{
 	
@@ -92,6 +93,44 @@ public class UserServiceImpl implements UserService{
 		
 		
 		return list;
+	}
+
+	@Override
+	public int addWish(WishT wish) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		int result = uDAO.addWish(wish, conn);
+
+		if(result>0) JDBCTemplate.commit(conn);
+		else JDBCTemplate.rollback(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<WishT> selectUserWishList(String userId) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<WishT> list = uDAO.selectUserWishList(userId, conn);
+		JDBCTemplate.close(conn);
+		
+		return list;
+	}
+
+	@Override
+	public int deleteWish(WishT wish) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		int result = uDAO.deleteWish(wish, conn);
+
+		if(result>0) JDBCTemplate.commit(conn);
+		else JDBCTemplate.rollback(conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 
 }

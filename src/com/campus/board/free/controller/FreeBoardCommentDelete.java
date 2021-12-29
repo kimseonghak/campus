@@ -1,29 +1,26 @@
-package com.campus.board.notice.controller;
+package com.campus.board.free.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.campus.board.notice.model.service.NoticeBoardService;
-import com.campus.board.notice.model.service.NoticeBoardServiceImpl;
-import com.campus.board.notice.model.vo.NoticeBoard;
+import com.campus.board.free.model.service.FreeBoardService;
+import com.campus.board.free.model.service.FreeBoardServiceImpl;
 
 /**
- * Servlet implementation class NoticeBoardSelectOneServlet
+ * Servlet implementation class FreeBoardCommentDelete
  */
-@WebServlet("/board/notice/selectOne.do")
-public class NoticeBoardSelectOneServlet extends HttpServlet {
+@WebServlet("/board/free/commentDelete.do")
+public class FreeBoardCommentDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeBoardSelectOneServlet() {
+    public FreeBoardCommentDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,20 +29,18 @@ public class NoticeBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int cFreeNo = Integer.parseInt(request.getParameter("cFreeNo"));
 		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
+		int commentPage = Integer.parseInt(request.getParameter("commentPage"));
 		
-		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
-		NoticeBoard noticeBoard = noticebService.noticeboardSelectOne(noticeNo);
+		FreeBoardService fbService = new FreeBoardServiceImpl();
+		int result = fbService.commentDelete(cFreeNo);
 		
-		if (noticeBoard != null) {
-			RequestDispatcher view = request.getRequestDispatcher("/community/notice/noticepost.jsp");
-			request.setAttribute("noticeBoard", noticeBoard);
-			request.setAttribute("currentPage", currentPage);
-			view.forward(request, response);
-
-		} else {
-			response.sendRedirect("/main/error/error.jspp");
+		if(result>0) {
+			response.sendRedirect("/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+commentPage);
+		}else {
+			response.sendRedirect("/main/error/writeError.jsp");
 		}
 	}
 

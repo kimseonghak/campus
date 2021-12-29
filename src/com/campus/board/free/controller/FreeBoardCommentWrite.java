@@ -1,6 +1,7 @@
 package com.campus.board.free.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,23 +9,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.campus.board.free.model.service.FreeBoardService;
 import com.campus.board.free.model.service.FreeBoardServiceImpl;
-import com.campus.board.free.model.vo.FreeBoard;
 import com.campus.member.model.vo.Member;
 
 /**
- * Servlet implementation class FreeBoardWriteServlet
+ * Servlet implementation class FreeBoardCommentWrite
  */
-@WebServlet("/board/free/write.do")
-public class FreeBoardWriteServlet extends HttpServlet {
+@WebServlet("/board/free/commentWrite.do")
+public class FreeBoardCommentWrite extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FreeBoardWriteServlet() {
+    public FreeBoardCommentWrite() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,32 +34,29 @@ public class FreeBoardWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		
-		String freeTitle = request.getParameter("freeTitle");
-		String freeContent = request.getParameter("freeContent");
+		request.setCharacterEncoding("utf-8");
 		
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
-		String userName = ((Member)request.getSession().getAttribute("member")).getUserName();
-		
-		FreeBoard freeBoard = new FreeBoard();
-		freeBoard.setFreeTitle(freeTitle);
-		freeBoard.setFreeContent(freeContent);
-		freeBoard.setUserId(userId);
-		
-		FreeBoardService freebService = new FreeBoardServiceImpl();
-		int result=freebService.insert(freeBoard,userName);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/community/free/write.jsp");
-		
-		if(result>0)
-		{
-			request.setAttribute("writeResult", true);
-		}else
-		{
-			request.setAttribute("writeResult", false);
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
+		int commentPage;
+		if(request.getParameter("commentPage")==null) {
+			commentPage=1;
+		}else {
+			commentPage=Integer.parseInt(request.getParameter("commentPage"));
 		}
-		view.forward(request, response);
+		String commentContent = request.getParameter("commentContent");
+		HttpSession session = request.getSession();
+		String userId = ((Member)session.getAttribute("member")).getUserId();
+		
+		FreeBoardService fbService = new FreeBoardServiceImpl();
+		int result = fbService.commentWrite(freeNo,userId,commentContent);
+		
+		if(result>0) {
+			response.sendRedirect("/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+commentPage);
+		}else {
+			response.sendRedirect("/main/error/writeError.jsp");
+		}
 	}
 
 	/**

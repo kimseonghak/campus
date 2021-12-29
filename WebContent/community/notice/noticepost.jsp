@@ -40,8 +40,12 @@
                 <div id="post">
                     <br>
                     <div id="title" style="text-align:center">디스 이즈 제목</div>
+<<<<<<< HEAD
                     <div id="postnotice">작성자: <%= noticeBoard.getBusinessName() %> &nbsp 추천수: <%= noticeBoard.getNoticeLike() %> &nbsp&nbsp&nbsp비추천수: <%= noticeBoard.getNoticeHate() %> <span>작성일: <%= noticeBoard.getNoticeDate() %></span>
                     </div>
+=======
+                    <div id="postinfo">작성자: ${noticeBoard.businessId } &nbsp 추천수:</div>
+>>>>>>> b66ff1efed68650d098dd370d78e5e73684d5957
                     <div id="postcontent-wrap">
                         <div id="postaction">
                             <span><i class="xi-thumbs-up xi-x"></i></span>
@@ -54,6 +58,7 @@
                             <span><i class="xi-share-alt-o xi-x"></i></span>
                         </div>
                         <div id="postcontent">
+<<<<<<< HEAD
                             <%if(m!=null && m.getUserId().equals(noticeBoard.getBusinessId())){ %>
 							<form action="/board/notice/postUpdate.do" id="updateForm" method="post">
 								<textarea rows="20" cols="50" id="postUpdate" cols="84" disabled="true"><%= noticeBoard.getNoticeContent() %></textarea><br>
@@ -67,12 +72,20 @@
 							<%}else{ %>
 								<textarea rows="20" cols="50" cols="84" disabled="true"><%= noticeBoard.getNoticeContent() %></textarea><br>
 							<%} %>
+=======
+                            ${noticeBoard.noticeContent }
+>>>>>>> b66ff1efed68650d098dd370d78e5e73684d5957
                         </div>
                     </div>
                 </div>
                     <div id="back">
+<<<<<<< HEAD
                         <div><a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="">다음 글<i class="xi-angle-right-min"></i></a></div>
                         <div><a href="/board/notice/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i class="xi-paper-o xi-x"></i>목록으로</a></div>
+=======
+                        <a href="">이전 글</a>&nbsp&nbsp&nbsp<a src="">다음 글</a><br>
+                        <a href="/board/notice/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">목록으로</a><br><br>
+>>>>>>> b66ff1efed68650d098dd370d78e5e73684d5957
                     </div>
             </div>
         </div>

@@ -5,11 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.campus.common.JDBCTemplate;
 import com.campus.reservation.model.vo.CampingArea;
 
 public class reservationDAO {
-
+	
 	public int insertReservation(Connection conn, CampingArea rsvInfo, String userId, String reservSta, String reservEnd) {
 		
 		int result =0;
@@ -45,7 +44,7 @@ public class reservationDAO {
 			pstmt2.setString(6, reservSta);
 			pstmt2.setString(7, reservEnd);
 			pstmt2.setInt(8, 2);
-			pstmt2.setLong(9, rsvInfo.getCampPrice());
+			pstmt2.setInt(9, rsvInfo.getCampPrice());
 			
 			result = pstmt2.executeUpdate();
 			

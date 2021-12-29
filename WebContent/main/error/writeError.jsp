@@ -7,12 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<script>
-		alert('올릴 수 있는 사진의 최대 크기는 50MB입니다.');
-		location.replace('/diary/allView.do');
-			
+		alert("문제가 발생하였습니다.\n관리자에게 문의 바랍니다.");
+		location.replace("/");
 	</script>
-
 </body>
 </html>
