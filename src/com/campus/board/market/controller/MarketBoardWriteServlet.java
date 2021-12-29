@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.campus.board.market.model.service.MarketBoardService;
 import com.campus.board.market.model.service.MarketBoardServiceImpl;
 import com.campus.board.market.model.vo.MarketBoard;
+import com.campus.community.upload.model.service.ImgUploadService;
+import com.campus.community.upload.model.service.ImgUploadServiceImpl;
+import com.campus.community.upload.model.vo.Image;
 import com.campus.member.model.vo.Member;
 
 /**
@@ -35,8 +38,8 @@ public class MarketBoardWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-//		String currentPage=request.getParameter("currentPage");
-		String currentPage = "1";
+		String currentPage=request.getParameter("currentPage");
+		String imgPath=request.getParameter("imgPath");
 		String marketTitle = request.getParameter("marketTitle");
 		String marketContent = request.getParameter("marketContent");
 		// TODO: DEBUG CHECK

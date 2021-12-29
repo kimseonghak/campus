@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.campus.board.market.model.service.MarketBoardService;
 import com.campus.board.market.model.service.MarketBoardServiceImpl;
 import com.campus.board.market.model.vo.MarketBoard;
+import com.campus.community.upload.model.service.ImgUploadService;
+import com.campus.community.upload.model.service.ImgUploadServiceImpl;
 
 /**
  * Servlet implementation class MarketBoardSelectOneServlet
@@ -34,15 +36,19 @@ public class MarketBoardSelectOneServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		int marketNo = Integer.parseInt(request.getParameter("marketNo"));
-		System.out.println(marketNo);
 		
 		MarketBoardService marketbService = new MarketBoardServiceImpl();
 		MarketBoard marketBoard = marketbService.marketboardSelectOne(marketNo);
+		
+		ImgUploadService imgService=new ImgUploadServiceImpl();
+		String path=imgService.imgPath(marketBoard.getImgNo());
 		
 		if (marketBoard != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/community/market/marketpost.jsp");
 			request.setAttribute("marketBoard", marketBoard);
 			request.setAttribute("currentPage", currentPage);
+			request.setAttribute("imgPath", path);
+			
 			view.forward(request, response);
 
 		} else {

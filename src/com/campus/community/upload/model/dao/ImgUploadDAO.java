@@ -12,8 +12,7 @@ public class ImgUploadDAO {
 
 	public int insert(Connection conn, Image img, String userId) {
 		int imgPost=0;
-		
-		
+
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
@@ -35,5 +34,31 @@ public class ImgUploadDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	public String imgPath(Connection conn, int imgNo) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+
+		String imgPath=null;
+		
+		String query="select img_path from imgupload where img_no=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, imgNo);
+			
+			rset=pstmt.executeQuery();
+			System.out.println("2번"+rset);
+			if(rset.next()) {
+				imgPath=rset.getString("img_path");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("1번"+imgPath);
+		return imgPath;
 	}
 }

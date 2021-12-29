@@ -7,6 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	MarketPage marketpage=(MarketPage)request.getAttribute("marketpage");
+	String imgPath = (String)request.getAttribute("imgPath");
 	ArrayList<MarketBoard> list = marketpage.getPageList();
 	Member m = (Member) session.getAttribute("member");
 %>
@@ -66,7 +67,7 @@
         <td class="no"><%=marketboard.getMarketNo()%></td>
         <td class="writer"><%=marketboard.getUserId()%></td>
         <td class="del_yn"><%=marketboard.getMarketWithdrawal()%></td>
-		<td class="title"><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%>[댓글]</a></td>
+		<td class="title"><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>&imgPath=<%=imgPath%>"><%=marketboard.getMarketTitle()%>[댓글]</a></td>
         <td class="price"><%=marketboard.getMarketPrice()%></td>
         <td class="hit"><%=marketboard.getMarketHit()%></td>
 		<td class="date"><%=marketboard.getMarketDate()%></td>
@@ -79,7 +80,7 @@
     <li>
         <a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><img src=/community/image/merch/griddle.png"/></a>
         <dl>
-            <dt><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>"><%=marketboard.getMarketTitle()%></a>[댓글]</dt>
+            <dt><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>&imgPath=<%=imgPath%>"><%=marketboard.getMarketTitle()%></a>[댓글]</dt>
             <dd><div><%=marketboard.getUserId()%><%=marketboard.getMarketPrice()%></div></dd>
             <dd><span><%=marketboard.getMarketDate()%></span>&nbsp&nbsp&nbsp<span><%=marketboard.getMarketHit()%></span></dd>
         </dl>

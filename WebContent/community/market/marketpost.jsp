@@ -1,3 +1,4 @@
+<%@page import="com.campus.community.upload.model.vo.Image"%>
 <%@page import="com.campus.board.market.model.vo.MarketBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -79,6 +80,7 @@
 <body>
 <% 
 	MarketBoard marketBoard = (MarketBoard)request.getAttribute("marketBoard");
+	String imgPath = (String)request.getAttribute("imgPath");
 	Member m = (Member)session.getAttribute("member");
 %>
 	<div id="wrap">
@@ -119,7 +121,11 @@
                         <div id="postcontent">
                         	<div>
                             	<i class="xi-angle-left xi-2x"></i>
-                                <img id="photo" src="/community/image/merch/latan.png"/>
+                            	<% 
+                            		int imgNo=marketBoard.getImgNo();
+                            		
+                            	%>
+                                <img id="photo" src="<%=imgPath%>"/>
                                 <i class="xi-angle-right xi-2x"></i>
                        		</div>
                        		<div>
@@ -139,7 +145,7 @@
                           	<div id="postcontent">
                         	<div>
                             	<i class="xi-angle-left xi-2x"></i>
-                                <img id="photo" src="/community/image/merch/latan.png"/>
+                                <img id="photo" src=<%=imgPath %>/>
                                 <i class="xi-angle-right xi-2x"></i>
                        		</div>
                        		<div>

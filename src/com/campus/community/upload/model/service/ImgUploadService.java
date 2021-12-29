@@ -6,4 +6,6 @@ public interface ImgUploadService {
 
 	int insert(Image img, String userId);
 
+	String imgPath(int imgNo);
+
 }

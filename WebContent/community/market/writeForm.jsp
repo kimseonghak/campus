@@ -95,7 +95,7 @@
 							</div>
 						</form>
 						<%} %>
-                        <form action="/board/market/write.do?currentPage=<%=request.getParameter("currentPage") %>" method="post">
+                        <form action="/board/market/write.do?currentPage=<%=request.getParameter("currentPage") %>&imgPath=<%=request.getAttribute("imgPath")%>" method="post">
 			                <div><textarea id="marketTitle" rows="1" cols="100" placeholder="제목을 작성하세요" name="marketTitle"></textarea></div>
 					        <br>
 					        <div id="marketForm">     

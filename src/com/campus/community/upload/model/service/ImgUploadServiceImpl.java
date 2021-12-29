@@ -23,4 +23,14 @@ public class ImgUploadServiceImpl implements ImgUploadService{
 		return result;
 	}
 
+	@Override
+	public String imgPath(int imgNo) {
+		Connection conn=JDBCTemplate.getConnection();
+		
+		String imgPath=imgDAO.imgPath(conn,imgNo);
+		
+		
+		return imgPath;
+	}
+
 }
