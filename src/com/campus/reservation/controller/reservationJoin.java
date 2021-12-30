@@ -55,7 +55,13 @@ public class reservationJoin extends HttpServlet {
 		
 		int result = cpaService.reservation(list.get(0),userId,reservSta,reservEnd);
 		
-		
+		if(result>0)
+		{
+			response.sendRedirect("/reservation/views/reservationSuccess.jsp");
+		}else
+		{
+			response.sendRedirect("/reservation/views/reservationFail.jsp");
+		}
 	
 		
 	}
