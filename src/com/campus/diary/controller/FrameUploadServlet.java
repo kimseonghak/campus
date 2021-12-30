@@ -47,6 +47,7 @@ public class FrameUploadServlet extends HttpServlet {
 		// 업로드 경로 세팅
 		String uploadImagePath = request.getServletContext().getRealPath("/diary/uploadFrameImage");
 		
+		System.out.println(uploadImagePath);
 		// 이미지 최대 사이즈
 		int uploadImageSizeLimit = 1024*1024*50; // 50MB
 		

@@ -416,7 +416,7 @@ public class FreeBoardDAO {
 		
 		int pageTotalCount = (int)Math.ceil(recordTotalCount/(double)recordCountPerPage);
 		
-		int startNavi = (((currentPage-1) / naviCountPerPage) * naviCountPerPage) + 1;
+		int startNavi = (((commentPage-1) / naviCountPerPage) * naviCountPerPage) + 1;
 		int endNavi = startNavi + (naviCountPerPage-1);
 		
 		if(endNavi>pageTotalCount) {
@@ -428,7 +428,7 @@ public class FreeBoardDAO {
 			sb.append("<a href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+(startNavi-1)+"'>< prev</a> ");
 		}
 		for(int i = startNavi; i<=endNavi; i++) {
-			if(i==currentPage) {
+			if(i==commentPage) {
 				sb.append("<a class='navi' id='focusNavi' href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+i+"'><B style='font-siez:1.4em; color:#ff5000;'>"+i+"</B></a> ");
 			}else {
 				sb.append("<a class='navi' href='/board/free/selectOne.do?currentPage="+currentPage+"&freeNo="+freeNo+"&commentPage="+i+"'>"+i+"</a> ");
@@ -500,5 +500,72 @@ public class FreeBoardDAO {
 		}
 		
 		return result;
+	}
+
+	public int freeboardCommentCount(Connection conn, int freeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select count(*) as count from freecomment where free_no=? and cfree_withdrawal='N'";
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public int prevFreeBoard(int freeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int prevNo = 0;
+		String query = "select * from (select free_no,lag(free_no) over(order by free_no) as prev_no from freeboard where free_withdrawal='N') where free_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				prevNo=rset.getInt("prev_no");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return prevNo;
+	}
+
+	public int nextFreeBoard(int freeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int nextNo = 0;
+		String query = "select * from (select free_no,lead(free_no) over(order by free_no) as next_no from freeboard where free_withdrawal='N') where free_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("next_no")==0) {
+					nextNo=freeNo;
+				}else {
+					nextNo=rset.getInt("next_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return nextNo;
 	}
 }

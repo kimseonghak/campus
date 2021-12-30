@@ -21,7 +21,12 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		FreePage page=new FreePage();
 		
 		int perPage=15;
-		page.setPageList(fbDAO.freeboardListAll(conn,currentPage,perPage));
+		ArrayList<FreeBoard> fb = fbDAO.freeboardListAll(conn,currentPage,perPage);
+		for(FreeBoard f : fb) {
+			f.setFreeCommentCount(fbDAO.freeboardCommentCount(conn,f.getFreeNo()));
+		}
+		
+		page.setPageList(fb);
 		
 		int naviPage=5;
 		page.setPageNavi(fbDAO.getPageNavi(conn,currentPage,perPage,naviPage));
@@ -134,6 +139,21 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		JDBCTemplate.close(conn);
 		
 		return result;
+	}
+
+	@Override
+	public int prvFreeBoard(int freeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int prevNo = fbDAO.prevFreeBoard(freeNo,conn);
+		return prevNo;
+	}
+
+	@Override
+	public int nextFreeBoard(int freeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int nextNo = fbDAO.nextFreeBoard(freeNo,conn);
+		
+		return nextNo;
 	}
 
 

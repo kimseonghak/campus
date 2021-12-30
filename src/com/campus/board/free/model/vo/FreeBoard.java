@@ -12,6 +12,7 @@ public class FreeBoard {
 	private int freeLike;
 	private int freeHate;
 	private char freeWithdrawal;
+	private int freeCommentCount;
 	
 	public FreeBoard() {
 		super();
@@ -28,7 +29,14 @@ public class FreeBoard {
 		this.freeLike = freeLike;
 		this.freeHate = freeHate;
 	}
-
+	
+	
+	public int getFreeCommentCount() {
+		return freeCommentCount;
+	}
+	public void setFreeCommentCount(int freeCommentCount) {
+		this.freeCommentCount = freeCommentCount;
+	}
 	public int getFreeNo() {
 		return freeNo;
 	}

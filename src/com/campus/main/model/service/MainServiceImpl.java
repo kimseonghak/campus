@@ -64,6 +64,7 @@ public class MainServiceImpl implements MainService{
 		ArrayList<Market> marketList = mDAO.marketData(conn);
 		for(Market m : marketList) {
 			m.setMarketCount(mDAO.marketCount(m.getMarketNo(),conn));
+			m.setImgPath(mDAO.marketImg(m.getImgNo(),conn));
 		}
 		JDBCTemplate.close(conn);
 		return marketList;

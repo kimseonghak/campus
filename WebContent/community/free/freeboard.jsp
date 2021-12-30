@@ -68,7 +68,7 @@
     <tr>	
         <td class="no"><%=freeboard.getFreeNo()%></td>
         <td class="writer"><%=freeboard.getUserId()%></td>
-		<td class="title"><a href="/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%></a>
+		<td class="title"><a href="/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%><span class="comment"> [<%=freeboard.getFreeCommentCount() %>]</span></a>
 		<span style='color:#f94b4b;' class="coCount"></span>
 		</td>
         <td class="hit"><%=freeboard.getFreeHit()%></td>
@@ -123,11 +123,9 @@
 <script src="/community/include/click.js"></script>
 <script>
 	$(function(){
-		var coCount = ('.coCount');
-		$.ajax({
-			
-		});
+		$('.comment').css('color','red');
 	});
 </script>
+<script type="text/javascript" src="/common/include/gnbWhite.js"></script>
 </body>
 </html>

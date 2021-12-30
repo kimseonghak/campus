@@ -126,10 +126,11 @@
 											</c:choose>
 										</tr>
 									</c:forEach>
+									<c:if test="${member!=null }">
 									<form action="/board/free/commentWrite.do" method="post">
 										<tr>
 											<td colspan="2">
-											댓글 작성 : <input type="text" size="70" name="commentContent">
+											댓글 작성 : <input type="text" size="60" name="commentContent">
 											<input type="hidden" name="currentPage" value=${currentPage }>
 											<input type="hidden" name="freeNo" value=<%=freeBoard.getFreeNo() %>>
 											<input type="hidden" name="commentPage" value=${commentPage }>
@@ -137,6 +138,7 @@
 											<td align="center"><button>작성</button></td>
 										</tr>
 									</form>
+									</c:if>
 								</tbody>
 								<tbody id="naviBody">
 									<tr id="tfootTr">
@@ -146,8 +148,8 @@
 						</div>
 						<div id="back">
 							<div>
-								<a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="">다음
-									글<i class="xi-angle-right-min"></i>
+								<a href="/FreeBoardPrevPost.do?freeNo=${freeBoard.freeNo}"><i class="xi-angle-left-min"></i>이전 글</a>
+								<a href="/FreeBoardNextPost.do?freeNo=${freeBoard.freeNo}">다음 글<i class="xi-angle-right-min"></i>
 								</a>
 							</div>
 							<div>
@@ -203,5 +205,18 @@
 		}
 	});
 	</script>
+	<script>
+		$('.navi').css("color",'black');
+		$('.navi').css('border','1px solid black');
+		$('.navi').css('display', 'inline-block');
+		$('.navi').css('width','25px');
+		$('.navi').css('margin','0px -2px');
+		$('.navi').hover(function(){
+			$(this).css('background-color','rgba(220,220,220,0.5)');
+		},function(){
+			$(this).css('background-color','white');
+		});
+	</script>
+	<script type="text/javascript" src="/common/include/gnbWhite.js"></script>
 </body>
 </html>
