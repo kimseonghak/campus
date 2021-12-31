@@ -34,7 +34,12 @@ public class FreeBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		int currentPage;
+		if(request.getParameter("currentPage")==null) {
+			currentPage=1;
+		}else {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
 		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
 		int commentPage;
 		

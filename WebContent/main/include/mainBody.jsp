@@ -335,15 +335,15 @@ h3>a{
 				<h3 style="border-bottom: 1px solid black; width: 1128px;"><a href="/board/market/listAll.do">중고 장터</a></h3>
 				<ul class="listBoard" id="infoBoard">
 					<li class="list2">
-						<div class="infoImgWrap"><img src="/main/image/2noImage.jpg"></div>
+						<div class="infoImgWrap"></div>
 						<div class="infoSubWrap market"></div>
 					</li>
 					<li class="list2">
-						<div class="infoImgWrap"><img src="/main/image/2noImage.jpg"></div>
+						<div class="infoImgWrap"></div>
 						<div class="infoSubWrap market"></div>
 					</li>
 					<li class="list2">
-						<div class="infoImgWrap"><img src="/main/image/2noImage.jpg"></div>
+						<div class="infoImgWrap"></div>
 						<div class="infoSubWrap market"></div>
 					</li>
 				</ul>
@@ -435,7 +435,10 @@ h3>a{
 										+ m.marketNo + "'>" + m.marketTitle
 										+ "<span style='color:#f94b4b;'> ["
 										+ m.marketCount + "]</span></a>");
-					})
+						var imgPath = "<img src='"+m.imgPath+"'>";
+						console.log(imgPath);
+						$('infoImgWrap').eq(index).append(imgPath)
+					});
 				},
 				error : function() {
 

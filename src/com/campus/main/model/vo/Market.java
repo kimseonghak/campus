@@ -4,7 +4,23 @@ public class Market {
 	private int marketNo;
 	private String marketTitle;
 	private int marketCount;
+	private int imgNo;
+	private String imgPath;
 	
+	
+	
+	public String getImgPath() {
+		return imgPath;
+	}
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+	public int getImgNo() {
+		return imgNo;
+	}
+	public void setImgNo(int imgNo) {
+		this.imgNo = imgNo;
+	}
 	public Market(int marketNo, String marketTitle, int marketCount) {
 		super();
 		this.marketNo = marketNo;

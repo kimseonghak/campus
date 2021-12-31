@@ -129,13 +129,20 @@
 											</c:choose>
 										</tr>
 									</c:forEach>
+									<c:if test="${member!=null }">
 									<form action="/board/free/commentWrite.do" method="post">
+<<<<<<< HEAD
 										<tr style="height:35px">
 											<td style="width:18%" align="center">
 											댓글 작성 : 
 											</td>
 											<td colspan=2>
 											<input type="text" size="70" name="commentContent">
+=======
+										<tr>
+											<td colspan="2">
+											댓글 작성 : <input type="text" size="60" name="commentContent">
+>>>>>>> 9b9eef1082b3ab3f3ae05944430866e658a46ae2
 											<input type="hidden" name="currentPage" value=${currentPage }>
 											<input type="hidden" name="freeNo" value=<%=freeBoard.getFreeNo() %>>
 											<input type="hidden" name="commentPage" value=${commentPage }>
@@ -143,6 +150,7 @@
 											<td align="center"><button>작성</button></td>
 										</tr>
 									</form>
+									</c:if>
 								</tbody>
 								<tbody id="naviBody">
 									<tr id="tfootTr" align="center">
@@ -153,10 +161,15 @@
 						</div>
 						<div id="back">
 							<div>
+<<<<<<< HEAD
 								<a href="/board/free/selectOne.do?freeNo=<%=request.getAttribute("prevPost")%>&currentPage=<%=request.getAttribute("currentPage")%>">
 								<i class="xi-angle-left-min"></i>이전 글</a>
 								<a href="/board/free/selectOne.do?freeNo=<%=request.getAttribute("prevPost")%>&currentPage=<%=request.getAttribute("currentPage")%>">
 								다음글<i class="xi-angle-right-min"></i>
+=======
+								<a href="/FreeBoardPrevPost.do?freeNo=${freeBoard.freeNo}"><i class="xi-angle-left-min"></i>이전 글</a>
+								<a href="/FreeBoardNextPost.do?freeNo=${freeBoard.freeNo}">다음 글<i class="xi-angle-right-min"></i>
+>>>>>>> 9b9eef1082b3ab3f3ae05944430866e658a46ae2
 								</a>
 							</div>
 							<div>
@@ -221,5 +234,18 @@
 	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
 	}
 	</script>
+	<script>
+		$('.navi').css("color",'black');
+		$('.navi').css('border','1px solid black');
+		$('.navi').css('display', 'inline-block');
+		$('.navi').css('width','25px');
+		$('.navi').css('margin','0px -2px');
+		$('.navi').hover(function(){
+			$(this).css('background-color','rgba(220,220,220,0.5)');
+		},function(){
+			$(this).css('background-color','white');
+		});
+	</script>
+	<script type="text/javascript" src="/common/include/gnbWhite.js"></script>
 </body>
 </html>

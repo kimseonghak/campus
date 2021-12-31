@@ -203,6 +203,7 @@ public class MainDAO {
 				Market m = new Market();
 				m.setMarketNo(rset.getInt("market_no"));
 				m.setMarketTitle(rset.getString("market_title"));
+				m.setImgNo(rset.getInt("img_no"));
 				marketList.add(m);
 			}
 		} catch (SQLException e) {
@@ -238,6 +239,30 @@ public class MainDAO {
 		}
 		
 		return marketCount;
+	}
+
+	public String marketImg(int imgNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String imgPath = null;
+		String query = "select img_path from imgupload where img_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, imgNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				imgPath = rset.getString("img_path");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return imgPath;
 	}
 
 }
