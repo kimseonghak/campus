@@ -30,6 +30,9 @@
 		<div id="header-wrap">
 			<%@ include file="/common/include/gnb.jsp"%>
 		</div>
+			<style>
+	            .subBar>li>a {color: white;}
+			</style>
 
 		<div id="contents-wrap">
 			<%@ include file="/community/include/sideNavi.jsp"%>
@@ -105,7 +108,7 @@
 								<tbody>
 									<c:forEach items="${map.list }" var="cf" varStatus="i">
 										<tr class="tbodyTr">
-											<td class="contentTd" style="border-bottom:1px solid black" align="center">${cf.userId }</td>
+											<td class="contentTd" style="border-bottom:1px solid black" align="center">${cf.userId }:</td>
 											<td class="contentTd" style="border-bottom:1px solid black">${cf.cFreeConents }</td>
 											<td class="contentTd" style="border-bottom:1px solid black" align="center">${cf.cFreeDate }</td>
 											<c:choose>
@@ -127,9 +130,12 @@
 										</tr>
 									</c:forEach>
 									<form action="/board/free/commentWrite.do" method="post">
-										<tr>
-											<td colspan="2">
-											댓글 작성 : <input type="text" size="70" name="commentContent">
+										<tr style="height:35px">
+											<td style="width:18%" align="center">
+											댓글 작성 : 
+											</td>
+											<td colspan=2>
+											<input type="text" size="70" name="commentContent">
 											<input type="hidden" name="currentPage" value=${currentPage }>
 											<input type="hidden" name="freeNo" value=<%=freeBoard.getFreeNo() %>>
 											<input type="hidden" name="commentPage" value=${commentPage }>
@@ -139,15 +145,18 @@
 									</form>
 								</tbody>
 								<tbody id="naviBody">
-									<tr id="tfootTr">
-										<td colspan="3" align="center">${map.CpageNavi }</td>
+									<tr id="tfootTr" align="center">
+										<td colspan="3" >${map.CpageNavi }</td>
 									</tr>
+								</tbody>
 							</table>
 						</div>
 						<div id="back">
 							<div>
-								<a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="">다음
-									글<i class="xi-angle-right-min"></i>
+								<a href="/board/free/selectOne.do?freeNo=<%=request.getAttribute("prevPost")%>&currentPage=<%=request.getAttribute("currentPage")%>">
+								<i class="xi-angle-left-min"></i>이전 글</a>
+								<a href="/board/free/selectOne.do?freeNo=<%=request.getAttribute("prevPost")%>&currentPage=<%=request.getAttribute("currentPage")%>">
+								다음글<i class="xi-angle-right-min"></i>
 								</a>
 							</div>
 							<div>
@@ -202,6 +211,15 @@
 			return false;
 		}
 	});
+	function shareTwitter() {
+	    var sendText = "신나는 캠핑~";
+	    var sendUrl = "127.0.0.1/board/free/selectOne?/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeBoard.getFreeNo()%>"; // 전달할 URL
+	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+	}
+	function shareFacebook() {
+	    var sendUrl = "127.0.0.1/board/free/selectOne?/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeBoard.getFreeNo()%>"; // 전달할 URL
+	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
+	}
 	</script>
 </body>
 </html>

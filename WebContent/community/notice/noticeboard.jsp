@@ -105,8 +105,8 @@
     <form action="/community/notice/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
 		
 		
-		<%if (m!=null && m.getUserId().toUpperCase().equals(list.get(0).getBusinessId())) {%>
-			<input type="submit" value="글쓰기">
+		<%if (m != null) {%>
+			<button id="postWrite" style="font-size:13px;"><i class="xi-pen-o"></i>글 작성</button>
 		<%}%>
 		
 	</form>

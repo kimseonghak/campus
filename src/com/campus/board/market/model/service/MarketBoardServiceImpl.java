@@ -72,9 +72,6 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 		int imgNo=mbDAO.uploadImgNo(marketBoard, conn);
 		
 		int result=0;
-		System.out.println("8번"+postNo);
-		System.out.println("9번"+imgNo);
-		System.out.println("0번"+newPost);
 		
 		if(newPost>0&&postNo>0&&imgNo>0) {
 			result=1;

@@ -26,6 +26,9 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
+            <style>
+	            .subBar>li>a {color: white;}
+			</style>
         </div>
         
         <div id="contents-wrap">

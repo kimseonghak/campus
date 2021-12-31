@@ -93,18 +93,25 @@ textarea{
 	margin: auto;
 	resize:none;
 }
+#deleteBtn{
+    margin-left:80%;
+}
 #comment{
     width:100%;
     margin:0px auto;
     padding:0px;
     border-spacing: 0px;
+    font-size: 15px;
 }
 #comment button{
     padding: 0px;
     margin: 0px;
     border-spacing:0px;
     font-size:12px;
-    width:32px;
+    width:30px;
+}
+.coDeleteBtn{
+	width:20px;
 }
 .comment{
     width:80%;

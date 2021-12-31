@@ -195,7 +195,7 @@ public class MarketBoardDAO {
 		int result = 0;
 		
 		try {
-			String query="update board set market_withdrawal='Y' where market_no=? and user_id=?";
+			String query="update marketboard set market_withdrawal='Y' where market_no=? and user_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			

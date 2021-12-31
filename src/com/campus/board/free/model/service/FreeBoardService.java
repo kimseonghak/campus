@@ -24,4 +24,8 @@ public interface FreeBoardService {
 
 	public int commentDelete(int cFreeNo);
 
+	public int prevPost(int freeNo);
+
+	public int nextPost(int freeNo);
+
 }

@@ -18,16 +18,17 @@
         }
         #postcontent-wrap{
         }
-        #postcontent{
+        .postcontent{
             width:100%;
         }
-        #postcontent>div:first-of-type{
+        .postcontentimg{
         	position: relative;
-        	left:-23%;
+        	left:70px;
         }
-        #postcontent>div:last-of-type{
+        .postcontentdata{
         	position: absolute;
-        	right:240px;
+        	width:250px;
+        	right:180px;
         	top:455px;
         	border-radius:10px;
         	border:solid 2px rgba(0, 25, 51, 0.9);
@@ -36,26 +37,17 @@
         }
         .xi-angle-left{
         	position: absolute;
-        	left:190px;
+        	left:-40px;
         	top:120px;
         }
         .xi-angle-right{
         	position: absolute;
-        	right:190px;
+        	right:420px;
         	top:120px;
         }
         #photo{
             width:270px;
             border:solid rgba(0, 25, 51, 0.9) 2px;
-        }
-        form{
-            width:300px;
-            height:;
-            margin-left:20px;
-            border: solid rgba(0, 25, 51, 0.9) 1px;
-            border-radius: 10px;
-            padding:25px;
-            font-size:14px;
         }
         #ex{
             margin-top:15px;
@@ -87,6 +79,9 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
+            <style>
+	            .subBar>li>a {color: white;}
+			</style>
         </div>
         
         <div id="contents-wrap">
@@ -117,33 +112,36 @@
                             <span><i class="xi-share-alt-o xi-x"></i></span>
                         </div>
                         <%if(m!=null && m.getUserId().equals(marketBoard.getUserId())){ %>
-                        <form action="/board/free/postUpdate.do" id="updateForm" method="post">
-                        <div id="postcontent">
-                        	<div>
+                        <form action="/board/market/postUpdate.do" id="updateForm" method="post">
+                        <div class="postcontent">
+                        	<div class="postcontentimg">
                             	<i class="xi-angle-left xi-2x"></i>
                             	<% 
                             		int imgNo=marketBoard.getImgNo();
-                            		
                             	%>
                                 <img id="photo" src="<%=imgPath%>"/>
                                 <i class="xi-angle-right xi-2x"></i>
                        		</div>
-                       		<div>
-                       			<span><%= marketBoard.getMarketProduct() %></span><br><br>
-                       			<span><%= marketBoard.getMarketPrice() %></span><br><br>
-                       			<span><%= marketBoard.getMarketCondition() %></span><br><br>
-                       			<span><%= marketBoard.getMarketLocation() %></span><br><br>
-                       			<span><%= marketBoard.getMarketTrade() %></span>
+                       		<div class="postcontentdata">
+                       			<span>제품명 : <%= marketBoard.getMarketProduct() %></span><br><br>
+                       			<span>가격 : <%= marketBoard.getMarketPrice() %></span><br><br>
+                       			<span>상태 : <%= marketBoard.getMarketCondition() %></span><br><br>
+                       			<span>지역 : <%= marketBoard.getMarketLocation() %></span><br><br>
+                       			<span>거래방법 : <%= marketBoard.getMarketTrade() %></span>
                        		</div>
-                            </div>
+                         </div>
                             
                             <div id="ex">
                                 <textarea rows="20" cols="50" cols="84" disabled="true"><%= marketBoard.getMarketContent() %></textarea>
                             </div>
+                            <br>
+                            <button id="deleteBtn">삭제</button>
+							<button id="updateBtn">수정</button>
+							<button id="cancleBtn" style="display: none;">취소</button>
                            </form>
                           <%}else{ %>
-                          	<div id="postcontent">
-                        	<div>
+                          	<div class="postcontent">
+                        	<div class="postcontentimg">
                             	<i class="xi-angle-left xi-2x"></i>
                                 <img id="photo" src=<%=imgPath %>/>
                                 <i class="xi-angle-right xi-2x"></i>
@@ -194,6 +192,26 @@
             
         </div>
     </div>
-    <script src="/community/include/clickpost.js"></script>
+    
+    
+    <script>
+	$('#deleteBtn').click(function(){
+		var result = window.confirm("삭제하시겠습니까?");
+		if(result==true)
+		{
+			location.replace("/board/market/delete.do?marketBoard=<%=marketBoard%>");
+		}
+						});
+    function shareTwitter() {
+	    var sendText = "신나는 캠핑~";
+	    var sendUrl = "127.0.0.1/board/market/selectOne?/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"; // 전달할 URL
+	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+	}
+	function shareFacebook() {
+	    var sendUrl = "127.0.0.1/board/market/selectOne?/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"; // 전달할 URL
+	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
+	}
+    
+    </script>
 </body>
 </html>

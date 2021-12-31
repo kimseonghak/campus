@@ -106,7 +106,7 @@
     </div>
     	<form action="/community/market/writeForm.jsp?userId=${sessionScope.member.userId}" method="post">
 			<%if (m != null) {%>
-				<input type="submit" value="글쓰기">
+				<button id="postWrite" style="font-size:13px;"><i class="xi-pen-o"></i>글 작성</button>
 			<%}%>
 		</form>
         </div>

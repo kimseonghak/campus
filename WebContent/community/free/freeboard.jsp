@@ -82,7 +82,7 @@
 <ul id="table2" style="text-align: center;">
 	<%for(FreeBoard freeboard : list){%>
     <li>
-        <a href="/board/free/selectOne.do?freeNo=<%=freeboard.getFreeNo()%>"><img src="/community/image/merch/griddle.png"/></a>
+        <a href="/board/free/selectOne.do?freeNo=<%=freeboard.getFreeNo()%>"><img src="/community/image/board/noimage.jpg"/></a>
         <dl>
             <dt><a href="/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeboard.getFreeNo()%>"><%=freeboard.getFreeTitle()%></a>[댓글]</dt>
             <dd><div><%=freeboard.getUserId()%></div></dd>

@@ -109,7 +109,8 @@
 		<th class="no">번호</th>
         <th class="writer">보낸 이</th>
         <th class="writer">받는 이</th>
-        <th class="date">제목</th>
+        <th class="title">제목</th>
+        <th class="date">날짜</th>
 	</tr>
     <%for(MsgBoard msgboard : list){%>
     <tr style="text-align: center;">	

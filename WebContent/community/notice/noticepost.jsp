@@ -20,14 +20,17 @@
 	<div id="wrap">
         
         <div id="header-wrap">
-            <%@ include file="../../common/include/gnb.jsp" %>
+            <%@ include file="/common/include/gnb.jsp" %>
         </div>
+        	<style>
+	            .subBar>li>a {color: white;}
+			</style>
         
         <div id="contents-wrap">
-        <%@ include file="../include/sideNavi.jsp" %>
+        <%@ include file="/community/include/sideNavi.jsp" %>
         <div id="contents">
             
-            <%@ include file="../include/upimg.jsp" %>
+            <%@ include file="/community/include/upimg.jsp" %>
             
             <div id="where">&nbsp&nbsp&nbsp&nbsp 공지사항</div>
             

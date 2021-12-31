@@ -1,16 +1,20 @@
 package com.campus.board.free.model.dao;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.campus.board.common.BoardCommon;
 import com.campus.board.free.model.vo.FreeBoard;
 import com.campus.board.free.model.vo.FreeComment;
 import com.campus.common.JDBCTemplate;
 import com.campus.service.model.vo.Service;
+
+import oracle.sql.ARRAY;
 
 public class FreeBoardDAO {
 
@@ -184,7 +188,7 @@ public class FreeBoardDAO {
 		int result = 0;
 		
 		try {
-			String query="update board set free_withdrawal='Y' where free_no=? and user_id=?";
+			String query="update freeboard set free_withdrawal='Y' where free_no=? and user_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			
@@ -454,7 +458,6 @@ public class FreeBoardDAO {
 				count = rset.getInt("count");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(rset);
@@ -501,4 +504,90 @@ public class FreeBoardDAO {
 		
 		return result;
 	}
+
+	public int freeboardPrevPost(int freeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		
+		int postNo=0;
+		
+		String query="select num from (select row_number() over(order by free_no desc) as num, freeboard.* from freeboard"
+				+ " where free_withdrawal='N')"
+				+" WHERE free_no= ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, freeNo);
+
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				postNo=rset.getInt("num");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("1번"+postNo);
+		return postNo;
+	}
+	
+	public int prevPost(int freeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		
+		int postNo=freeboardPrevPost(freeNo,conn);
+		int prevNo=postNo+1;
+		
+		int prevPost=0;
+		
+		String query="select free_no from (select row_number() over(order by free_no desc) as num, freeboard.* from freeboard where free_withdrawal='N') where num between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, prevNo);
+			pstmt.setInt(2, prevNo);
+			
+			rset=pstmt.executeQuery();
+			if(rset.next()) {
+				prevPost=rset.getInt("free_no");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("2번"+prevNo);
+		return prevPost;
+	}
+	
+	public int nextPost(int freeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		
+		int postNo=freeboardPrevPost(freeNo,conn);
+		int nextNo=postNo+1;
+		
+		int nextPost=0;
+		
+		String query="select free_no from (select row_number() over(order by free_no desc) as num, freeboard.* from freeboard"
+				+ " where free_withdrawal='N')"
+				+" WHERE num between ? and ?;";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, nextNo);
+			pstmt.setInt(2, nextNo);
+			
+			rset=pstmt.executeQuery();
+			if(rset.next()) {
+				nextPost=rset.getInt("free_no");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("2번"+nextNo);
+		return nextPost;
+	}
+
+	/*public int freeboardNextPost(int freeNo, Connection conn) {
+		// TODO Auto-generated method stub
+		return 0;
+	}*/
 }

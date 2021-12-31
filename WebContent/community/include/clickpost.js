@@ -1,4 +1,4 @@
-	var updateBtnFlag = false;
+var updateBtnFlag = false;
 	var boardData;
 	$('#updateBtn').click(function(){
 		if(updateBtnFlag==false)
@@ -24,7 +24,15 @@
 		var result = window.confirm("삭제하시겠습니까?");
 		if(result==true)
 		{
-			location.replace("/board/info/delete.do?infoNo=<%=infoBoard.getInfoNo()%>");	
+			location.replace("/board/free/delete.do?freeNo=<%=freeBoard.getFreeNo()%>");
+		}
+						});
+	$('.coDeleteBtn').click(function(){
+		var cFreeNo = $(this).next().val();
+		if(window.confirm("삭제하시겠습니까?")){
+			return true;
+		}else{
+			return false;
 		}
 	});
 

@@ -136,5 +136,25 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		return result;
 	}
 
+	@Override
+	public int prevPost(int freeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = fbDAO.freeboardPrevPost(freeNo,conn);
+		if(result>0) JDBCTemplate.commit(conn);
+		else JDBCTemplate.rollback(conn);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	@Override
+	public int nextPost(int freeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = fbDAO.nextPost(freeNo,conn);
+		if(result>0) JDBCTemplate.commit(conn);
+		else JDBCTemplate.rollback(conn);
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
 
 }

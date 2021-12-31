@@ -56,13 +56,13 @@ public class MarketBoardWriteServlet extends HttpServlet {
 		marketBoard.setMarketCondition(request.getParameter("marketCondition"));
 		marketBoard.setMarketLocation(request.getParameter("marketLocation"));
 		String[] tradeValues=request.getParameterValues("marketTrade");
-		String trade = "";
+		String trade = "직거래";
 		if(tradeValues==null) {
 			trade="";
 		}
 		else {
-			for (int i = 1; i < tradeValues.length; i++) {
-				trade = trade + ", " + tradeValues[i];
+			for (int i = 0; i < tradeValues.length; i++) {
+				trade = trade+", "+tradeValues[i];
 			}
 		}
 		marketBoard.setMarketTrade(trade);

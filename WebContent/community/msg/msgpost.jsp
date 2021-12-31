@@ -13,8 +13,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/community/include/post.css">
 	<style>
-        #postaction{
-            padding-left:63%;
+        #wrap{
+        	width:80%;
         }
     </style>
 </head>
@@ -25,16 +25,6 @@
 %>
 	<div id="wrap">
         
-        <div id="header-wrap">
-            <%@ include file="/common/include/gnb.jsp" %>
-        </div>
-        
-        <div id="contents-wrap">
-        <%@ include file="/community/include/sideNavi.jsp" %>
-        <div id="contents">
-            
-            <%@ include file="/community/include/upimg.jsp" %>
-            
             <div id="where">&nbsp&nbsp&nbsp&nbsp 쪽지함</div>
             
             <div id="post-wrap">
@@ -43,11 +33,12 @@
                     	<%= msgBoard.getMsgTitle() %>
                     </div>
                     <div id="postinfo">
-                        작성자: <%= msgBoard.getSendId()%> 작성일: <%= msgBoard.getMsgDate() %>
+                        보낸 이 : <%= msgBoard.getSendId()%> 받은 이 : <%= msgBoard.getReceiveId()%> 작성일: <%= msgBoard.getMsgDate() %>
                     </div>
                     <div id="postcontent-wrap">
                         <div id="postcontent">
 	                        <%if(m!=null && m.getUserId().equals(msgBoard.getSendId())){ %>
+								<textarea cols="50" disabled="true"><%= msgBoard.getMsgContent() %></textarea><br>
 								<button id="deleteBtn">삭제</button>
 								<button id="cancleBtn" style="display: none;">취소</button>
 							<%}else{ %>
@@ -56,7 +47,7 @@
                         </div>
                     </div>
                     <div id="back">
-                        <a href="/board/msg/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">목록으로</a>
+                        <a href="/board/msg/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>&userId=<%=msgBoard.getSendId()%>">목록으로</a>
                     </div>
                 </div>
             </div>
