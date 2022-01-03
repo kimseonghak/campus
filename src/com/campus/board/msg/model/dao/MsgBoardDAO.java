@@ -185,9 +185,10 @@ public class MsgBoardDAO {
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, msgBoard.getMsgTitle());
-			pstmt.setString(2, msgBoard.getSendId());
-			pstmt.setString(3, msgBoard.getReceiveId());
-			pstmt.setString(4, msgBoard.getMsgContent());
+			pstmt.setString(2, msgBoard.getMsgContent());
+			pstmt.setString(3, msgBoard.getSendId());
+			pstmt.setString(4, msgBoard.getReceiveId());
+			
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

@@ -13,7 +13,7 @@
 		#mylist{
             height:100%;
             padding-right:30px;
-            position:fixed;
+            position:absolute;
             border: 5px solid rgb(0, 0, 40);
             border-bottom-right-radius:50px;
             border-top-right-radius:50px;

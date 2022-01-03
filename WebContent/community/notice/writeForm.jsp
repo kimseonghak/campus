@@ -5,16 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CampUs-공지게시판 게시글 작성</title>
+<title>CampUs-공지사항 게시글 작성</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="../include/post.css">
+<link rel="stylesheet" href="/community/include/post.css">
 	<style>
-        #postaction{
-            padding-left:63%;
-        }
-        textarea{
-		resize: none;
-		font-size: 20px;
+		form>input:first-of-type{
+			margin-left:535px;
 		}
     </style>
 </head>

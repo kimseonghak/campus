@@ -14,11 +14,6 @@
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/community/include/post.css">
-<style>
-#postaction {
-	
-}
-</style>
 </head>
 <body>
 	<%
@@ -37,7 +32,7 @@
 
 				<%@ include file="/community/include/upimg.jsp"%>
 
-				<div id="where">&nbsp&nbsp&nbsp&nbsp 자유게시판</div>
+				<div id="where"><a href="/board/free/listAll.do">&nbsp&nbsp&nbsp&nbsp 자유게시판</a></div>
 
 				<div id="post-wrap">
 					<div id="post">
@@ -45,37 +40,43 @@
 							<%=freeBoard.getFreeTitle()%>
 						</div>
 						<div id="postinfo">
-							작성자:
-							<%=freeBoard.getUserId()%>
-							&nbsp 댓글수: &nbsp&nbsp 추천수:
-							<%=freeBoard.getFreeLike()%>
-							&nbsp&nbsp&nbsp비추천수:
-							<%=freeBoard.getFreeHate()%>
-							<span>작성일: <%=freeBoard.getFreeDate()%></span></span>
+							<span>작성자: <%=freeBoard.getUserId()%></span>
+							<span>댓글수:</span>
+							<span>추천수: <%=freeBoard.getFreeLike()%></span>
+							<span>비추천수: <%=freeBoard.getFreeHate()%></span>
+							<span>작성일: <%=freeBoard.getFreeDate()%></span>
 						</div>
 						<div id="postcontent-wrap">
 							<div id="postaction">
-								<span><i class="xi-thumbs-up xi-x"></i></span> <span><i
-									class="xi-thumbs-down xi-x"></i></span> <span><i
-									class="xi-bookmark-o xi-x"></i></span> <a id="btnTwitter"
-									class="link-icon twitter" href="javascript:shareTwitter();"><i
-									class="xi-twitter xi-x"></i></a> <a id="btnFacebook"
-									class="link-icon facebook" href="javascript:shareFacebook();"><i
-									class="xi-facebook-official xi-x"></i></a> <a id="btnKakao"
-									class="link-icon kakao" href="javascript:shareKakao();"><i
-									class="xi-kakaotalk xi-x"></i></a> <a id="btnMail"
-									class="link-icon email" href=""><i class="xi-mail-o xi-x"></i></a>
-								<span><i class="xi-share-alt-o xi-x"></i></span>
+								<span><i class="xi-thumbs-up xi-x"></i></span>
+	                            <span><i class="xi-thumbs-down xi-x"></i></span>
+	                            <span><i class="xi-bookmark-o xi-x"></i></span>
+	                            <span><i class="xi-share-alt-o xi-x"></i></span>
 							</div>
+							
+							<div id="modal">
+	                           	<div id="modal-close"><i class="xi-close-min xi-x"></i></div>
+	                           	<div>
+	                           		<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();">
+	                           		<i class="xi-twitter xi-x"></i></a>
+		                           	<a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();">
+		                           	<i class="xi-facebook-official xi-x"></i></a>
+									<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();">
+									<i class="xi-kakaotalk xi-x"></i></a>
+									<a id="btnMail" class="link-icon email" href="mailto:?body=http://127.0.0.1/board/free/selectOne.do?freeNo=${freeBoard.freeNo}&currentPage=<%=request.getAttribute("currentPage") %>">
+									<i class="xi-mail-o xi-x"></i></a>
+	                           	</div>
+	                        </div>
+							
 							<div id="postcontent">
 								<%
 									if (m != null && m.getUserId().equals(freeBoard.getUserId())) {
 								%>
 								<form action="/board/free/postUpdate.do" id="updateForm"
 									method="post">
-									<textarea id="postUpdate" cols="84" disabled="true"><%=freeBoard.getFreeContent()%></textarea>
-									<br> <input type="hidden" name="boardNo"
-										value="<%=freeBoard.getFreeNo()%>" />
+									<textarea id="postUpdate" name="content" cols="84" rows="20" disabled="true"><%=freeBoard.getFreeContent()%></textarea>
+									<br> <input type="hidden" name="boardNo" value="<%=freeBoard.getFreeNo()%>" />
+									<br> <input type="hidden" name="currentPage" value="<%=request.getAttribute("currentPage")%>" />
 								</form>
 
 								<button id="deleteBtn">삭제</button>
@@ -85,7 +86,7 @@
 								<%
 									} else {
 								%>
-								<textarea cols="84" disabled="true"><%=freeBoard.getFreeContent()%></textarea>
+								<textarea cols="84" rows="20" disabled="true"><%=freeBoard.getFreeContent()%></textarea>
 								<br>
 								<%
 									}
@@ -153,9 +154,8 @@
 								</a>
 							</div>
 							<div>
-								<a
-									href="/board/free/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i
-									class="xi-paper-o xi-x"></i>목록으로</a>
+								<a href="/board/free/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">
+								<i class="xi-paper-o xi-x"></i>목록으로</a>
 							</div>
 						</div>
 					</div>
@@ -163,60 +163,60 @@
 			</div>
 		</div>
 
-		<div id="footer"></div>
+		<div id="footer"><jsp:include page="/common/include/footer.jsp"/></div>
 	</div>
 
 	<script>
-	var updateBtnFlag = false;
-	var boardData;
-	$('#updateBtn').click(function(){
-		if(updateBtnFlag==false)
-			{
-				$('#postUpdate').prop('disabled',false);
-				$('#updateBtn').text('완료');
-				$('#cancleBtn').css('display','inline');	
-				updateBtnFlag=true;
-				boardData = $('#content').html();
+		$('#deleteBtn').click(function(){
+			var result = window.confirm("삭제하시겠습니까?");
+			if(result==true) {
+				location.replace("/board/free/delete.do?freeNo=<%=freeBoard.getFreeNo()%>");
 			}
-		else if(updateBtnFlag==true){
-			$('#updateForm').submit();
-		}
-	});
-	
-	$('#cancleBtn').click(function(){
-		$('#postUpdate').prop('disabled',true);
-		$('#updateBtn').text('삭제');
-		$('#cancleBtn').css('display','none');	
-	});
-	
-	$('#deleteBtn').click(function(){
-		var result = window.confirm("삭제하시겠습니까?");
-		if(result==true)
-		{
-			location.replace("/board/free/delete.do?freeNo=<%=freeBoard.getFreeNo()%>");
-		}
-						});
-	$('.coDeleteBtn').click(function(){
-		var cFreeNo = $(this).next().val();
-		if(window.confirm("삭제하시겠습니까?")){
-			return true;
-		}else{
-			return false;
-		}
-	});
+		});
 	</script>
+	<script>
+	    function shareTwitter() {
+		    var sendText = "신나는 캠핑~";
+		    var sendUrl = "http://127.0.0.1/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeBoard.getFreeNo()%>"; // 전달할 URL
+		    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+		}
+		function shareFacebook() {
+		    var sendUrl = "http://127.0.0.1/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeBoard.getFreeNo()%>"; // 전달할 URL
+		    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
+		}
+		function shareKakao() {
+			Kakao.init('7e924b2e9ad57bbcb7a285a9f6793057');
+			 
+			Kakao.Link.createDefaultButton({
+				container: '#btnKakao', 
+			    objectType: 'feed',
+			    content: {
+			    	title: "즐거운 캠핑, CampUs",
+			    	description: "CampUs에서 즐겨요",
+			    	imageUrl: "127.0.0.1${img.imgPath}",
+			    	link: {
+			    		webUrl: "http://127.0.0.1/board/free/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&freeNo=<%=freeBoard.getFreeNo()%>"
+			    	}
+				}
+			});
+		}
+    </script>
 	<script>
 		$('.navi').css("color",'black');
 		$('.navi').css('border','1px solid black');
 		$('.navi').css('display', 'inline-block');
 		$('.navi').css('width','25px');
 		$('.navi').css('margin','0px -2px');
-		$('.navi').hover(function(){
-			$(this).css('background-color','rgba(220,220,220,0.5)');
-		},function(){
-			$(this).css('background-color','white');
-		});
+		$('.navi').hover(
+			function(){
+				$(this).css('background-color','rgba(220,220,220,0.5)');
+			},
+			function(){
+				$(this).css('background-color','white');
+			});
 	</script>
 	<script type="text/javascript" src="/common/include/gnbWhite.js"></script>
+	<script src="/community/include/clickpost.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </body>
 </html>

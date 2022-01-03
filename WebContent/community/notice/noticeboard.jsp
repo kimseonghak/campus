@@ -52,9 +52,6 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %> 
-            <style>
-	            .subBar>li>a {color: white;}
-			</style>
         </div>
         
         <div id="contents-wrap">
@@ -64,9 +61,11 @@
         
             <%@ include file="/community/include/upimg.jsp" %> 
             <div id="where">&nbsp&nbsp&nbsp&nbsp 공지사항</div>
-            <form id="arrange" action="/board/boardSearch.do" method="get">
-               <button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
-            </form>
+            <div id="arrange">
+            	<c:if test="${member != null}">
+		        <button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
+	    	    </c:if>
+            </div>
             <div id="board">
 <table id="table1" style="text-align: center;">
 	<tr>
@@ -105,8 +104,8 @@
     <form action="/community/notice/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
 		
 		
-		<%if (m!=null && m.getUserId().toUpperCase().equals(list.get(0).getBusinessId())) {%>
-			<input type="submit" value="글쓰기">
+		<%if (m != null) {%>
+			<button id="postWrite" style="font-size:13px;"><i class="xi-pen-o"></i>글 작성</button>
 		<%}%>
 		
 	</form>
@@ -119,6 +118,12 @@
         
     </div>
  
- <script src="/community/include/click.js"></script>   
+ <script src="/community/include/click.js"></script>
+ <script type="text/javascript" src="/common/include/gnbWhite.js"></script>   
+ <script>
+	$(function(){
+		$('.comment').css('color','red');
+	});
+</script>
 </body>
 </html>

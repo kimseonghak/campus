@@ -17,4 +17,8 @@ public interface InfoBoardService {
 
 	int insert(InfoBoard infoBoard);
 
+	int prevInfoBoard(int infoNo);
+
+	int nextInfoBoard(int infoNo);
+
 }

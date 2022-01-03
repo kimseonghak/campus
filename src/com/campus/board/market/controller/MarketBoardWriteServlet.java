@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.campus.board.market.model.service.MarketBoardService;
 import com.campus.board.market.model.service.MarketBoardServiceImpl;
 import com.campus.board.market.model.vo.MarketBoard;
+import com.campus.community.upload.model.service.ImgUploadService;
+import com.campus.community.upload.model.service.ImgUploadServiceImpl;
+import com.campus.community.upload.model.vo.Image;
 import com.campus.member.model.vo.Member;
 
 /**
@@ -35,19 +38,16 @@ public class MarketBoardWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-//		String currentPage=request.getParameter("currentPage");
-		String currentPage = "1";
+		String currentPage=request.getParameter("currentPage");
 		String marketTitle = request.getParameter("marketTitle");
 		String marketContent = request.getParameter("marketContent");
-		// TODO: DEBUG CHECK
-		System.out.println(request.getSession().getAttribute("member"));
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
 		
 		MarketBoard marketBoard = new MarketBoard();
 		marketBoard.setMarketTitle(marketTitle);
 		marketBoard.setMarketContent(marketContent);
 		marketBoard.setUserId(userId);
-		marketBoard.setImgNo(21);
+		marketBoard.setImgNo(101);
 		marketBoard.setMarketProduct(request.getParameter("marketProduct"));
 		marketBoard.setMarketPrice(Integer.parseInt(request.getParameter("marketPrice")));
 		marketBoard.setMarketCondition(request.getParameter("marketCondition"));
@@ -57,9 +57,13 @@ public class MarketBoardWriteServlet extends HttpServlet {
 		if(tradeValues==null) {
 			trade="";
 		}
+		else if(tradeValues.length==1){
+			trade=tradeValues[0];
+		}
 		else {
 			for (int i = 1; i < tradeValues.length; i++) {
-				trade = trade + ", " + tradeValues[i];
+				trade=tradeValues[0];
+				trade +=", "+tradeValues[i];
 			}
 		}
 		marketBoard.setMarketTrade(trade);
@@ -69,12 +73,11 @@ public class MarketBoardWriteServlet extends HttpServlet {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/board/market/listAll.do");
 		
-		if(result>0)
-		{
+		if(result>0){
 			request.setAttribute("writeResult", true);
 			request.setAttribute("currentPage", currentPage);
-		}else
-		{
+		}
+		else{
 			request.setAttribute("writeResult", false);
 			request.setAttribute("currentPage", currentPage);
 		}

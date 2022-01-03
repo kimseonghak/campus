@@ -31,6 +31,9 @@ a{
     font-weight:700;
     float:left;
 }
+#where>a{
+	color:white;
+}
 #post-wrap{
 	margin-top:20px;
 	padding-top:20px;
@@ -71,14 +74,34 @@ a{
 }
 #postaction{
     margin-bottom:10px;
+    padding-left:80%;
 }
-#postaction>span{
+#modal {
+	width: 120px;
+    height: 50px;
+    display: none;
+	border: solid 1px black;
+    background-color: white;
 }
-#postaction img{
-    width:15px;
-    height:15px;
-    margin-bottom:-2px;
-    padding-top:0px;
+#modal-close{
+	margin-left:100px;
+}
+#modal>div:last-of-type{
+	margin:auto 0;
+	text-align:center;
+	font-size:17px;
+}
+.xi-twitter{
+	color:rgba(29, 161,242);
+}
+.xi-facebook-official{
+	color:rgba(66, 103, 178);
+}
+.xi-kakaotalk{
+	color:rgba(250, 225, 0);
+}
+.xi-mail-o{
+	color:rgba(0, 25, 51, 0.9);
 }
 #postcontent{
     width:100%;
@@ -93,18 +116,25 @@ textarea{
 	margin: auto;
 	resize:none;
 }
+#deleteBtn{
+    margin-left:80%;
+}
 #comment{
     width:100%;
     margin:0px auto;
     padding:0px;
     border-spacing: 0px;
+    font-size: 15px;
 }
 #comment button{
     padding: 0px;
     margin: 0px;
     border-spacing:0px;
     font-size:12px;
-    width:32px;
+    width:30px;
+}
+.coDeleteBtn{
+	width:20px;
 }
 .comment{
     width:80%;

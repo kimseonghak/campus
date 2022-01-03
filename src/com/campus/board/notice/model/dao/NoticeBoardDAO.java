@@ -135,6 +135,7 @@ public class NoticeBoardDAO {
 				noticeBoard=new NoticeBoard();
 				noticeBoard.setNoticeNo(rset.getInt("notice_no"));
 				noticeBoard.setBusinessId(rset.getString("business_id"));
+				noticeBoard.setBusinessName(rset.getString("business_name"));
 				noticeBoard.setNoticeTitle(rset.getString("notice_title"));
 				noticeBoard.setNoticeHit(rset.getInt("notice_hit"));
 				noticeBoard.setNoticeLike(rset.getInt("notice_like"));
@@ -158,12 +159,11 @@ public class NoticeBoardDAO {
 		int result = 0;
 		
 		try {
-			String query = "update noticeboard set notice_content=? where notice_no=? and user_id=?";
+			String query = "update noticeboard set notice_content=? where notice_no=?";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, noticeBoard.getNoticeContent());
 			pstmt.setInt(2, noticeBoard.getNoticeNo());
-			pstmt.setString(3, noticeBoard.getBusinessId());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -181,7 +181,7 @@ public class NoticeBoardDAO {
 		int result = 0;
 		
 		try {
-			String query="update board set notice_withdrawal='Y' where notice_no=? and buiness_id=?";
+			String query="update noticeboard set notice_withdrawal='Y' where notice_no=? and business_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			
@@ -325,7 +325,7 @@ public class NoticeBoardDAO {
 			switch(type) {
 			case "noticeTitle":
 				query="select count(*) as totalcount from noticeboard"
-						+ " where notice_withdrawal='N' and notice_title like ?;";
+						+ " where notice_withdrawal='N' and notice_title like ?";
 				break;
 			}
 			
@@ -336,7 +336,7 @@ public class NoticeBoardDAO {
 			
 			rset = pstmt.executeQuery();
 			rset.next();
-			totalPost=rset.getInt("totalPost");
+			totalPost=rset.getInt("totalcount");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -344,5 +344,59 @@ public class NoticeBoardDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return totalPost;
+	}
+
+	public int prevNoticeBoard(int noticeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int prevNo = 0;
+		String query = "select * from (select notice_no,lag(notice_no) over(order by notice_no) as prev_no from noticeboard where notice_withdrawal='N') where notice_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("prev_no")==0) {
+					prevNo=noticeNo;
+				}else {
+					prevNo=rset.getInt("prev_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return prevNo;
+	}
+
+	public int nextNoticeBoard(int noticeNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int nextNo = 0;
+		String query = "select * from (select notice_no,lead(notice_no) over(order by notice_no) as next_no from noticeboard where notice_withdrawal='N') where notice_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("next_no")==0) {
+					nextNo=noticeNo;
+				}else {
+					nextNo=rset.getInt("next_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return nextNo;
 	}
 }

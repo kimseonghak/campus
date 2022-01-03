@@ -17,4 +17,8 @@ public interface NoticeBoardService {
 
 	NoticePage search(String type, String keyword, int currentPage);
 
+	int prevNoticeBoard(int noticeNo);
+
+	int nextNoticeBoard(int noticeNo);
+
 }

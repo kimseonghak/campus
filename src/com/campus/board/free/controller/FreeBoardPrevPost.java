@@ -1,6 +1,7 @@
 package com.campus.board.free.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,12 +32,14 @@ public class FreeBoardPrevPost extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
-		if(freeNo==1) {
-			response.sendRedirect("/board/free/selectOne.do?freeNo=1");
-			return;
-		}
 		FreeBoardService fbService = new FreeBoardServiceImpl();
 		int prevNo = fbService.prvFreeBoard(freeNo);
+		
+		PrintWriter out = response.getWriter();
+		if(prevNo==freeNo) {
+			out.println("<script>alert('첫 글입니다.');</script>");
+		}
+		
 		response.sendRedirect("/board/free/selectOne.do?freeNo="+prevNo);
 	}
 

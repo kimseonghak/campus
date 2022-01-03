@@ -49,7 +49,7 @@ public class InfoBoardSearchServlet extends HttpServlet {
 		InfoPage page=infobService.search(type,keyword,currentPage);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/info/infoboard.jsp");
-		request.setAttribute("page", page);
+		request.setAttribute("infopage", page);
 		request.setAttribute("keyword", keyword);
 		view.forward(request,response);
 	}

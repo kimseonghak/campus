@@ -184,7 +184,7 @@ public class FreeBoardDAO {
 		int result = 0;
 		
 		try {
-			String query="update board set free_withdrawal='Y' where free_no=? and user_id=?";
+			String query="update freeboard set free_withdrawal='Y' where free_no=? and user_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			
@@ -339,15 +339,15 @@ public class FreeBoardDAO {
 			switch(type) {
 			case "freeTitle":
 				query="select count(*) as totalcount from freeboard"
-						+ " where free_withdrawal='N' and free_title like ?;";
+						+ " where free_withdrawal='N' and free_title like ?";
 				break;
 			case "userId":
 				query="select count(*) as totalcount from freeboard"
-						+ " where free_withdrawal='N' and user_id like ?;";
+						+ " where free_withdrawal='N' and user_id like ?";
 				break;
 			default:
 				query="select count(*) as totalcount from freeboard"
-						+ " where free_withdrawal='N' and (free_title like ? or user_id like ?);";
+						+ " where free_withdrawal='N' and (free_title like ? or user_id like ?)";
 				break;
 			}
 			
@@ -363,7 +363,7 @@ public class FreeBoardDAO {
 			
 			rset = pstmt.executeQuery();
 			rset.next();
-			totalPost=rset.getInt("totalPost");
+			totalPost=rset.getInt("totalcount");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -532,13 +532,20 @@ public class FreeBoardDAO {
 			pstmt.setInt(1, freeNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
+				if(rset.getInt("prev_no")==0) {
+					prevNo=freeNo;
+				}else {
+					prevNo=rset.getInt("prev_no");
+				}
 				prevNo=rset.getInt("prev_no");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
 		}
-		
 		return prevNo;
 	}
 
@@ -565,7 +572,6 @@ public class FreeBoardDAO {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		
 		return nextNo;
 	}
 }

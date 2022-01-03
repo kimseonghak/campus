@@ -22,13 +22,13 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
  * Servlet implementation class MarketUploadFileServlet
  */
 @WebServlet("/board/market/upload.do")
-public class MarketUploadFileServlet extends HttpServlet {
+public class MarketBoardFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MarketUploadFileServlet() {
+    public MarketBoardFileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -76,7 +76,7 @@ public class MarketUploadFileServlet extends HttpServlet {
 		if (result > 0) {
 			out.println("<script>alert('이미지 업로드 성공!');</script>");
 			RequestDispatcher view = request.getRequestDispatcher("/community/market/writeForm.jsp");
-			request.setAttribute("imgPath", imgPath);
+			request.setAttribute("img", img);
 			request.setAttribute("currentPage", currentPage);
 			view.forward(request, response);
 		} else {

@@ -34,7 +34,8 @@ public class FreeBoardUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String freeContent = request.getParameter("content");
-		int freeNo = (Integer.parseInt(request.getParameter("freeNo")));
+		int freeNo = (Integer.parseInt(request.getParameter("boardNo")));
+		int currentPage = (Integer.parseInt(request.getParameter("currentPage")));
 		
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
 		
@@ -47,7 +48,7 @@ public class FreeBoardUpdateServlet extends HttpServlet {
 		int result=freebService.update(freeBoard);
 		
 		if(result>0) {
-			response.sendRedirect("/board/free/selectOne.do?freeNo="+freeNo);
+			response.sendRedirect("/board/free/selectOne.do?freeNo="+freeNo+"&currentPage="+currentPage);
 		}else
 		{
 			response.sendRedirect("/main/error/error.jsp");

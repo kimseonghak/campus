@@ -44,18 +44,17 @@ public class MsgBoardListAllServlet extends HttpServlet {
 		MsgBoardService msgbService = new MsgBoardServiceImpl();
 		MsgPage page = msgbService.msgboardListAll(currentPage,userId);
 		
-		if (userId==null) {
+		/*if (userId==null) {
 			RequestDispatcher view = request.getRequestDispatcher("/main/error/error.jsp");
 			request.setAttribute("currentPage", currentPage);
 			view.forward(request,response);
 		}
-		else {
+		else {*/
 			RequestDispatcher view = request.getRequestDispatcher("/community/msg/msgboard.jsp");
 			request.setAttribute("msgpage", page);
 			request.setAttribute("currentPage", currentPage);
 			request.setAttribute("userId", userId);
 			view.forward(request,response);
-		}
 	}
 
 	/**

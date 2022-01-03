@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.campus.board.market.model.service.MarketBoardService;
 import com.campus.board.market.model.service.MarketBoardServiceImpl;
-import com.campus.member.model.vo.Member;
 
 /**
  * Servlet implementation class MarketBoardDeleteServlet
@@ -32,11 +31,10 @@ public class MarketBoardDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int marketNo = Integer.parseInt(request.getParameter("marketNo"));
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
-		
+		int marketNo =Integer.parseInt((request.getParameter("marketNo")));
+		System.out.println("1번"+marketNo);
 		MarketBoardService marketbService = new MarketBoardServiceImpl();
-		int result = marketbService.delete(marketNo,userId);
+		int result = marketbService.delete(marketNo);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/market/delete.jsp");
 		

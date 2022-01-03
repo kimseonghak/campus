@@ -51,9 +51,9 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public int delete(int marketNo, String userId) {
+	public int delete(int marketNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = mbDAO.delete(marketNo,userId, conn);
+		int result = mbDAO.delete(marketNo, conn);
 		if(result>0) {
 			JDBCTemplate.commit(conn);
 		}
@@ -72,13 +72,13 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 		int imgNo=mbDAO.uploadImgNo(marketBoard, conn);
 		
 		int result=0;
-		System.out.println("8번"+postNo);
-		System.out.println("9번"+imgNo);
-		System.out.println("0번"+newPost);
 		
 		if(newPost>0&&postNo>0&&imgNo>0) {
 			result=1;
 			JDBCTemplate.commit(conn);
+		}
+		else if(postNo==0) {
+			result=2;
 		}
 		else{
 			JDBCTemplate.rollback(conn);
@@ -101,6 +101,21 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 		
 		JDBCTemplate.close(conn);
 		return page;
+	}
+
+	@Override
+	public int prevMarketBoard(int marketNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int prevNo = mbDAO.prevMarketBoard(marketNo,conn);
+		return prevNo;
+	}
+
+	@Override
+	public int nextMarketBoard(int marketNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int nextNo = mbDAO.nextMarketBoard(marketNo,conn);
+		
+		return nextNo;
 	}
 
 }
