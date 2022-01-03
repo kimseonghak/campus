@@ -7,6 +7,7 @@ public class InfoBoard {
 	private String infoTitle;
 	private Date infoDate;
 	private String userId;
+	private String userName;
 	private String infoContent;
 	private int infoHit;
 	private int infoLike;
@@ -16,13 +17,14 @@ public class InfoBoard {
 	public InfoBoard() {
 		super();
 	}
-	public InfoBoard(int infoNo, String infoTitle, Date infoDate, String userId, String infoContent, int infoHit,
+	public InfoBoard(int infoNo, String infoTitle, Date infoDate, String userId, String userName, String infoContent, int infoHit,
 			int infoLike, int infoHate) {
 		super();
 		this.infoNo = infoNo;
 		this.infoTitle = infoTitle;
 		this.infoDate = infoDate;
 		this.userId = userId;
+		this.userName = userName;
 		this.infoContent = infoContent;
 		this.infoHit = infoHit;
 		this.infoLike = infoLike;
@@ -82,5 +84,11 @@ public class InfoBoard {
 	}
 	public void setInfoWithdrawal(char infoWithdrawal) {
 		this.infoWithdrawal = infoWithdrawal;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

@@ -56,15 +56,11 @@ public class FreeBoardSelectOneServlet extends HttpServlet {
 		HashMap<String,Object> map = freebService.freeboardComment(freeNo,commentPage,currentPage);
 		
 		if (freeBoard != null) {
-			int prevPost=freebService.prevPost(freeNo);
-			int nextPost=freebService.nextPost(freeNo);
 			RequestDispatcher view = request.getRequestDispatcher("/community/free/freepost.jsp");
 			request.setAttribute("freeBoard", freeBoard);
 			request.setAttribute("currentPage", currentPage);
 			request.setAttribute("map", map);
 			request.setAttribute("commentPage", commentPage);
-			request.setAttribute("prevPost", prevPost);
-			request.setAttribute("prevPost", nextPost);
 			view.forward(request, response);
 
 		} else {

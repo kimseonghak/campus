@@ -52,9 +52,6 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %> 
-            <style>
-	            .subBar>li>a {color: white;}
-			</style>
         </div>
         
         <div id="contents-wrap">
@@ -64,9 +61,11 @@
         
             <%@ include file="/community/include/upimg.jsp" %> 
             <div id="where">&nbsp&nbsp&nbsp&nbsp 공지사항</div>
-            <form id="arrange" action="/board/boardSearch.do" method="get">
-               <button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
-            </form>
+            <div id="arrange">
+            	<c:if test="${member != null}">
+		        <button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
+	    	    </c:if>
+            </div>
             <div id="board">
 <table id="table1" style="text-align: center;">
 	<tr>
@@ -119,6 +118,12 @@
         
     </div>
  
- <script src="/community/include/click.js"></script>   
+ <script src="/community/include/click.js"></script>
+ <script type="text/javascript" src="/common/include/gnbWhite.js"></script>   
+ <script>
+	$(function(){
+		$('.comment').css('color','red');
+	});
+</script>
 </body>
 </html>

@@ -11,11 +11,6 @@
 <title>CampUs-정보공유게시판</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/community/include/post.css">
-	<style>
-        #postaction{
-            padding-left:63%;
-        }
-    </style>
 </head>
 <body>
 <% 
@@ -26,9 +21,6 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
-            <style>
-	            .subBar>li>a {color: white;}
-			</style>
         </div>
         
         <div id="contents-wrap">
@@ -36,30 +28,44 @@
         <div id="contents">
             
             <%@ include file="/community/include/upimg.jsp" %>
-            <div id="where">&nbsp&nbsp&nbsp&nbsp 정보공유게시판</div>
+            <div id="where"><a href="/board/info/listAll.do">&nbsp&nbsp&nbsp&nbsp 정보공유게시판</a></div>
             
             <div id="post-wrap">
                 <div id="post">
                     <div id="title" style="text-align:center"><%= infoBoard.getInfoTitle() %></div>
                     <div id="postinfo">
-                        작성자: <%= infoBoard.getUserId() %> &nbsp 댓글수: &nbsp&nbsp 추천수: <%= infoBoard.getInfoLike() %> &nbsp&nbsp&nbsp비추천수: <%= infoBoard.getInfoHate() %> <span>작성일: <%= infoBoard.getInfoDate() %></span></span>
+                    	<span>작성자: <%=infoBoard.getUserId()%></span>
+						<span>댓글수:</span>
+						<span>추천수: <%=infoBoard.getInfoLike()%></span>
+						<span>비추천수: <%=infoBoard.getInfoHate()%></span>
+						<span>작성일: <%=infoBoard.getInfoDate()%></span>
                     </div>
                     <div id="postcontent-wrap">
                         <div id="postaction">
                             <span><i class="xi-thumbs-up xi-x"></i></span>
                             <span><i class="xi-thumbs-down xi-x"></i></span>
                             <span><i class="xi-bookmark-o xi-x"></i></span>
-                            <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"><i class="xi-twitter xi-x"></i></a>
-                            <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"><i class="xi-facebook-official xi-x"></i></a>
-							<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"><i class="xi-kakaotalk xi-x"></i></a>
-							<a id="btnMail" class="link-icon email" href=""><i class="xi-mail-o xi-x"></i></a>
                             <span><i class="xi-share-alt-o xi-x"></i></span>
+                        </div>
+                        <div id="modal">
+                           	<div id="modal-close"><i class="xi-close-min xi-x"></i></div>
+                           	<div>
+                           		<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();">
+                           		<i class="xi-twitter xi-x"></i></a>
+	                           	<a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();">
+	                           	<i class="xi-facebook-official xi-x"></i></a>
+								<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();">
+								<i class="xi-kakaotalk xi-x"></i></a>
+								<a id="btnMail" class="link-icon email" href="mailto:?body=http://127.0.0.1/board/info/selectOne.do?infoNo=${infoBoard.infoNo}&currentPage=<%=request.getAttribute("currentPage") %>">
+								<i class="xi-mail-o xi-x"></i></a>
+                           	</div>
                         </div>
                         <div id="postcontent">
                            <%if(m!=null && m.getUserId().equals(infoBoard.getUserId())){ %>
 							<form action="/board/info/postUpdate.do" id="updateForm" method="post">
-								<textarea rows="20" cols="50" id="postUpdate" cols="84" disabled="true"><%= infoBoard.getInfoContent() %></textarea><br>
+								<textarea id="postUpdate" name="content" rows="20" cols="84" disabled="true"><%= infoBoard.getInfoContent() %></textarea><br>
 								<input type="hidden" name="boardNo" value="<%=infoBoard.getInfoNo()%>"/>
+								<br> <input type="hidden" name="currentPage" value="<%=request.getAttribute("currentPage")%>" />
 							</form>
 	
 							<button id="deleteBtn">삭제</button>
@@ -67,13 +73,12 @@
 							<button id="cancleBtn" style="display: none;">취소</button>
 							
 							<%}else{ %>
-								<textarea rows="20" cols="50" cols="84" disabled="true"><%= infoBoard.getInfoContent() %></textarea><br>
+								<textarea rows="20" cols="84" disabled="true"><%= infoBoard.getInfoContent() %></textarea><br>
 							<%} %>
                         </div>
                     </div>
                     <div id="comment">
 <table>
-<!--<tr><th>작성자</th><th>댓글</th><th>날짜</th></tr>-->
 	<tr class="tr1">
         <td class="writer">이롸롸: </td>
         <td class="comment">헤이 맘맘맘마 헤이 맘맘맘마!</td>
@@ -84,8 +89,14 @@
 </table>
                     </div>
                     <div id="back">
-                        <div><a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="">다음 글<i class="xi-angle-right-min"></i></a></div>
-                        <div><a href="/board/info/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i class="xi-paper-o xi-x"></i>목록으로</a></div>
+                        <div>
+							<a href="/InfoBoardPrevPost.do?infoNo=${infoBoard.infoNo}"><i class="xi-angle-left-min"></i>이전 글</a>
+							<a href="/InfoBoardNextPost.do?infoNo=${infoBoard.infoNo}">다음 글<i class="xi-angle-right-min"></i></a>
+						</div>
+						<div>
+							<a href="/board/info/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">
+							<i class="xi-paper-o xi-x"></i>목록으로</a>
+						</div>
                     </div>
                 </div>
             </div>
@@ -93,10 +104,49 @@
         </div>   
         
         <div id="footer">
-            
+            <jsp:include page="/common/include/footer.jsp"/>
         </div>
     </div>
-
-<script src="/community/include/clickpost.js"></script>
+    
+    <script>
+		$('#deleteBtn').click(function(){
+			var result = window.confirm("삭제하시겠습니까?");
+			if(result==true) {
+				location.replace("/board/info/delete.do?infoNo=${infoBoard.infoNo}");
+			}
+		});
+	</script>
+	
+	<script>
+	    function shareTwitter() {
+		    var sendText = "신나는 캠핑~";
+		    var sendUrl = "http://127.0.0.1/board/info/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&infoNo=<%=infoBoard.getInfoNo()%>"; // 전달할 URL
+		    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+		}
+		function shareFacebook() {
+		    var sendUrl = "http://127.0.0.1/board/info/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&infoNo=<%=infoBoard.getInfoNo()%>"; // 전달할 URL
+		    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
+		}
+		function shareKakao() {
+			Kakao.init('7e924b2e9ad57bbcb7a285a9f6793057');
+			 
+			Kakao.Link.createDefaultButton({
+				container: '#btnKakao', 
+			    objectType: 'feed',
+			    content: {
+			    	title: "즐거운 캠핑, CampUs",
+			    	description: "CampUs에서 즐겨요",
+			    	imageUrl: "127.0.0.1${img.imgPath}",
+			    	link: {
+			    		webUrl: "http://127.0.0.1/board/info/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&infoNo=<%=infoBoard.getInfoNo()%>"
+			    	}
+				}
+			});
+		}
+    </script>
+	
+	<script type="text/javascript" src="/common/include/gnbWhite.js"></script>
+	<script src="/community/include/clickpost.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </body>
 </html>

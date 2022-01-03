@@ -7,7 +7,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	MarketPage marketpage=(MarketPage)request.getAttribute("marketpage");
-	String imgPath = (String)request.getAttribute("imgPath");
 	ArrayList<MarketBoard> list = marketpage.getPageList();
 	Member m = (Member) session.getAttribute("member");
 %>
@@ -32,9 +31,6 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
-            <style>
-	            .subBar>li>a {color: white;}
-			</style>
         </div>
         
         <div id="contents-wrap">
@@ -45,10 +41,12 @@
             
             <div id="where">&nbsp&nbsp&nbsp&nbsp 중고장터</div>
             
-            <form id="arrange">
+            <div id="arrange">
                 <button type="button" id="list1" class="btn1"><i id="titlelist" class="xi-list-dot"></i></button><button type="button" id="list2" class="btn1"><i id="piclist" class="xi-apps"></i></button>
+                <c:if test="${member != null}">
                 <button type="button" id="mypost" class="btn2">내 글</button><button type="button" id="mycmt" class="btn2">내 댓글</button><button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
-            </form>
+	            </c:if>
+            </div>
             
             <div id="board">
 
@@ -67,7 +65,7 @@
         <td class="no"><%=marketboard.getMarketNo()%></td>
         <td class="writer"><%=marketboard.getUserId()%></td>
         <td class="del_yn"><%=marketboard.getMarketWithdrawal()%></td>
-		<td class="title"><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>&imgPath=<%=imgPath%>"><%=marketboard.getMarketTitle()%>[댓글]</a></td>
+		<td class="title"><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>&imgPath=${marketboard.getImgPath}"><%=marketboard.getMarketTitle()%>[댓글]</a></td>
         <td class="price"><%=marketboard.getMarketPrice()%></td>
         <td class="hit"><%=marketboard.getMarketHit()%></td>
 		<td class="date"><%=marketboard.getMarketDate()%></td>
@@ -78,9 +76,9 @@
 <ul id="table2" style="text-align: center;">
     <%for(MarketBoard marketboard : list){%>
     <li>
-        <a href="/board/market/selectOne.do?marketNo=<%=marketboard.getMarketNo()%>"><img src=/community/image/merch/griddle.png"/></a>
+        <a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>"><img src="<%=marketboard.getImgPath()%>"/></a>
         <dl>
-            <dt><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>&imgPath=<%=imgPath%>"><%=marketboard.getMarketTitle()%></a>[댓글]</dt>
+            <dt><a href="/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketboard.getMarketNo()%>&imgPath=${marketboard.getImgPath}"><%=marketboard.getMarketTitle()%></a></dt>
             <dd><div><%=marketboard.getUserId()%><%=marketboard.getMarketPrice()%></div></dd>
             <dd><span><%=marketboard.getMarketDate()%></span>&nbsp&nbsp&nbsp<span><%=marketboard.getMarketHit()%></span></dd>
         </dl>
@@ -119,5 +117,11 @@
     </div>
     
 <script src="/community/include/click.js"></script>
+<script>
+	$(function(){
+		$('.comment').css('color','red');
+	});
+</script>
+<script type="text/javascript" src="/common/include/gnbWhite.js"></script>
 </body>
 </html>

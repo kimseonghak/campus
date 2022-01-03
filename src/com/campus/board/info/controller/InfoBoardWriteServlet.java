@@ -39,11 +39,13 @@ public class InfoBoardWriteServlet extends HttpServlet {
 		String infoContent = request.getParameter("infoContent");
 		
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
+		String userName = ((Member)request.getSession().getAttribute("member")).getUserName();
 		
 		InfoBoard infoBoard = new InfoBoard();
 		infoBoard.setInfoTitle(infoTitle);
 		infoBoard.setInfoContent(infoContent);
 		infoBoard.setUserId(userId);
+		infoBoard.setUserName(userName);
 		
 		InfoBoardService infobService = new InfoBoardServiceImpl();
 		int result=infobService.insert(infoBoard);

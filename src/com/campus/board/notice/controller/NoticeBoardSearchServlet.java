@@ -49,7 +49,7 @@ public class NoticeBoardSearchServlet extends HttpServlet {
 		NoticePage page=noticebService.search(type,keyword,currentPage);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/notice/noticeboard.jsp");
-		request.setAttribute("page", page);
+		request.setAttribute("noticepage", page);
 		request.setAttribute("keyword", keyword);
 		view.forward(request,response);
 	}

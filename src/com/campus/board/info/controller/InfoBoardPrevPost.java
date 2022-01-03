@@ -1,6 +1,8 @@
 package com.campus.board.info.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,20 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.campus.board.info.model.service.InfoBoardService;
 import com.campus.board.info.model.service.InfoBoardServiceImpl;
-import com.campus.board.info.model.vo.InfoBoard;
-import com.campus.member.model.vo.Member;
 
 /**
- * Servlet implementation class InfoBoardUpdateServlet
+ * Servlet implementation class InfoBoardPrevPost
  */
-@WebServlet("/board/info/postUpdate.do")
-public class InfoBoardUpdateServlet extends HttpServlet {
+@WebServlet("/InfoBoardPrevPost.do")
+public class InfoBoardPrevPost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InfoBoardUpdateServlet() {
+    public InfoBoardPrevPost() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,28 +31,17 @@ public class InfoBoardUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		int infoNo = Integer.parseInt(request.getParameter("infoNo"));
 		
-		String infoContent = request.getParameter("content");
-		int infoNo = (Integer.parseInt(request.getParameter("boardNo")));
-		int currentPage = (Integer.parseInt(request.getParameter("currentPage")));
+		InfoBoardService nbService = new InfoBoardServiceImpl();
+		int prevNo = nbService.prevInfoBoard(infoNo);
 		
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
-		
-		InfoBoard infoBoard=new InfoBoard();
-		infoBoard.setInfoContent(infoContent);
-		infoBoard.setInfoNo(infoNo);
-		infoBoard.setUserId(userId);
-		
-		InfoBoardService infobService=new InfoBoardServiceImpl();
-		int result=infobService.update(infoBoard);
-		
-		if(result>0) {
-			response.sendRedirect("/board/info/selectOne.do?infoNo="+infoNo+"&currentPage="+currentPage);
-		}else
-		{
-			response.sendRedirect("/main/error/error.jsp");
+		PrintWriter out = response.getWriter();
+		if(prevNo==infoNo) {
+			out.println("<script>alert('첫 글입니다.');</script>");
 		}
+		
+		response.sendRedirect("/board/info/selectOne.do?infoNo="+prevNo);
 	}
 
 	/**

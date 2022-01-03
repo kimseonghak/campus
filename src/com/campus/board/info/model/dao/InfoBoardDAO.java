@@ -182,7 +182,7 @@ public class InfoBoardDAO {
 		int result = 0;
 		
 		try {
-			String query="update board set info_withdrawal='Y' where info_no=? and user_id=?";
+			String query="update infoboard set info_withdrawal='Y' where info_no=? and user_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			
@@ -205,12 +205,13 @@ public class InfoBoardDAO {
 		int result = 0;
 		
 		try {
-			String query = "insert into infoboard values(info_bbs.nextval,?,default,?,?,0,0,0,default)";
+			String query = "insert into infoboard values(info_bbs.nextval,?,default,?,?,?,0,0,0,default)";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, infoBoard.getInfoTitle());
 			pstmt.setString(2, infoBoard.getUserId());
-			pstmt.setString(3, infoBoard.getInfoContent());
+			pstmt.setString(3, infoBoard.getUserName());
+			pstmt.setString(4, infoBoard.getInfoContent());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -336,15 +337,15 @@ public class InfoBoardDAO {
 			switch(type) {
 			case "infoTitle":
 				query="select count(*) as totalcount from infoboard"
-						+ " where info_withdrawal='N' and info_title like ?;";
+						+ " where info_withdrawal='N' and info_title like ?";
 				break;
 			case "userId":
 				query="select count(*) as totalcount from infoboard"
-						+ " where info_withdrawal='N' and user_id like ?;";
+						+ " where info_withdrawal='N' and user_id like ?";
 				break;
 			default:
 				query="select count(*) as totalcount from infoboard"
-						+ " where info_withdrawal='N' and (info_title like ? or user_id like ?);";
+						+ " where info_withdrawal='N' and (info_title like ? or user_id like ?)";
 				break;
 			}
 			
@@ -358,7 +359,7 @@ public class InfoBoardDAO {
 				
 			rset = pstmt.executeQuery();
 			rset.next();
-			totalPost=rset.getInt("totalPost");
+			totalPost=rset.getInt("totalcount");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -366,5 +367,59 @@ public class InfoBoardDAO {
 			JDBCTemplate.close(pstmt);
 		}
 		return totalPost;
+	}
+
+	public int prevInfoBoard(int infoNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int prevNo = 0;
+		String query = "select * from (select info_no,lag(info_no) over(order by info_no) as prev_no from infoboard where info_withdrawal='N') where info_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, infoNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("prev_no")==0) {
+					prevNo=infoNo;
+				}else {
+					prevNo=rset.getInt("prev_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return prevNo;
+	}
+
+	public int nextInfoBoard(int infoNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int nextNo = 0;
+		String query = "select * from (select info_no,lead(info_no) over(order by info_no) as next_no from infoboard where info_withdrawal='N') where info_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, infoNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("next_no")==0) {
+					nextNo=infoNo;
+				}else {
+					nextNo=rset.getInt("next_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return nextNo;
 	}
 }

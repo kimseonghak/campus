@@ -50,7 +50,7 @@ public class MarketBoardSearchServlet extends HttpServlet {
 		MarketPage page=marketbService.search(type,keyword,currentPage);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/market/marketboard.jsp");
-		request.setAttribute("page", page);
+		request.setAttribute("marketpage", page);
 		request.setAttribute("keyword", keyword);
 		view.forward(request,response);
 	}

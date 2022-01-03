@@ -1,6 +1,9 @@
 package com.campus.board.notice.model.service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.campus.board.notice.model.vo.NoticeBoard;
 import com.campus.board.notice.model.vo.NoticePage;
@@ -94,6 +97,21 @@ public class NoticeBoardServiceImpl implements NoticeBoardService{
 		
 		JDBCTemplate.close(conn);
 		return page;
+	}
+
+	@Override
+	public int prevNoticeBoard(int noticeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int prevNo = nbDAO.prevNoticeBoard(noticeNo,conn);
+		return prevNo;
+	}
+
+	@Override
+	public int nextNoticeBoard(int noticeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int nextNo = nbDAO.nextNoticeBoard(noticeNo,conn);
+		
+		return nextNo;
 	}
 
 }

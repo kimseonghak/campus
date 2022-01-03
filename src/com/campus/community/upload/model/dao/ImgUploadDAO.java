@@ -50,7 +50,6 @@ public class ImgUploadDAO {
 			pstmt.setInt(1, imgNo);
 			
 			rset=pstmt.executeQuery();
-			System.out.println("2번"+rset);
 			if(rset.next()) {
 				imgPath=rset.getString("img_path");
 			}
@@ -58,7 +57,6 @@ public class ImgUploadDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("1번"+imgPath);
 		return imgPath;
 	}
 }

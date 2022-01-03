@@ -32,8 +32,19 @@ public class NoticeBoardSelectOneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		int currentPage;
+		if(request.getParameter("currentPage")==null) {
+			currentPage=1;
+		}else {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		int noticeNo;
+		if(request.getParameter("noticeNo")!=null) {
+			noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		}
+		else {
+			noticeNo = ((NoticeBoard)request.getAttribute("noticeBoard")).getNoticeNo();
+		}
 		
 		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
 		NoticeBoard noticeBoard = noticebService.noticeboardSelectOne(noticeNo);
@@ -45,7 +56,7 @@ public class NoticeBoardSelectOneServlet extends HttpServlet {
 			view.forward(request, response);
 
 		} else {
-			response.sendRedirect("/main/error/error.jspp");
+			response.sendRedirect("/main/error/error.jsp");
 		}
 	}
 

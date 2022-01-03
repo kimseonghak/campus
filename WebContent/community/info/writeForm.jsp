@@ -9,14 +9,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/community/include/post.css">
 	<style>
-        #postaction{
-            padding-left:63%;
-        }
-        textarea{
-		resize: none;
-		font-size: 20px;
+		form>input:first-of-type{
+			margin-left:535px;
 		}
-    </style>
+	</style>
 </head>
 <body>
 <div id="wrap">
@@ -48,7 +44,7 @@
 <script>
 	$(function(){
 		$('#backBtn').click(function(){
-				window.location.href="/board/info/listAll.do";
+			window.location.href="/board/info/listAll.do?currentPage=<%=request.getParameter("currentPage")%> ";
 		});
 	});
 </script>

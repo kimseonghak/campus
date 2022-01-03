@@ -89,16 +89,18 @@
 dl{
     text-align: left;
     font-size:14px;
-    margin-top:0px;
-    margin-bottom:0px;
+    margin:0 auto;
 }
 dt{
+    width:98%;
     color:black;
     text-align:center;
+    margin:0 auto;
     padding-bottom:2px;
-    margin-left:1px;
-    margin-right:1px;
     border-bottom:2px solid rgba(230, 230, 230, 0.8);
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 dt>a{
 	color:black;
@@ -109,7 +111,6 @@ dt:hover{
 }
 dt:hover>a{
 	color:white;
-	font-size:13px;
 }
 dd{
     margin-left:6px;

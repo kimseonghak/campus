@@ -24,14 +24,8 @@ public interface FreeBoardService {
 
 	public int commentDelete(int cFreeNo);
 
-<<<<<<< HEAD
-	public int prevPost(int freeNo);
-
-	public int nextPost(int freeNo);
-=======
 	public int prvFreeBoard(int freeNo);
 
 	public int nextFreeBoard(int freeNo);
->>>>>>> 9b9eef1082b3ab3f3ae05944430866e658a46ae2
 
 }

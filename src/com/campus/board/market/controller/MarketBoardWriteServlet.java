@@ -39,30 +39,31 @@ public class MarketBoardWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String currentPage=request.getParameter("currentPage");
-		String imgPath=request.getParameter("imgPath");
 		String marketTitle = request.getParameter("marketTitle");
 		String marketContent = request.getParameter("marketContent");
-		// TODO: DEBUG CHECK
-		System.out.println(request.getSession().getAttribute("member"));
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
 		
 		MarketBoard marketBoard = new MarketBoard();
 		marketBoard.setMarketTitle(marketTitle);
 		marketBoard.setMarketContent(marketContent);
 		marketBoard.setUserId(userId);
-		marketBoard.setImgNo(21);
+		marketBoard.setImgNo(101);
 		marketBoard.setMarketProduct(request.getParameter("marketProduct"));
 		marketBoard.setMarketPrice(Integer.parseInt(request.getParameter("marketPrice")));
 		marketBoard.setMarketCondition(request.getParameter("marketCondition"));
 		marketBoard.setMarketLocation(request.getParameter("marketLocation"));
 		String[] tradeValues=request.getParameterValues("marketTrade");
-		String trade = "직거래";
+		String trade = "";
 		if(tradeValues==null) {
 			trade="";
 		}
+		else if(tradeValues.length==1){
+			trade=tradeValues[0];
+		}
 		else {
-			for (int i = 0; i < tradeValues.length; i++) {
-				trade = trade+", "+tradeValues[i];
+			for (int i = 1; i < tradeValues.length; i++) {
+				trade=tradeValues[0];
+				trade +=", "+tradeValues[i];
 			}
 		}
 		marketBoard.setMarketTrade(trade);
@@ -72,12 +73,11 @@ public class MarketBoardWriteServlet extends HttpServlet {
 		
 		RequestDispatcher view = request.getRequestDispatcher("/board/market/listAll.do");
 		
-		if(result>0)
-		{
+		if(result>0){
 			request.setAttribute("writeResult", true);
 			request.setAttribute("currentPage", currentPage);
-		}else
-		{
+		}
+		else{
 			request.setAttribute("writeResult", false);
 			request.setAttribute("currentPage", currentPage);
 		}

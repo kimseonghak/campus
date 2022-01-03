@@ -31,9 +31,6 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
-            <style>
-	            .subBar>li>a {color: white;}
-			</style>
         </div>
         
         <div id="contents-wrap">
@@ -44,11 +41,13 @@
 	            
 	            <div id="where">&nbsp&nbsp&nbsp&nbsp 자유게시판</div>
 	            
-	            <form id="arrange">
+	            <div id="arrange">
 	                <button type="button" id="list1" class="btn1"><i id="titlelist" class="xi-list-dot xi-x"></i></button>
 	                <button type="button" id="list2" class="btn1"><i id="piclist" class="xi-apps xi-x"></i></button>
-	                <button type="button" id="mypost" class="btn2">내 글</button><button type="button" id="mycmt" class="btn2">내 댓글</button><button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
-	            </form>
+	                <c:if test="${member != null}">
+		            <button type="button" id="mypost" class="btn2">내 글</button><button type="button" id="mycmt" class="btn2">내 댓글</button><button type="button" id="myfind" class="btn2"><img src=""/>즐겨찾기</button>
+	    	        </c:if>
+	            </div>
 	            
 	            <div id="board">
 	            
@@ -111,7 +110,7 @@
 			    </div>
 			    <form action="/community/free/writeForm.jsp?currentPage=<%=request.getAttribute("currentPage") %>" method="post">
 					<%if (m != null) {%>
-						<button id="postWrite" style="font-size:13px;"><i class="xi-pen-o"></i>글 작성</button>
+						<button id="postWrite" style="font-size:13px;"><i class="xi-pen-o"></i>글 쓰기</button>
 					<%}%>
 				</form>
 			</div>

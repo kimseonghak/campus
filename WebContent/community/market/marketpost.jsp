@@ -16,8 +16,6 @@
     	#post{
             margin:auto;
         }
-        #postcontent-wrap{
-        }
         .postcontent{
             width:100%;
         }
@@ -56,9 +54,6 @@
 			margin-left:33px;
 			color:rgba(0, 25, 51, 0.9);
 		}
-        #postaction{
-        	padding-left:60%;
-        }
         table{
         	width:80%;
         	margin:auto;
@@ -79,9 +74,6 @@
         
         <div id="header-wrap">
             <%@ include file="/common/include/gnb.jsp" %>
-            <style>
-	            .subBar>li>a {color: white;}
-			</style>
         </div>
         
         <div id="contents-wrap">
@@ -90,7 +82,7 @@
             
             <%@ include file="/community/include/upimg.jsp" %>
             
-            <div id="where">&nbsp&nbsp&nbsp&nbsp 중고장터</div>
+            <div id="where"><a href="/board/market/listAll.do">&nbsp&nbsp&nbsp&nbsp 중고장터</a></div>
             
             <div id="post-wrap">
                 <div id="post">
@@ -105,12 +97,21 @@
                             <span><i class="xi-thumbs-up xi-x"></i></span>
                             <span><i class="xi-thumbs-down xi-x"></i></span>
                             <span><i class="xi-bookmark-o xi-x"></i></span>
-                            <a id="btnTwitter" href="javascript:shareTwitter();"><i class="xi-twitter xi-x"></i></a>
-                            <a id="btnFacebook" href="javascript:shareFacebook();"><i class="xi-facebook-official xi-x"></i></a>
-							<a id="btnKakao" href="javascript:shareKakao();"><i class="xi-kakaotalk xi-x"></i></a>
-							<a id="btnMail" href=""><i class="xi-mail-o xi-x"></i></a>
                             <span><i class="xi-share-alt-o xi-x"></i></span>
                         </div>
+                        <div id="modal">
+                            	<div id="modal-close"><i class="xi-close-min xi-x"></i></div>
+                            	<div>
+                            		<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();">
+                            		<i class="xi-twitter xi-x"></i></a>
+	                            	<a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();">
+	                            	<i class="xi-facebook-official xi-x"></i></a>
+									<a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();">
+									<i class="xi-kakaotalk xi-x"></i></a>
+									<a id="btnMail" class="link-icon email" href="mailto:?body=http://127.0.0.1/board/market/selectOne.do?marketNo=${marketBoard.marketNo}&currentPage=<%=request.getAttribute("currentPage") %>">
+									<i class="xi-mail-o xi-x"></i></a>
+                            	</div>
+                            </div>
                         <%if(m!=null && m.getUserId().equals(marketBoard.getUserId())){ %>
                         <form action="/board/market/postUpdate.do" id="updateForm" method="post">
                         <div class="postcontent">
@@ -123,30 +124,64 @@
                                 <i class="xi-angle-right xi-2x"></i>
                        		</div>
                        		<div class="postcontentdata">
-                       			<span>제품명 : <%= marketBoard.getMarketProduct() %></span><br><br>
-                       			<span>가격 : <%= marketBoard.getMarketPrice() %></span><br><br>
-                       			<span>상태 : <%= marketBoard.getMarketCondition() %></span><br><br>
-                       			<span>지역 : <%= marketBoard.getMarketLocation() %></span><br><br>
-                       			<span>거래방법 : <%= marketBoard.getMarketTrade() %></span>
+                       			제품명 : <input type="text" name="marketProduct" placeholder="제품명을 입력하세요" value="${marketBoard.marketProduct }"/><br>
+								가격 : <input type="text" name="marketPrice" placeholder="가격을 입력하세요" value="${marketBoard.marketPrice }"/><br>
+								
+								상태 :
+								<c:set var = "marketCondition" scope = "session" value = "${marketBoard.marketCondition}"/> 
+								<c:choose>
+									<c:when test="${marketCondition=='상' }">
+										<input type="radio" name="marketCondition" value="상" checked/>상
+										<input type="radio" name="marketCondition" value="중"/>중
+										<input type="radio" name="marketCondition" value="하"/>하<br>
+									</c:when>
+									<c:when test="${marketCondition=='중'}">
+										<input type="radio" name="marketCondition" value="상"/>상
+										<input type="radio" name="marketCondition" value="중" checked/>중
+										<input type="radio" name="marketCondition" value="하"/>하<br>
+									</c:when>
+									<c:when test="${marketCondition=='하'}">
+										<input type="radio" name="marketCondition" value="상"/>상
+										<input type="radio" name="marketCondition" value="중"/>중
+										<input type="radio" name="marketCondition" value="하" checked/>하<br>
+									</c:when>
+									<c:otherwise>
+										<input type="radio" name="marketCondition" value="상"/>상
+										<input type="radio" name="marketCondition" value="중"/>중
+										<input type="radio" name="marketCondition" value="하"/>하<br>
+									</c:otherwise>
+								</c:choose>
+								
+								지역 : <input type="text" name="marketLocation" placeholder="지역을 입력하세요" value="${marketBoard.marketLocation }"/><br>
+								거래방식 : ${marketBoard.marketTrade}<br>
+								
+									<!-- <input type="checkbox" name="marketTrade" value="직거래"/>직거래
+									<input type="checkbox" name="marketTrade" value="우체국택배"/>우체국 택배<br>
+									<input type="checkbox" name="marketTrade" value="편의점택배"/>편의점 택배
+									<input type="checkbox" name="marketTrade" value="퀵"/>퀵 이용<br>
+									<input type="checkbox" name="marketTrade" value="기타"/>기타<br><br> -->
+								
                        		</div>
-                         </div>
+                        </div>
                             
-                            <div id="ex">
-                                <textarea rows="20" cols="50" cols="84" disabled="true"><%= marketBoard.getMarketContent() %></textarea>
-                            </div>
-                            <br>
-                            <button id="deleteBtn">삭제</button>
-							<button id="updateBtn">수정</button>
-							<button id="cancleBtn" style="display: none;">취소</button>
-                           </form>
+                        <div id="ex">
+                            <textarea name="content" rows="20" cols="50" cols="84" disabled="true"><%= marketBoard.getMarketContent() %></textarea>
+                            <br> <input type="hidden" name="boardNo" value="<%=marketBoard.getMarketNo()%>" />
+							<br> <input type="hidden" name="currentPage" value="<%=request.getAttribute("currentPage")%>" />
+                        </div>
+                        <br>
+                        <button type="button" id="deleteBtn">삭제</button>
+						<button id="updateBtn">수정</button>
+						<button id="cancleBtn" style="display: none;">취소</button>
+                        </form>
                           <%}else{ %>
                           	<div class="postcontent">
                         	<div class="postcontentimg">
                             	<i class="xi-angle-left xi-2x"></i>
-                                <img id="photo" src=<%=imgPath %>/>
+                                <img id="photo" src="<%=imgPath %>"/>
                                 <i class="xi-angle-right xi-2x"></i>
                        		</div>
-                       		<div>
+                       		<div class="postcontentdata">
                        			<span>제품명 : <%= marketBoard.getMarketProduct() %></span><br><br>
                        			<span>가격 : <%= marketBoard.getMarketPrice() %></span><br><br>
                        			<span>상태 : <%= marketBoard.getMarketCondition() %></span><br><br>
@@ -180,38 +215,65 @@
 </table>
                     </div>
                     <div id="back">
-                        <div><a href=""><i class="xi-angle-left-min"></i>이전 글</a><a href="/">다음 글<i class="xi-angle-right-min"></i></a></div>
-                        <div><a href="/board/market/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>"><i class="xi-paper-o xi-x"></i>목록으로</a></div>
+                        <div>
+							<a href="/MarketBoardPrevPost.do?marketNo=${marketBoard.marketNo}"><i class="xi-angle-left-min"></i>이전 글</a>
+							<a href="/MarketBoardNextPost.do?marketNo=${marketBoard.marketNo}">다음 글<i class="xi-angle-right-min"></i></a>
+						</div>
+						<div>
+							<a href="/board/market/listAll.do?currentPage=<%=request.getAttribute("currentPage")%>">
+							<i class="xi-paper-o xi-x"></i>목록으로</a>
+						</div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>   
         
         <div id="footer">
-            
+            <jsp:include page="/common/include/footer.jsp"/>
         </div>
     </div>
     
+    <script>
+		function shareTwitter() {
+		    var sendText = "신나는 캠핑~";
+		    var sendUrl = "http://127.0.0.1/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"; // 전달할 URL
+		    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+		}
+		function shareFacebook() {
+		    var sendUrl = "http://127.0.0.1/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"; // 전달할 URL
+		    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
+		}
+		function shareKakao() {
+			Kakao.init('7e924b2e9ad57bbcb7a285a9f6793057');
+			 
+			Kakao.Link.createDefaultButton({
+				container: '#btnKakao', 
+			    objectType: 'feed',
+			    content: {
+			    	title: "즐거운 캠핑, CampUs",
+			    	description: "CampUs에서 즐겨요",
+			    	imageUrl: "127.0.0.1${img.imgPath}",
+			    	link: {
+			    		webUrl: "http://127.0.0.1/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"
+			    	}
+				}
+			});
+		}
+    </script>
+    
+    
     
     <script>
-	$('#deleteBtn').click(function(){
-		var result = window.confirm("삭제하시겠습니까?");
-		if(result==true)
-		{
-			location.replace("/board/market/delete.do?marketBoard=<%=marketBoard%>");
-		}
-						});
-    function shareTwitter() {
-	    var sendText = "신나는 캠핑~";
-	    var sendUrl = "127.0.0.1/board/market/selectOne?/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"; // 전달할 URL
-	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
-	}
-	function shareFacebook() {
-	    var sendUrl = "127.0.0.1/board/market/selectOne?/board/market/selectOne.do?currentPage=<%=request.getAttribute("currentPage") %>&marketNo=<%=marketBoard.getMarketNo()%>"; // 전달할 URL
-	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
-	}
-    
-    </script>
+		$('#deleteBtn').click(function(){
+			var result = window.confirm("삭제하시겠습니까?");
+			if(result==true) {
+				location.replace("/board/market/delete.do?marketNo=${marketBoard.marketNo}"); 
+			}
+		});
+	</script>
+	
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script type="text/javascript" src="/common/include/gnbWhite.js"></script>
+	<script src="/community/include/clickpost.js"></script>
 </body>
 </html>

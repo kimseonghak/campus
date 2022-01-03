@@ -1,6 +1,8 @@
 package com.campus.board.notice.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.campus.board.notice.model.service.NoticeBoardService;
 import com.campus.board.notice.model.service.NoticeBoardServiceImpl;
 import com.campus.board.notice.model.vo.NoticeBoard;
+import com.campus.member.model.vo.Business;
 import com.campus.member.model.vo.Member;
 
 /**
@@ -34,9 +37,8 @@ public class NoticeBoardUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String noticeContent = request.getParameter("content");
-		int noticeNo = (Integer.parseInt(request.getParameter("noticeNo")));
-		
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
+		int noticeNo = Integer.parseInt(request.getParameter("boardNo"));
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		
 		NoticeBoard noticeBoard=new NoticeBoard();
 		noticeBoard.setNoticeContent(noticeContent);
@@ -46,9 +48,9 @@ public class NoticeBoardUpdateServlet extends HttpServlet {
 		int result=noticebService.update(noticeBoard);
 		
 		if(result>0) {
-			response.sendRedirect("/board/notice/selectOne.do?noticeNo="+noticeNo);
-		}else
-		{
+			response.sendRedirect("/board/notice/selectOne.do?noticeNo="+noticeNo+"&currentPage="+currentPage);
+		}
+		else{
 			response.sendRedirect("/main/error/error.jsp");
 		}
 	}

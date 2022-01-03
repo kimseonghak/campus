@@ -23,8 +23,7 @@ public class MarketBoardDAO {
 		int end=currentPage*perPage;
 		
 		try {
-			String query="select * from (select row_number() over (order by market_no desc) as num, marketboard.* from marketboard)"
-					+ " where num between ? and ?";
+			String query="select * from (select row_number() over (order by market_no desc) as num, marketboard.* from marketboard where market_withdrawal='N') join imgupload using(img_no) where num between ? and ?";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, start);
@@ -39,6 +38,10 @@ public class MarketBoardDAO {
 				marketBoard.setMarketDate(rset.getDate("market_date"));
 				marketBoard.setUserId(rset.getString("user_id"));
 				marketBoard.setImgNo(rset.getInt("img_no"));
+				marketBoard.setImgPath(rset.getString("img_path"));
+				if(rset.getString("img_path")==null) {
+					marketBoard.setImgPath("/community/image/board/noimage.jpg");
+				}
 				marketBoard.setMarketProduct(rset.getString("market_product"));
 				marketBoard.setMarketPrice(rset.getInt("market_price"));
 				marketBoard.setMarketCondition(rset.getString("market_condition"));
@@ -167,17 +170,16 @@ public class MarketBoardDAO {
 		int result = 0;
 		
 		try {
-			String query = "update marketboard set market_product=? market_price=? market_condition=? market_location=? market_trade=? market_content=? where market_no=? and user_id=?";
+			String query = "update marketboard set market_product=?, market_price=?, market_condition=?, market_location=?, market_content=? where market_no=? and user_id=?";
 			
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, marketBoard.getMarketProduct());
 			pstmt.setInt(2, marketBoard.getMarketPrice());
 			pstmt.setString(3, marketBoard.getMarketCondition());
 			pstmt.setString(4, marketBoard.getMarketLocation());
-			pstmt.setString(5, marketBoard.getMarketTrade());
-			pstmt.setString(6, marketBoard.getMarketContent());
-			pstmt.setInt(7, marketBoard.getMarketNo());
-			pstmt.setString(8, marketBoard.getUserId());
+			pstmt.setString(5, marketBoard.getMarketContent());
+			pstmt.setInt(6, marketBoard.getMarketNo());
+			pstmt.setString(7, marketBoard.getUserId());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -189,18 +191,17 @@ public class MarketBoardDAO {
 	}
 
 	//중고장터 게시글 삭제
-	public int delete(int marketNo, String userId, Connection conn) {
+	public int delete(int marketNo, Connection conn) {
 		PreparedStatement pstmt = null;
 		
 		int result = 0;
 		
 		try {
-			String query="update marketboard set market_withdrawal='Y' where market_no=? and user_id=?";
+			String query="update marketboard set market_withdrawal='Y' where market_no=?";
 			
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setInt(1, marketNo);
-			pstmt.setString(2, userId);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -459,23 +460,23 @@ public class MarketBoardDAO {
 		
 		int totalPost = 0;
 		
+		String query="";
+		switch(type) {
+		case "marketTitle":
+			query="select count(*) as totalcount from marketboard"
+					+ " where market_withdrawal='N' and market_title like ?";
+			break;
+		case "userId":
+			query="select count(*) as totalcount from marketboard"
+					+ " where market_withdrawal='N' and user_id like ?";
+			break;
+		default:
+			query="select count(*) as totalcount from marketboard"
+					+ " where market_withdrawal='N' and (market_title like ? or user_id like ?)";
+			break;
+		}
+		
 		try {
-			String query="";
-			switch(type) {
-			case "marketTitle":
-				query="select count(*) as totalcount from marketboard"
-						+ " where market_withdrawal='N' and market_title like ?;";
-				break;
-			case "userId":
-				query="select count(*) as totalcount from marketboard"
-						+ " where market_withdrawal='N' and user_id like ?;";
-				break;
-			default:
-				query="select count(*) as totalcount from marketboard"
-						+ " where market_withdrawal='N' and (market_title like ? or user_id like ?);";
-				break;
-			}
-			
 			pstmt = conn.prepareStatement(query);
 			if(!type.equals("all"))
 			{
@@ -485,16 +486,66 @@ public class MarketBoardDAO {
 				pstmt.setString(1, "%"+keyword+"%");
 				pstmt.setString(2, "%"+keyword+"%");
 			}
-			
 			rset = pstmt.executeQuery();
 			rset.next();
-			totalPost=rset.getInt("totalPost");
+			totalPost=rset.getInt("totalcount");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}
+		return totalPost;
+	}
+
+	public int prevMarketBoard(int marketNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int prevNo = 0;
+		String query = "select * from (select market_no,lag(market_no) over(order by market_no) as prev_no from marketboard where market_withdrawal='N') where market_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, marketNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("prev_no")==0) {
+					prevNo=marketNo;
+				}else {
+					prevNo=rset.getInt("prev_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		return totalPost;
+		
+		return prevNo;
+	}
+
+	public int nextMarketBoard(int marketNo, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int nextNo = 0;
+		String query = "select * from (select market_no,lead(market_no) over(order by market_no) as next_no from marketboard where market_withdrawal='N') where market_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, marketNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				if(rset.getInt("next_no")==0) {
+					nextNo=marketNo;
+				}else {
+					nextNo=rset.getInt("next_no");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return nextNo;
 	}
 }

@@ -142,25 +142,6 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	}
 
 	@Override
-<<<<<<< HEAD
-	public int prevPost(int freeNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		int result = fbDAO.freeboardPrevPost(freeNo,conn);
-		if(result>0) JDBCTemplate.commit(conn);
-		else JDBCTemplate.rollback(conn);
-		JDBCTemplate.close(conn);
-		return result;
-	}
-
-	@Override
-	public int nextPost(int freeNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		int result = fbDAO.nextPost(freeNo,conn);
-		if(result>0) JDBCTemplate.commit(conn);
-		else JDBCTemplate.rollback(conn);
-		JDBCTemplate.close(conn);
-		return result;
-=======
 	public int prvFreeBoard(int freeNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		int prevNo = fbDAO.prevFreeBoard(freeNo,conn);
@@ -173,7 +154,6 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 		int nextNo = fbDAO.nextFreeBoard(freeNo,conn);
 		
 		return nextNo;
->>>>>>> 9b9eef1082b3ab3f3ae05944430866e658a46ae2
 	}
 
 

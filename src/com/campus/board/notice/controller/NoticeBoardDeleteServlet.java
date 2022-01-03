@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.campus.board.notice.model.service.NoticeBoardService;
 import com.campus.board.notice.model.service.NoticeBoardServiceImpl;
+import com.campus.member.model.vo.Business;
 import com.campus.member.model.vo.Member;
 
 /**
@@ -33,7 +34,7 @@ public class NoticeBoardDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
+		String userId = ((Business)request.getSession().getAttribute("business")).getBusinessId();
 		
 		NoticeBoardService noticebService = new NoticeBoardServiceImpl();
 		int result = noticebService.delete(noticeNo,userId);

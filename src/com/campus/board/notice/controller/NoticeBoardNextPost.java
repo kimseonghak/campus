@@ -1,4 +1,4 @@
-package com.campus.board.free.controller;
+package com.campus.board.notice.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,18 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.campus.board.free.model.service.FreeBoardService;
 import com.campus.board.free.model.service.FreeBoardServiceImpl;
+import com.campus.board.notice.model.service.NoticeBoardService;
+import com.campus.board.notice.model.service.NoticeBoardServiceImpl;
 
 /**
- * Servlet implementation class FreeBoardNextPost
+ * Servlet implementation class NoticeBoardNextPost
  */
-@WebServlet("/FreeBoardNextPost.do")
-public class FreeBoardNextPost extends HttpServlet {
+@WebServlet("/NoticeBoardNextPost.do")
+public class NoticeBoardNextPost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FreeBoardNextPost() {
+    public NoticeBoardNextPost() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,17 +33,17 @@ public class FreeBoardNextPost extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int freeNo = Integer.parseInt(request.getParameter("freeNo"));
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
-		FreeBoardService fbService = new FreeBoardServiceImpl();
-		int nextNo = fbService.nextFreeBoard(freeNo);
+		NoticeBoardService nbService = new NoticeBoardServiceImpl();
+		int nextNo = nbService.nextNoticeBoard(noticeNo);
 		
 		PrintWriter out = response.getWriter();
-		if(nextNo==freeNo) {
+		if(nextNo==noticeNo) {
 			out.println("<script>alert('마지막 글입니다.');</script>");
 		}
 		
-		response.sendRedirect("/board/free/selectOne.do?freeNo="+nextNo);
+		response.sendRedirect("/board/notice/selectOne.do?noticeNo="+nextNo);
 	}
 
 	/**

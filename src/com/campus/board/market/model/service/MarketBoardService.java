@@ -11,10 +11,14 @@ public interface MarketBoardService {
 
 	int update(MarketBoard marketBoard);
 
-	int delete(int marketNo, String userId);
+	int delete(int marketNo);
 
 	int insert(MarketBoard marketBoard);
 
 	MarketPage search(String type, String keyword, int currentPage);
+
+	int prevMarketBoard(int marketNo);
+
+	int nextMarketBoard(int marketNo);
 
 }

@@ -34,7 +34,8 @@ public class MarketBoardUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String marketContent = request.getParameter("content");
-		int marketNo = (Integer.parseInt(request.getParameter("marketNo")));
+		int marketNo = (Integer.parseInt(request.getParameter("boardNo")));
+		int currentPage = (Integer.parseInt(request.getParameter("currentPage")));
 		
 		String userId = ((Member)request.getSession().getAttribute("member")).getUserId();
 		
@@ -42,12 +43,27 @@ public class MarketBoardUpdateServlet extends HttpServlet {
 		marketBoard.setMarketContent(marketContent);
 		marketBoard.setMarketNo(marketNo);
 		marketBoard.setUserId(userId);
+		marketBoard.setMarketProduct(request.getParameter("marketProduct"));
+		marketBoard.setMarketPrice(Integer.parseInt(request.getParameter("marketPrice")));
+		marketBoard.setMarketCondition(request.getParameter("marketCondition"));
+		marketBoard.setMarketLocation(request.getParameter("marketLocation"));
+		String[] tradeValues=request.getParameterValues("marketTrade");
+		String trade = "직거래";
+		if(tradeValues==null) {
+			trade="";
+		}
+		else {
+			for (int i = 0; i < tradeValues.length; i++) {
+				trade = trade+", "+tradeValues[i];
+			}
+		}
+		marketBoard.setMarketTrade(trade);
 		
 		MarketBoardService marketbService=new MarketBoardServiceImpl();
 		int result=marketbService.update(marketBoard);
 		
 		if(result>0) {
-			response.sendRedirect("/board/market/selectOne.do?marketNo="+marketNo);
+			response.sendRedirect("/board/market/selectOne.do?marketNo="+marketNo+"&currentPage="+currentPage);
 		}else
 		{
 			response.sendRedirect("/main/error/error.jsp");

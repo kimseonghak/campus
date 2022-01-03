@@ -93,4 +93,19 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 		JDBCTemplate.close(conn);
 		return page;
 	}
+
+	@Override
+	public int prevInfoBoard(int infoNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int prevNo = ibDAO.prevInfoBoard(infoNo,conn);
+		return prevNo;
+	}
+
+	@Override
+	public int nextInfoBoard(int infoNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int nextNo = ibDAO.nextInfoBoard(infoNo,conn);
+		
+		return nextNo;
+	}
 }

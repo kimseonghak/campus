@@ -49,7 +49,7 @@ public class FreeBoardSearchServlet extends HttpServlet {
 		FreePage page=freebService.search(type,keyword,currentPage);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/community/free/freeboard.jsp");
-		request.setAttribute("page", page);
+		request.setAttribute("freepage", page);
 		request.setAttribute("keyword", keyword);
 		view.forward(request,response);
 	}

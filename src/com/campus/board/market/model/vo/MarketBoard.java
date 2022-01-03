@@ -8,6 +8,7 @@ public class MarketBoard {
 	private Date marketDate;
 	private String userId;
 	private int imgNo;
+	private String imgPath;
 	private String marketProduct;
 	private int marketPrice;
 	private String marketCondition;
@@ -20,7 +21,7 @@ public class MarketBoard {
 	public MarketBoard() {
 		super();
 	}
-	public MarketBoard(int marketNo, String marketTitle, Date marketDate, String userId, int imgNo,
+	public MarketBoard(int marketNo, String marketTitle, Date marketDate, String userId, int imgNo, String imgPath,
 			String marketProduct, int marketPrice, String marketCondition, String marketLocation, String marketTrade,
 			String marketContent, int marketHit) {
 		super();
@@ -29,6 +30,7 @@ public class MarketBoard {
 		this.marketDate = marketDate;
 		this.userId = userId;
 		this.imgNo = imgNo;
+		this.imgPath = imgPath;
 		this.marketProduct = marketProduct;
 		this.marketPrice = marketPrice;
 		this.marketCondition = marketCondition;
@@ -37,7 +39,7 @@ public class MarketBoard {
 		this.marketContent = marketContent;
 		this.marketHit = marketHit;
 	}
-	public MarketBoard(int marketNo, String marketTitle, Date marketDate, String userId, int imgNo,
+	public MarketBoard(int marketNo, String marketTitle, Date marketDate, String userId, int imgNo, String imgPath,
 			String marketProduct, int marketPrice, String marketCondition, String marketLocation, String marketTrade,
 			String marketContent, int marketHit, char marketWithdrawal) {
 		super();
@@ -46,6 +48,7 @@ public class MarketBoard {
 		this.marketDate = marketDate;
 		this.userId = userId;
 		this.imgNo = imgNo;
+		this.imgPath = imgPath;
 		this.marketProduct = marketProduct;
 		this.marketPrice = marketPrice;
 		this.marketCondition = marketCondition;
@@ -133,5 +136,11 @@ public class MarketBoard {
 	}
 	public void setMarketWithdrawal(char marketWithdrawal) {
 		this.marketWithdrawal = marketWithdrawal;
+	}
+	public String getImgPath() {
+		return imgPath;
+	}
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
 	}
 }
